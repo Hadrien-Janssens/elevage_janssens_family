@@ -2,14 +2,14 @@
 import { Link } from '@inertiajs/vue3';
 import { motion } from 'motion-v'; // Assure-toi que c'est bien 'motion-v' ou le nom correct de la lib
 import { ref } from 'vue';
+import { route } from '../../../vendor/tightenco/ziggy/src/js/index';
 
 const menuItems = [
     { name: 'Accueil', route: 'home' },
-    { name: 'A propos', route: 'home' },
+    { name: 'A propos', route: 'elevage' },
     { name: 'Nos chatons', route: 'kittens' },
-    { name: 'Nos chat', route: 'kittens' },
-    { name: "Conditions d'adoption", route: 'kittens' },
-    { name: 'Contact', route: 'kittens' },
+    { name: 'Nos chat', route: 'cats' },
+    { name: "Conditions d'adoption", route: 'booking' },
 ];
 
 const isMenuOpen = ref(false);
@@ -55,8 +55,8 @@ const liVariants = {
 
 <template>
     <!-- Hamburger Button (inchangé) -->
-    <div class="flex h-[80px] w-full justify-end p-3 md:hidden">
-        <button @click="isMenuOpen = !isMenuOpen" class="fixed z-50 flex h-10 w-10 flex-col items-end justify-center gap-1" aria-label="Menu">
+    <div class="sticky top-0 z-20 flex h-[80px] w-full justify-end p-3 backdrop-blur-lg md:hidden">
+        <button @click="isMenuOpen = !isMenuOpen" class="z-50 flex h-10 w-10 flex-col items-end justify-center gap-1" aria-label="Menu">
             <div
                 class="absolute h-1 w-10 rounded-md bg-black transition-all duration-500"
                 :class="{ 'translate-y-0 rotate-45': isMenuOpen, '-translate-y-2': !isMenuOpen }"
@@ -72,6 +72,7 @@ const liVariants = {
             ></div>
         </button>
     </div>
+    <!-- <div class="h-[40px]"></div> -->
 
     <!-- Mobile Menu  -->
     <motion.ul
@@ -90,6 +91,15 @@ const liVariants = {
                 {{ item.name }}
             </Link>
         </motion.li>
+        <motion.li class="overflow-hidden text-left" :variants="liVariants">
+            <Link
+                :href="route('home') + '#contact'"
+                class="hover:text-primary block py-4 text-2xl font-black text-black transition-colors"
+                @click="isMenuOpen = false"
+            >
+                Contact
+            </Link>
+        </motion.li>
     </motion.ul>
 
     <!-- Desktop Menu (inchangé) -->
@@ -102,6 +112,7 @@ const liVariants = {
         >
             {{ item.name }}
         </Link>
+        <Link href="" class="hover:text-primary transform text-black transition-colors duration-200 hover:scale-105">Contact</Link>
     </ul>
 </template>
 

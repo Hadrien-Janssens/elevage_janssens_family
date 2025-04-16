@@ -1,8 +1,7 @@
 <script lang="ts" setup>
 import Menu from '@/components/Menu.vue';
 </script>
-
 <template>
     <Menu />
-    <h1>Nos chatons</h1>
+    <h1>Conditions d'adoption</h1>
 </template>

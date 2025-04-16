@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import Button from '@/components/Button.vue';
+import Footer from '@/components/Footer.vue';
 import Menu from '@/components/Menu.vue';
 import { Input } from '@/components/ui/input';
+import { Link } from '@inertiajs/vue3';
 import { ArrowUp } from 'lucide-vue-next';
 import { motion } from 'motion-v';
 
@@ -46,7 +48,9 @@ const shape = {
     <Menu />
 
     <!-- header -->
-    <header class="flex h-[calc(100vh-80px)] flex-col items-center justify-end">
+    <header class="h-90vh flex flex-col items-center justify-end">
+        <div class="h-[40px]"></div>
+
         <div class="flex w-full justify-end gap-10">
             <motion.p
                 :initial="{ opacity: 0, y: -50 }"
@@ -75,14 +79,13 @@ const shape = {
                 :animate="{ opacity: 1, x: 0, transition: { duration: 3, delay: 0.2, ease: 'easeInOut' } }"
                 src="una.png"
                 alt=""
-                width="50%"
-                class="mb-10 self-end"
+                class="mb-10 w-7/12 self-end"
             />
         </div>
         <motion.h1
             :initial="{ opacity: 0, y: -50 }"
             :animate="{ opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeInOut' } }"
-            class="mb-5 text-6xl font-black text-[#A28C83]"
+            class="mb-5 text-5xl font-black text-[#A28C83]"
         >
             Janssens <br />
             Family
@@ -97,8 +100,7 @@ const shape = {
             <motion.img
                 src="urban.jpeg"
                 alt="british short hair black silver tabby"
-                width="60%"
-                class="relative right-10 self-start"
+                class="relative right-10 w-7/12 self-start"
                 :initial="{ opacity: 0, x: -5 }"
                 :animate="{ opacity: 1, x: 0, transition: { duration: 3, delay: 0.2, ease: 'easeInOut' } }"
             />
@@ -127,20 +129,22 @@ const shape = {
                 >
             </div>
         </div>
-        <p class="grapenuts relative text-[35px] text-[#B5A9A4]">Scroll pour nous découvrir</p>
+        <p class="grapenuts relative text-2xl text-[#B5A9A4]">Scroll pour nous découvrir</p>
         <div class="mb-3 rounded-full bg-[#CDC6C2] p-3"><ArrowUp class="relative -top-1 rotate-180 animate-bounce text-white" /></div>
         <div class="w-full rounded-lg bg-gradient-to-b from-stone-400 to-stone-50 p-[2px]"></div>
     </header>
 
     <!-- Qui somme-nous -->
-    <div class="bg-tertiary m-3 mt-10 flex flex-col gap-3 rounded-xl p-5">
+    <div class="bg-tertiary z-40 m-3 mt-10 flex flex-col gap-3 rounded-xl p-5">
         <h3 class="poetsone text-3xl text-[#B5A9A4]">Qui sommes-nous ?</h3>
         <p class="text-justify text-white">
             Nous sommes un élevage familial où passion, dévouement et amour des félins font partie intégrante de nos valeurs. Un foyer chaleureux où
             les chats grandissent heureux et équilibrés, prêts à devenir le compagnon idéal pour votre famille. Avec un attachement particulier pour
             les Scottish et les British, c’est tout naturellement que nous nous sommes tourné vers cette race pour nous élevage
         </p>
-        <Button label="Découvrir" class="self-end" />
+        <Link :href="route('elevage')" class="self-end">
+            <Button label="Découvrir" />
+        </Link>
     </div>
 
     <!-- Nos chats -->
@@ -150,20 +154,24 @@ const shape = {
             <li class="border-primary flex basis-1/2 flex-col justify-end rounded-bl-xl border-b-2 border-l-2 p-3">
                 <img src="reproducteurs.png" alt="chat1" class="w-10/12 rounded-lg" />
                 <h4 class="poetsone mb-3 text-center text-lg">Nos reproducteurs</h4>
-                <Button label="Découvrir" class="self-center" />
+                <Link :href="route('cats')" class="self-center">
+                    <Button label="Découvrir" />
+                </Link>
             </li>
             <li class="border-primary flex basis-1/2 flex-col justify-end rounded-tr-xl border-t-2 border-r-2 border-b-2 border-b-transparent p-3">
                 <img src="chatons.png" alt="chat1" class="relative top-7 rounded-lg" />
                 <h4 class="poetsone mb-3 text-center text-lg">Nos chatons</h4>
-                <Button label="Découvrir" class="self-center" />
+                <Link :href="route('kittens')" class="self-center">
+                    <Button label="Découvrir" />
+                </Link>
             </li>
         </ul>
     </div>
 
     <!-- Contacter nous -->
     <!-- Qui somme-nous -->
-    <div class="m-3 mt-10 flex flex-col gap-3 rounded-xl bg-[#ABA5A2] p-5">
-        <h3 class="poetsone text-3xl text-white">Contactez-nous</h3>
+    <div class="m-3 mt-10 flex flex-col gap-3 rounded-xl bg-[#ABA5A2] p-5" id="contact">
+        <h3 class="poetsone mb-3 text-3xl text-white">Contactez-nous</h3>
         <Input type="text" placeholder="Nom" class="rounded-lg bg-white text-black" />
         <Input type="text" placeholder="Prénom" class="rounded-lg bg-white text-black" />
         <Input type="email" placeholder="Email" class="rounded-lg bg-white text-black" />
@@ -171,6 +179,8 @@ const shape = {
         <Input type="text" placeholder="Message" class="rounded-lg bg-white text-black" />
         <Button label="Envoyer" class="self-end" />
     </div>
+
+    <Footer />
 </template>
 
 <style scoped>

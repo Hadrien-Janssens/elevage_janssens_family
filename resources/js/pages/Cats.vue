@@ -4,5 +4,5 @@ import Menu from '@/components/Menu.vue';
 
 <template>
     <Menu />
-    <h1>Nos chatons</h1>
+    <h1>Nos chats</h1>
 </template>
