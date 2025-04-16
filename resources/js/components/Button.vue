@@ -10,9 +10,12 @@ const props = defineProps({
 </script>
 
 <template>
-    <button class="flex items-center justify-between gap-3 rounded-2xl bg-white p-1 pl-4" @click="$emit('click')">
+    <button
+        class="group flex items-center justify-between gap-3 rounded-2xl border-2 border-[#B38D7D] bg-white p-1 pl-4 font-black"
+        @click="$emit('click')"
+    >
         {{ label }}
-        <div class="bg-primary rounded-full text-white">
+        <div class="rounded-full bg-[#B38D7D] text-white transition-transform duration-500 ease-in-out group-hover:scale-110 group-hover:rotate-405">
             <ArrowUpRight />
         </div>
     </button>

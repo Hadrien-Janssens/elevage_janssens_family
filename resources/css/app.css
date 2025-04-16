@@ -76,6 +76,25 @@
     }
 }
 
+@font-face {
+    font-family: 'poetsen-one';
+    src: url('/fonts/PoetsenOne-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'koho';
+    src: url('/fonts/koHo/KoHo-SemiBold.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'grapenuts';
+    src: url('/fonts/GrapeNuts-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
 @layer utilities {
     body,
     html {

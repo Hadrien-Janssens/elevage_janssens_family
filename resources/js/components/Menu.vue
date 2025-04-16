@@ -1,89 +1,102 @@
 <script lang="ts" setup>
 import { Link } from '@inertiajs/vue3';
-import { ref, watch } from 'vue';
+import { motion } from 'motion-v'; // Assure-toi que c'est bien 'motion-v' ou le nom correct de la lib
+import { ref } from 'vue';
 
 const menuItems = [
     { name: 'Accueil', route: 'home' },
+    { name: 'A propos', route: 'home' },
     { name: 'Nos chatons', route: 'kittens' },
+    { name: 'Nos chat', route: 'kittens' },
+    { name: "Conditions d'adoption", route: 'kittens' },
+    { name: 'Contact', route: 'kittens' },
 ];
 
 const isMenuOpen = ref(false);
-const itemDelays = ref(menuItems.map(() => false));
 
-const toggleMenu = () => {
-    isMenuOpen.value = !isMenuOpen.value;
-
-    // Réinitialiser les animations quand le menu se ferme
-    if (!isMenuOpen.value) {
-        itemDelays.value = menuItems.map(() => false);
-    }
+const ulVariants = {
+    hidden: {
+        opacity: 0,
+        x: -600,
+        transition: {
+            duration: 0.5,
+            when: 'afterChildren',
+            staggerChildren: 0.2,
+            staggerDirection: -1,
+        },
+    },
+    visible: {
+        opacity: 1,
+        x: 0,
+        transition: {
+            duration: 0.5,
+            when: 'beforeChildren',
+            staggerChildren: 0.2,
+        },
+    },
 };
 
-watch(isMenuOpen, (newVal) => {
-    if (newVal) {
-        // Activer les animations un par un avec un délai
-        menuItems.forEach((_, index) => {
-            setTimeout(() => {
-                itemDelays.value[index] = true;
-            }, index * 150);
-        });
-    }
-});
+const liVariants = {
+    hidden: {
+        opacity: 0,
+        x: -200,
+    },
+    visible: {
+        opacity: 1,
+        x: 0,
+        transition: {
+            delay: 0.4,
+
+            duration: 0.7,
+        },
+    },
+};
 </script>
 
 <template>
-    <!-- Hamburger Button -->
+    <!-- Hamburger Button (inchangé) -->
     <div class="flex h-[80px] w-full justify-end p-3 md:hidden">
-        <button @click="toggleMenu" class="relative flex h-10 w-10 flex-col items-end justify-center gap-1" aria-label="Menu">
+        <button @click="isMenuOpen = !isMenuOpen" class="fixed z-50 flex h-10 w-10 flex-col items-end justify-center gap-1" aria-label="Menu">
             <div
-                class="absolute h-1 w-10 rounded-md bg-black transition-all duration-300"
+                class="absolute h-1 w-10 rounded-md bg-black transition-all duration-500"
                 :class="{ 'translate-y-0 rotate-45': isMenuOpen, '-translate-y-2': !isMenuOpen }"
             ></div>
-            <div class="absolute h-1 w-8 rounded-md bg-black transition-all duration-300" :class="{ 'opacity-0': isMenuOpen }"></div>
+            <div class="absolute h-1 w-8 rounded-md bg-black transition-all duration-500" :class="{ 'opacity-0': isMenuOpen }"></div>
             <div
-                class="absolute h-1 w-6 rounded-md bg-black transition-all duration-300"
+                class="absolute h-1 w-6 rounded-md transition-all duration-500"
                 :class="{
                     'translate-y-0 -rotate-45': isMenuOpen,
                     'translate-y-2': !isMenuOpen,
-                    'bg-primary': !isMenuOpen,
+                    'bg-[#B38D7D]': !isMenuOpen,
                 }"
             ></div>
         </button>
     </div>
 
-    <!-- Mobile Menu -->
-    <div v-show="isMenuOpen" class="fixed inset-0 z-50 bg-white md:hidden">
-        <div class="flex h-full flex-col">
-            <div class="flex justify-end p-6">
-                <button @click="toggleMenu" class="text-2xl font-bold text-black" aria-label="Fermer le menu">✕</button>
-            </div>
-            <nav class="flex-1">
-                <ul class="flex flex-col px-8 py-4">
-                    <li v-for="(item, index) in menuItems" :key="item.route" class="overflow-hidden border-b border-gray-100">
-                        <Link
-                            :href="route(item.route)"
-                            class="hover:text-primary block py-4 text-xl font-medium text-black transition-colors"
-                            @click="toggleMenu"
-                            :style="{
-                                'transition-delay': `${index * 0.1}s`,
-                                transform: itemDelays[index] ? 'translateX(0)' : 'translateX(-100%)',
-                                opacity: itemDelays[index] ? '1' : '0',
-                                transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
-                            }"
-                        >
-                            {{ item.name }}
-                        </Link>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-    </div>
+    <!-- Mobile Menu  -->
+    <motion.ul
+        class="fixed top-0 left-0 z-10 flex h-screen w-full flex-col justify-center gap-10 bg-white px-8 py-4 shadow-lg"
+        :initial="'hidden'"
+        :animate="isMenuOpen ? 'visible' : 'hidden'"
+        :exit="'hidden'"
+        :variants="ulVariants"
+    >
+        <motion.li v-for="(item, index) in menuItems" :key="item.route + '-' + index" class="overflow-hidden text-left" :variants="liVariants">
+            <Link
+                :href="route(item.route)"
+                class="hover:text-primary block py-4 text-2xl font-black text-black transition-colors"
+                @click="isMenuOpen = false"
+            >
+                {{ item.name }}
+            </Link>
+        </motion.li>
+    </motion.ul>
 
-    <!-- Desktop Menu -->
+    <!-- Desktop Menu (inchangé) -->
     <ul class="hidden space-x-4 md:flex">
         <Link
-            v-for="item in menuItems"
-            :key="item.route"
+            v-for="(item, index) in menuItems"
+            :key="item.route + '-desktop-' + index"
             :href="route(item.route)"
             class="hover:text-primary transform text-black transition-colors duration-200 hover:scale-105"
         >
@@ -91,3 +104,5 @@ watch(isMenuOpen, (newVal) => {
         </Link>
     </ul>
 </template>
+
+<style></style>
