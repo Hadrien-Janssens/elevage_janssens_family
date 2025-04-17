@@ -1,8 +1,16 @@
 <script lang="ts" setup>
 import { Link } from '@inertiajs/vue3';
-import { motion } from 'motion-v'; // Assure-toi que c'est bien 'motion-v' ou le nom correct de la lib
+import { ArrowLeft } from 'lucide-vue-next';
+import { motion } from 'motion-v';
 import { ref } from 'vue';
 import { route } from '../../../vendor/tightenco/ziggy/src/js/index';
+
+defineProps({
+    title: {
+        type: String,
+        required: false,
+    },
+});
 
 const menuItems = [
     { name: 'Accueil', route: 'home' },
@@ -31,7 +39,7 @@ const ulVariants = {
         transition: {
             duration: 0.5,
             when: 'beforeChildren',
-            staggerChildren: 0.2,
+            staggerChildren: 0.1,
         },
     },
 };
@@ -47,7 +55,7 @@ const liVariants = {
         transition: {
             delay: 0.4,
 
-            duration: 0.7,
+            duration: 0.5,
         },
     },
 };
@@ -55,7 +63,13 @@ const liVariants = {
 
 <template>
     <!-- Hamburger Button (inchangé) -->
-    <div class="sticky top-0 z-20 flex h-[80px] w-full justify-end p-3 backdrop-blur-lg md:hidden">
+    <div
+        class="sticky top-0 z-20 flex h-[80px] w-full items-center p-3 backdrop-blur-lg md:hidden"
+        :class="{ 'justify-between': title, 'justify-end': !title }"
+    >
+        <button v-if="title"><ArrowLeft /></button>
+        <h1 v-if="title">{{ title }}</h1>
+
         <button @click="isMenuOpen = !isMenuOpen" class="z-50 flex h-10 w-10 flex-col items-end justify-center gap-1" aria-label="Menu">
             <div
                 class="absolute h-1 w-10 rounded-md bg-black transition-all duration-500"

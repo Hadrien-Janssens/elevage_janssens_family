@@ -206,4 +206,15 @@
     .bg-tertiary {
         background-color: var(--tertiary);
     }
+    h1,
+    .poetsone {
+        font-family: poetsen-one;
+    }
+    .grapenuts {
+        font-family: grapenuts;
+    }
+    p,
+    .koho {
+        font-family: koho;
+    }
 }
