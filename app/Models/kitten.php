@@ -27,6 +27,6 @@ class Kitten extends Model
     }
     public function images()
     {
-        return $this->hasMany(images_kitten::class);
+        return $this->hasMany(Images_Kitten::class);
     }
 }

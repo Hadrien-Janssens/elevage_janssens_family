@@ -59,28 +59,36 @@ const liVariants = {
         },
     },
 };
+
+const goBack = () => {
+    window.history.back();
+};
 </script>
 
 <template>
     <!-- Hamburger Button (inchangé) -->
     <div
-        class="sticky top-0 z-20 flex h-[80px] w-full items-center p-3 backdrop-blur-lg md:hidden"
+        class="sticky top-0 z-50 flex h-[80px] w-full items-start p-3 backdrop-blur-lg md:hidden"
         :class="{ 'justify-between': title, 'justify-end': !title }"
     >
-        <button v-if="title"><ArrowLeft /></button>
+        <button v-if="title" @click="goBack" class="duration-300 hover:scale-125 hover:cursor-pointer"><ArrowLeft class="scale-110" /></button>
         <h1 v-if="title">{{ title }}</h1>
 
-        <button @click="isMenuOpen = !isMenuOpen" class="z-50 flex h-10 w-10 flex-col items-end justify-center gap-1" aria-label="Menu">
+        <button
+            @click="isMenuOpen = !isMenuOpen"
+            class="group relative z-50 flex h-10 w-10 translate-y-2 flex-col items-end gap-1 hover:cursor-pointer"
+            aria-label="Menu"
+        >
             <div
                 class="absolute h-1 w-10 rounded-md bg-black transition-all duration-500"
                 :class="{ 'translate-y-0 rotate-45': isMenuOpen, '-translate-y-2': !isMenuOpen }"
             ></div>
-            <div class="absolute h-1 w-8 rounded-md bg-black transition-all duration-500" :class="{ 'opacity-0': isMenuOpen }"></div>
+            <div class="absolute h-1 w-8 rounded-md bg-black transition-all duration-500 group-hover:w-10" :class="{ 'opacity-0': isMenuOpen }"></div>
             <div
-                class="absolute h-1 w-6 rounded-md transition-all duration-500"
+                class="absolute h-1 rounded-md transition-all duration-500 group-hover:w-10"
                 :class="{
-                    'translate-y-0 -rotate-45': isMenuOpen,
-                    'translate-y-2': !isMenuOpen,
+                    'top-0 w-10 translate-y-0 -rotate-45 bg-black': isMenuOpen,
+                    'w-6 translate-y-2': !isMenuOpen,
                     'bg-[#B38D7D]': !isMenuOpen,
                 }"
             ></div>
@@ -90,7 +98,7 @@ const liVariants = {
 
     <!-- Mobile Menu  -->
     <motion.ul
-        class="fixed top-0 left-0 z-10 flex h-screen w-full flex-col justify-center gap-10 bg-white px-8 py-4 shadow-lg"
+        class="fixed top-0 left-0 z-40 flex h-screen w-full flex-col justify-center gap-7 bg-white px-8 py-4 shadow-lg"
         :initial="'hidden'"
         :animate="isMenuOpen ? 'visible' : 'hidden'"
         :exit="'hidden'"
@@ -99,7 +107,7 @@ const liVariants = {
         <motion.li v-for="(item, index) in menuItems" :key="item.route + '-' + index" class="overflow-hidden text-left" :variants="liVariants">
             <Link
                 :href="route(item.route)"
-                class="hover:text-primary block py-4 text-2xl font-black text-black transition-colors"
+                class="text-primary poetsone block py-4 text-xl font-black transition-colors hover:text-black"
                 @click="isMenuOpen = false"
             >
                 {{ item.name }}
@@ -108,7 +116,7 @@ const liVariants = {
         <motion.li class="overflow-hidden text-left" :variants="liVariants">
             <Link
                 :href="route('home') + '#contact'"
-                class="hover:text-primary block py-4 text-2xl font-black text-black transition-colors"
+                class="text-primary poetsone block py-4 text-xl font-black transition-colors hover:text-black"
                 @click="isMenuOpen = false"
             >
                 Contact

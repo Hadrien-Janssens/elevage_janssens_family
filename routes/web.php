@@ -1,8 +1,27 @@
 <?php
 
+use App\Http\Controllers\KittenController;
 use App\Models\Kitten;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+
+
+Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/chats', function () {
+        return Inertia::render('admin/Cats');
+    })->name('cats');
+
+    Route::get('/chatons', [KittenController::class, 'index'])->name('kitten.index');
+    Route::get('/chatons/creer', [KittenController::class, 'create'])->name('kitten.create');
+    Route::get('/chatons/{kitten}', [KittenController::class, 'show'])->name('kitten.show');
+
+
+
+    Route::get('/', function () {
+        return Inertia::render('admin/Dashboard');
+    })->name('dashboard');
+});
+
 
 Route::get('/', function () {
     return Inertia::render('Home');
@@ -23,7 +42,7 @@ Route::get('/chatons/{kitten}', function (Kitten $kitten) {
     return Inertia::render('Kitten')->with([
         'kitten' => $kitten->load(['litter', 'litter.mother', 'litter.father', 'bodycolor', 'images']),
     ]);
-})->name('kittens.show');
+})->name('kitten.show');
 
 Route::get('/chats', function () {
     return Inertia::render('Cats');
@@ -33,9 +52,6 @@ Route::get('/conditions-adoption', function () {
     return Inertia::render('Booking');
 })->name('booking');
 
-Route::get('dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
 require __DIR__ . '/settings.php';
 require __DIR__ . '/auth.php';

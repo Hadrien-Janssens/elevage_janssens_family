@@ -34,7 +34,7 @@ console.log(props.kittens[0].images[0].image_path);
                         <span class="text-xl font-bold" v-else>♀</span>
                     </p>
 
-                    <Link :href="route('kittens.show', kitten)" class="self-center">
+                    <Link :href="route('kitten.show', kitten)" class="self-center">
                         <Button label="Voir plus" />
                     </Link>
                 </div>

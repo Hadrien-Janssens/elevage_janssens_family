@@ -51,7 +51,7 @@ const shape = {
     <header class="h-90vh flex flex-col items-center justify-end">
         <div class="h-[40px]"></div>
 
-        <div class="flex w-full justify-end gap-10">
+        <div class="flex w-full max-w-md justify-end gap-10 self-end">
             <motion.p
                 :initial="{ opacity: 0, y: -50 }"
                 :animate="{ opacity: 1, y: 0, transition: { duration: 1.5, delay: 1, ease: 'easeInOut' } }"
@@ -96,7 +96,7 @@ const shape = {
             class="relative left-10 text-[20px] font-bold text-[#CDC6C2]"
             >Elevage familial de <br />Scottish & British</motion.h2
         >
-        <div class="flex">
+        <div class="flex max-w-md self-start">
             <motion.img
                 src="urban.jpeg"
                 alt="british short hair black silver tabby"

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\kitten;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class KittenController extends Controller
 {
@@ -12,7 +13,12 @@ class KittenController extends Controller
      */
     public function index()
     {
-        //
+        $kittens = Kitten::with(['litter', 'litter.mother', 'litter.father', 'bodycolor', 'images'])->get();
+
+        return Inertia::render('admin/kitten/Index')
+            ->with([
+                'kittens' => $kittens,
+            ]);
     }
 
     /**
@@ -20,7 +26,7 @@ class KittenController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('admin/kitten/Create');
     }
 
     /**
@@ -36,7 +42,9 @@ class KittenController extends Controller
      */
     public function show(kitten $kitten)
     {
-        //
+        return Inertia::render('admin/kitten/Show')->with([
+            'kitten' => $kitten->load(['litter', 'litter.mother', 'litter.father', 'bodycolor', 'images']),
+        ]);
     }
 
     /**
