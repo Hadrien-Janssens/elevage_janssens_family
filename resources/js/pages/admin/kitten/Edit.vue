@@ -9,26 +9,29 @@ import { Textarea } from '@/components/ui/textarea';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { useForm } from '@inertiajs/vue3';
 import { ref } from 'vue';
+import { Images } from '../../../types/index';
 
-defineProps({
+const props = defineProps({
+    kitten: Object,
     litters: Object,
     body_colors: Object,
+    images: Array<Images> || [],
 });
 
 const form = useForm({
-    name: '',
-    description: '',
-    gender: '',
-    body_color_id: '',
-    litter_id: '',
-    price: '',
-    is_booked: false,
-    is_adopted: false,
-    photos: [],
+    name: props.kitten.name || '',
+    description: props.kitten.description || '',
+    gender: props.kitten.gender || '',
+    body_color_id: props.kitten.body_color_id || '',
+    litter_id: props.kitten.litter_id || '',
+    price: props.kitten.price || '',
+    is_booked: props.kitten.is_booked || false,
+    is_adopted: props.kitten.is_adopted || false,
+    photos: props.images.map((image: Images) => image.image_path) || [],
 });
 
 const photoFiles = ref<File[]>([]);
-const photoPreviews = ref<string[]>([]);
+const photoPreviews = ref<string[]>(form.photos || []);
 
 function handlePhotoUpload(event: Event) {
     const files = (event.target as HTMLInputElement).files;
@@ -51,8 +54,10 @@ function removePhoto(index: number) {
 }
 
 function submit() {
+    console.log(form.is_booked);
+
     form.photos = photoFiles.value;
-    form.post(route('admin.kitten.store'), {
+    form.put(route('admin.kitten.update', props.kitten.id), {
         onSuccess: () => {
             photoFiles.value = [];
             photoPreviews.value = [];
@@ -65,7 +70,7 @@ function submit() {
 <template>
     <AppLayout>
         <div class="container mx-auto p-6">
-            <h1 class="mb-6 text-2xl font-bold">Ajout d'un chaton</h1>
+            <h1 class="mb-6 text-2xl font-bold">Édition d'un chaton</h1>
             <form @submit.prevent="submit" class="space-y-6">
                 <div class="space-y-2">
                     <Label for="name">Nom</Label>
@@ -137,17 +142,17 @@ function submit() {
                 </div>
 
                 <div class="flex items-center space-x-2">
-                    <Switch v-model:checked="form.is_booked" id="is_booked" />
+                    <Switch v-model="form.is_booked" id="is_booked" />
                     <Label for="is_booked">Réservé</Label>
                 </div>
 
                 <div class="flex items-center space-x-2">
-                    <Switch v-model:checked="form.is_adopted" id="is_adopted" />
+                    <Switch v-model="form.is_adopted" id="is_adopted" />
                     <Label for="is_adopted">Adopté</Label>
                 </div>
 
                 <div class="space-y-2">
-                    <Label for="photos">Photos</Label>
+                    <Label for="photos">Ajouter des photos</Label>
                     <Input type="file" id="photos" accept="image/*" multiple @change="handlePhotoUpload" />
                     <p v-if="form.errors.photos" class="mt-1 text-sm text-red-600">{{ form.errors.photos }}</p>
                 </div>
@@ -156,9 +161,9 @@ function submit() {
                     <Carousel class="mx-auto w-full max-w-xl">
                         <CarouselContent>
                             <CarouselItem v-for="(src, index) in photoPreviews" :key="index" class="relative">
-                                <img :src="src" class="h-64 w-full rounded-lg object-cover shadow" />
-                                <Button type="button" variant="destructive" size="sm" class="absolute top-2 right-2" @click="removePhoto(index)">
-                                    Supprimer
+                                <img :src="'/' + src" class="h-64 w-full rounded-lg object-cover shadow" />
+                                <Button type="button" size="sm" class="absolute top-2 right-2 rounded-full font-black" @click="removePhoto(index)">
+                                    supprimer
                                 </Button>
                             </CarouselItem>
                         </CarouselContent>
@@ -167,7 +172,13 @@ function submit() {
                     </Carousel>
                 </div>
 
-                <Button type="submit" class="w-full">Enregistrer</Button>
+                <Button type="submit" class="w-full">Mettre à jour</Button>
+            </form>
+
+            <form>
+                <Button type="button" variant="outline" class="mt-4 w-full" @click="form.delete(route('admin.kitten.destroy', props.kitten.id))">
+                    Supprimer
+                </Button>
             </form>
         </div>
     </AppLayout>

@@ -12,8 +12,16 @@ class Kitten extends Model
 
     protected $fillable = [
         'name',
-        'adopted',
-        'bodycolor_id',
+        'description',
+        'price',
+        'gender',
+        'vaccination',
+        'chip',
+        'sterilization',
+        'publication_at',
+        'is_adopted',
+        'is_booked',
+        'body_color_id',
         'litter_id',
     ];
 

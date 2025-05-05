@@ -1,18 +1,16 @@
 <script lang="ts" setup>
 import Menu from '@/components/Menu.vue';
 import { Cake } from 'lucide-vue-next';
+import { Kitten } from '../types/index';
 
-const props = defineProps({
-    kitten: {
-        required: false,
-    },
-});
-console.log(props.kitten);
+defineProps<{
+    kitten?: Kitten;
+}>();
 </script>
 
 <template>
     <Menu title="Nos chatons" />
-    <div class="m-3 my-6">
+    <div v-if="kitten" class="m-3 my-6">
         <figure class="h-64 w-full overflow-hidden rounded-lg bg-gray-200">
             <img
                 v-if="kitten.images?.length"

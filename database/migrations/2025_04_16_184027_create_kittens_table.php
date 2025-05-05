@@ -14,16 +14,17 @@ return new class extends Migration
         Schema::create('kittens', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('gender');
-            $table->boolean('adopted')->default(false);
+            $table->string('gender')->nullable();
             $table->string('description')->nullable();
             $table->boolean('vaccination')->default(false);
             $table->boolean('sterilization')->default(false);
+            $table->date('published_at')->nullable()->default(null);
             $table->boolean('chip')->default(false);
             $table->decimal('price', 8, 2)->nullable();
             $table->foreignId('litter_id')->constrained('litters')->onDelete('cascade');
             $table->foreignId('body_color_id')->nullable()->constrained('body_colors')->nullOnDelete();
-            $table->boolean('booked')->default(false);
+            $table->boolean('is_booked')->default(false);
+            $table->boolean('is_adopted')->default(false);
             $table->timestamps();
         });
     }
