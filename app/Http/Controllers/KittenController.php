@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Body_color;
+use App\Models\Images_kitten;
 use App\Models\kitten;
 use App\Models\Litter;
 use Illuminate\Http\Request;
@@ -126,7 +127,7 @@ class KittenController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, kitten $kitten)
+    public function update(Request $request, Kitten $kitten)
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
@@ -137,9 +138,24 @@ class KittenController extends Controller
             'price' => 'required|numeric|min:0',
             'is_booked' => 'boolean',
             'is_adopted' => 'boolean',
-            'photos.*' => 'nullable|image|max:10240', // max 10 MB par photo
+            'deleted_images' => 'nullable|array',
+            'deleted_images.*' => 'integer|exists:images_kittens,id',
+            'new_photos' => 'nullable|array',
+            'new_photos.*' => 'image|max:10240',
         ]);
-        // On met à jour le chaton
+
+        // Suppression des images
+        if (!empty($validated['deleted_images'])) {
+            foreach ($validated['deleted_images'] as $imageId) {
+                $image = Images_kitten::find($imageId);
+                if ($image) {
+                    Storage::disk('public')->delete($image->image_path);
+                    $image->delete();
+                }
+            }
+        }
+
+        // Mise à jour du chaton
         $kitten->update([
             'name' => $validated['name'],
             'description' => $validated['description'],
@@ -151,22 +167,18 @@ class KittenController extends Controller
             'is_adopted' => $validated['is_adopted'] ?? false,
         ]);
 
-        if ($request->hasFile('photos')) {
-            foreach ($request->file('photos') as $photo) {
-                $maxSizeKb = 1000; // seuil ~1 MB
+        // Ajout des nouvelles images
+        if ($request->hasFile('new_photos')) {
+            foreach ($request->file('new_photos') as $photo) {
                 $filename = uniqid() . '.jpg';
 
-                if ($photo->getSize() / 1024 > $maxSizeKb) {
+                if ($photo->getSize() / 1024 > 1000) {
                     $manager = new ImageManager(new Driver());
                     $image = $manager->read($photo);
                     $image->scale(height: 300);
-
-                    $encoder = new JpegEncoder(75);
-                    $encoded = $image->encode($encoder);
-
-                    Storage::disk('public')->put('kittens/' . $filename, $encoded->__toString());
+                    $encoded = $image->encode(new JpegEncoder(75));
+                    Storage::disk('public')->put('kittens/' . $filename, $encoded);
                 } else {
-                    $filename = uniqid() . '.' . $photo->getClientOriginalExtension();
                     $photo->storeAs('kittens', $filename, 'public');
                 }
 

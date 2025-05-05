@@ -8,7 +8,8 @@ import Switch from '@/components/ui/switch/Switch.vue';
 import { Textarea } from '@/components/ui/textarea';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { useForm } from '@inertiajs/vue3';
-import { ref } from 'vue';
+import heic2any from 'heic2any';
+import { onMounted, ref } from 'vue';
 import { Images } from '../../../types/index';
 
 const props = defineProps({
@@ -19,49 +20,90 @@ const props = defineProps({
 });
 
 const form = useForm({
-    name: props.kitten.name || '',
-    description: props.kitten.description || '',
-    gender: props.kitten.gender || '',
-    body_color_id: props.kitten.body_color_id || '',
-    litter_id: props.kitten.litter_id || '',
-    price: props.kitten.price || '',
-    is_booked: props.kitten.is_booked || false,
-    is_adopted: props.kitten.is_adopted || false,
-    photos: props.images.map((image: Images) => image.image_path) || [],
+    name: props.kitten?.name || '',
+    description: props.kitten?.description || '',
+    gender: props.kitten?.gender || '',
+    body_color_id: props.kitten?.body_color_id || '',
+    litter_id: props.kitten?.litter_id || '',
+    price: props.kitten?.price || '',
+    is_booked: props.kitten?.is_booked || false,
+    is_adopted: props.kitten?.is_adopted || false,
+    photos: props.images?.map((image: Images) => image.image_path) || [],
+    deleted_images: [] as number[],
+    new_photos: [] as File[],
 });
 
-const photoFiles = ref<File[]>([]);
-const photoPreviews = ref<string[]>(form.photos || []);
+const existingImages = ref<Images[]>(props.images || []);
+const newPhotoFiles = ref<File[]>([]);
+const deletedImageIds = ref<number[]>([]);
+const photoPreviews = ref<{ id?: number; src: string }[]>([]);
 
-function handlePhotoUpload(event: Event) {
+// Initialisation des prévisualisations
+onMounted(() => {
+    photoPreviews.value = existingImages.value.map((img) => ({
+        id: img.id,
+        src: '/' + img.image_path,
+    }));
+});
+
+async function handlePhotoUpload(event: Event) {
     const files = (event.target as HTMLInputElement).files;
     if (files) {
         for (let i = 0; i < files.length; i++) {
             const file = files[i];
-            photoFiles.value.push(file);
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                photoPreviews.value.push(e.target?.result as string);
-            };
-            reader.readAsDataURL(file);
+            if (file.type === 'image/heic' || file.name.endsWith('.heic')) {
+                try {
+                    const convertedBlob = await heic2any({ blob: file, toType: 'image/jpeg' });
+                    const convertedFile = new File([convertedBlob as BlobPart], file.name.replace(/\.heic$/i, '.jpeg'), { type: 'image/jpeg' });
+                    newPhotoFiles.value.push(convertedFile);
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        photoPreviews.value.push({ src: e.target?.result as string });
+                    };
+                    reader.readAsDataURL(convertedFile);
+                } catch (error) {
+                    console.error('Erreur de conversion HEIC :', error);
+                }
+            } else {
+                newPhotoFiles.value.push(file);
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    photoPreviews.value.push({ src: e.target?.result as string });
+                };
+                reader.readAsDataURL(file);
+            }
         }
     }
 }
 
 function removePhoto(index: number) {
-    photoFiles.value.splice(index, 1);
+    const item = photoPreviews.value[index];
+
+    if (item.id) {
+        // Suppression d'une image existante
+        deletedImageIds.value.push(item.id);
+        existingImages.value = existingImages.value.filter((img) => img.id !== item.id);
+    } else {
+        // Suppression d'une nouvelle image
+        const fileIndex = newPhotoFiles.value.findIndex((_, i) => i === index - existingImages.value.length);
+        if (fileIndex !== -1) {
+            newPhotoFiles.value.splice(fileIndex, 1);
+        }
+    }
+
     photoPreviews.value.splice(index, 1);
+    console.log('deletedImageIds', deletedImageIds.value);
 }
 
 function submit() {
-    console.log(form.is_booked);
+    // Utilisez Inertia.put directement
+    form.deleted_images = deletedImageIds.value;
+    form.new_photos = newPhotoFiles.value;
 
-    form.photos = photoFiles.value;
-    form.put(route('admin.kitten.update', props.kitten.id), {
+    form.post(route('admin.kitten.update', props.kitten.id), {
         onSuccess: () => {
-            photoFiles.value = [];
-            photoPreviews.value = [];
-            form.reset();
+            newPhotoFiles.value = [];
+            deletedImageIds.value = [];
         },
     });
 }
@@ -160,8 +202,8 @@ function submit() {
                 <div v-if="photoPreviews.length" class="mt-4">
                     <Carousel class="mx-auto w-full max-w-xl">
                         <CarouselContent>
-                            <CarouselItem v-for="(src, index) in photoPreviews" :key="index" class="relative">
-                                <img :src="'/' + src" class="h-64 w-full rounded-lg object-cover shadow" />
+                            <CarouselItem v-for="(item, index) in photoPreviews" :key="index" class="relative">
+                                <img :src="item.src" class="h-64 w-full rounded-lg object-cover shadow" />
                                 <Button type="button" size="sm" class="absolute top-2 right-2 rounded-full font-black" @click="removePhoto(index)">
                                     supprimer
                                 </Button>
@@ -176,7 +218,7 @@ function submit() {
             </form>
 
             <form>
-                <Button type="button" variant="outline" class="mt-4 w-full" @click="form.delete(route('admin.kitten.destroy', props.kitten.id))">
+                <Button type="button" variant="outline" class="mt-4 w-full" @click="form.delete(route('admin.kitten.destroy', props.kitten?.id))">
                     Supprimer
                 </Button>
             </form>

@@ -15,7 +15,7 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
     Route::get('/chatons/creer', [KittenController::class, 'create'])->name('kitten.create');
     Route::post('/chatons', [KittenController::class, 'store'])->name('kitten.store');
     Route::get('/chatons/{kitten}/modifier', [KittenController::class, 'edit'])->name('kitten.edit');
-    Route::put('/chatons/{kitten}', [KittenController::class, 'update'])->name('kitten.update');
+    Route::post('/chatons/{kitten}', [KittenController::class, 'update'])->name('kitten.update');
     Route::delete('/chatons/{kitten}', [KittenController::class, 'destroy'])->name('kitten.destroy');
 
 

@@ -8,6 +8,7 @@ import Switch from '@/components/ui/switch/Switch.vue';
 import { Textarea } from '@/components/ui/textarea';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { useForm } from '@inertiajs/vue3';
+import heic2any from 'heic2any';
 import { ref } from 'vue';
 
 defineProps({
@@ -30,17 +31,32 @@ const form = useForm({
 const photoFiles = ref<File[]>([]);
 const photoPreviews = ref<string[]>([]);
 
-function handlePhotoUpload(event: Event) {
+async function handlePhotoUpload(event: Event) {
     const files = (event.target as HTMLInputElement).files;
     if (files) {
         for (let i = 0; i < files.length; i++) {
             const file = files[i];
-            photoFiles.value.push(file);
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                photoPreviews.value.push(e.target?.result as string);
-            };
-            reader.readAsDataURL(file);
+            if (file.type === 'image/heic' || file.name.endsWith('.heic')) {
+                try {
+                    const convertedBlob = await heic2any({ blob: file, toType: 'image/jpeg' });
+                    const convertedFile = new File([convertedBlob as BlobPart], file.name.replace(/\.heic$/i, '.jpeg'), { type: 'image/jpeg' });
+                    photoFiles.value.push(convertedFile);
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        photoPreviews.value.push(e.target?.result as string);
+                    };
+                    reader.readAsDataURL(convertedFile);
+                } catch (error) {
+                    console.error('Erreur de conversion HEIC :', error);
+                }
+            } else {
+                photoFiles.value.push(file);
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    photoPreviews.value.push(e.target?.result as string);
+                };
+                reader.readAsDataURL(file);
+            }
         }
     }
 }
