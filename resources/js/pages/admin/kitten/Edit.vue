@@ -100,7 +100,7 @@ function submit() {
     form.deleted_images = deletedImageIds.value;
     form.new_photos = newPhotoFiles.value;
 
-    form.post(route('admin.kitten.update', props.kitten.id), {
+    form.post(route('admin.kitten.update', props.kitten?.id), {
         onSuccess: () => {
             newPhotoFiles.value = [];
             deletedImageIds.value = [];
@@ -203,7 +203,7 @@ function submit() {
                     <Carousel class="mx-auto w-full max-w-xl">
                         <CarouselContent>
                             <CarouselItem v-for="(item, index) in photoPreviews" :key="index" class="relative">
-                                <img :src="item.src" class="h-64 w-full rounded-lg object-cover shadow" />
+                                <img :src="'/storage/kittens/' + item.src" class="h-64 w-full rounded-lg object-cover shadow" />
                                 <Button type="button" size="sm" class="absolute top-2 right-2 rounded-full font-black" @click="removePhoto(index)">
                                     supprimer
                                 </Button>

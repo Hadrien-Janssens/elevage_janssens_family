@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Cat;
 use App\Models\Cats;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -13,7 +14,7 @@ class CatsSeeder extends Seeder
      */
     public function run(): void
     {
-        Cats::create([
+        Cat::create([
             'name' => 'Urban',
             'body_color_id' => 1,
             'gender' => 'Mâle',
@@ -22,7 +23,7 @@ class CatsSeeder extends Seeder
 
         ]);
 
-        Cats::create([
+        Cat::create([
             'name' => 'Una',
             'body_color_id' => 5,
             'gender' => 'Femelle',

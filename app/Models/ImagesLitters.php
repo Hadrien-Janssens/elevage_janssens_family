@@ -4,15 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Images_kitten extends Model
+class ImagesLitters extends Model
 {
     protected $fillable = [
-        'kitten_id',
+        'litter_id',
         'image_path',
     ];
 
-    public function kitten()
+    public function litter()
     {
-        return $this->belongsTo(Kitten::class);
+        return $this->belongsTo(Litter::class);
     }
 }

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Body_color;
-use App\Models\Images_kitten;
+use App\Models\BodyColor;
+use App\Models\ImagesKitten;
 use App\Models\kitten;
 use App\Models\Litter;
 use Illuminate\Http\Request;
@@ -33,7 +33,7 @@ class KittenController extends Controller
      */
     public function create()
     {
-        $body_colors = Body_color::all();
+        $body_colors = BodyColor::all();
         $litters = Litter::with(['mother', 'father'])->get();
 
         return Inertia::render('admin/kitten/Create')->with([
@@ -80,7 +80,7 @@ class KittenController extends Controller
                     $image = $manager->read($photo);
                     $image->scale(height: 300);
 
-                    $encoder = new JpegEncoder(75);
+                    $encoder = new JpegEncoder(95);
                     $encoded = $image->encode($encoder);
 
                     Storage::disk('public')->put('kittens/' . $filename, $encoded->__toString());
@@ -91,7 +91,7 @@ class KittenController extends Controller
                 }
 
                 $kitten->images()->create([
-                    'image_path' => 'kittens/' . $filename
+                    'image_path' =>   $filename
                 ]);
             }
         }
@@ -108,12 +108,16 @@ class KittenController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(kitten $kitten)
+    public function edit(string $id)
     {
-        $body_colors = Body_color::all();
+        $kitten = Kitten::findOrFail($id);
+        if (!$kitten) {
+            return redirect()->route('admin.kitten.index')
+                ->with('error', 'Le chaton n\'existe pas.');
+        }
+        $body_colors = BodyColor::all();
         $litters = Litter::with(['mother', 'father'])->get();
         $images = $kitten->images()->get();
-
 
 
         return Inertia::render('admin/kitten/Edit')->with([
@@ -147,7 +151,7 @@ class KittenController extends Controller
         // Suppression des images
         if (!empty($validated['deleted_images'])) {
             foreach ($validated['deleted_images'] as $imageId) {
-                $image = Images_kitten::find($imageId);
+                $image = ImagesKitten::find($imageId);
                 if ($image) {
                     Storage::disk('public')->delete($image->image_path);
                     $image->delete();

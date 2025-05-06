@@ -31,10 +31,10 @@ class Kitten extends Model
     }
     public function bodycolor()
     {
-        return $this->belongsTo(Body_Color::class);
+        return $this->belongsTo(BodyColor::class);
     }
     public function images()
     {
-        return $this->hasMany(Images_Kitten::class);
+        return $this->hasMany(ImagesKitten::class);
     }
 }

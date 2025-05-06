@@ -3,7 +3,7 @@ import Button from '@/components/Button.vue';
 import Footer from '@/components/Footer.vue';
 import Menu from '@/components/Menu.vue';
 import { Input } from '@/components/ui/input';
-import { Link } from '@inertiajs/vue3';
+import { Link, useForm } from '@inertiajs/vue3';
 import { ArrowUp } from 'lucide-vue-next';
 import { motion } from 'motion-v';
 
@@ -41,6 +41,20 @@ const shape = {
     strokeWidth: 2,
     strokeLinecap: 'round',
     fill: 'transparent',
+};
+
+const form = useForm({
+    nom: '',
+    prenom: '',
+    email: '',
+    telephone: '',
+    message: '',
+});
+
+const submitForm = () => {
+    form.post('/send-mail', {
+        onSuccess: () => form.reset(),
+    });
 };
 </script>
 <template>
@@ -169,16 +183,17 @@ const shape = {
     </div>
 
     <!-- Contacter nous -->
-    <!-- Qui somme-nous -->
-    <div class="m-3 mt-10 flex flex-col gap-3 rounded-xl bg-[#ABA5A2] p-5" id="contact">
-        <h3 class="poetsone mb-3 text-3xl text-white">Contactez-nous</h3>
-        <Input type="text" placeholder="Nom" class="rounded-lg bg-white text-black" />
-        <Input type="text" placeholder="Prénom" class="rounded-lg bg-white text-black" />
-        <Input type="email" placeholder="Email" class="rounded-lg bg-white text-black" />
-        <Input type="text" placeholder="Téléphone" class="rounded-lg bg-white text-black" />
-        <Input type="text" placeholder="Message" class="rounded-lg bg-white text-black" />
-        <Button label="Envoyer" class="self-end" />
-    </div>
+    <form @submit.prevent="submitForm">
+        <div class="m-3 mt-10 flex flex-col gap-3 rounded-xl bg-[#ABA5A2] p-5" id="contact">
+            <h3 class="poetsone mb-3 text-3xl text-white">Contactez-nous</h3>
+            <Input v-model="form.nom" type="text" placeholder="Nom" class="rounded-lg bg-white text-black" />
+            <Input v-model="form.prenom" type="text" placeholder="Prénom" class="rounded-lg bg-white text-black" />
+            <Input v-model="form.email" type="email" placeholder="Email" class="rounded-lg bg-white text-black" />
+            <Input v-model="form.telephone" type="text" placeholder="Téléphone" class="rounded-lg bg-white text-black" />
+            <Input v-model="form.message" type="text" placeholder="Message" class="rounded-lg bg-white text-black" />
+            <Button type="submit" label="Envoyer" class="self-end" :disabled="form.processing" />
+        </div>
+    </form>
 
     <Footer />
 </template>

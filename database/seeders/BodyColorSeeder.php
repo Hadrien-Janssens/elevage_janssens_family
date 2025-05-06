@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Body_color;
+use App\Models\BodyColor;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -30,7 +30,7 @@ class BodyColorSeeder extends Seeder
         ];
 
         foreach ($colors as $color) {
-            Body_color::create([
+            BodyColor::create([
                 'name' => $color,
             ]);
         }

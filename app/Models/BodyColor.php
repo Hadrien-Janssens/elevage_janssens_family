@@ -5,8 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Cats extends Model
+class BodyColor extends Model
 {
-    /** @use HasFactory<\Database\Factories\CatsFactory> */
+    /** @use HasFactory<\Database\Factories\BodyColorFactory> */
     use HasFactory;
 }

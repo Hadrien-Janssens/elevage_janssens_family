@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Images_kitten;
+use App\Models\ImagesKitten;
 use App\Models\Litter;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -30,9 +30,9 @@ class DatabaseSeeder extends Seeder
             KittenSeeder::class,
         ]);
 
-        Images_kitten::create([
+        ImagesKitten::create([
             'kitten_id' => 1,
-            'image_path' => 'julien.jpeg',
+            'image_path' => '6818b81f82e8f.jpg',
         ]);
     }
 }

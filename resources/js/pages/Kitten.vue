@@ -38,17 +38,21 @@ watchOnce(emblaMainApi, (emblaMainApi) => {
 </script>
 
 <template>
-    <Menu title="Nos chatons" />
+    <Menu :title="kitten?.name" />
     <div class="mx-auto w-full max-w-4xl px-4">
         <!-- Carrousel principal -->
-        <div class="mb-2">
-            <Carousel class="w-full overflow-hidden rounded-xl shadow-lg" @init-api="(val) => (emblaMainApi = val)">
+        <div class="mx-auto mb-2 max-w-lg">
+            <Carousel class="max-h-[500px] w-full max-w-lg overflow-hidden rounded-xl shadow-lg" @init-api="(val) => (emblaMainApi = val)">
                 <CarouselContent>
                     <CarouselItem v-for="(image, index) in kitten?.images" :key="index">
                         <div class="p-0">
                             <Card class="border-0 p-0">
                                 <!-- <CardContent class="aspect-[4/3] p-0"> -->
-                                <img :src="'/' + image.image_path" :alt="'Photo du chaton ' + kitten?.name" class="h-full w-full object-cover" />
+                                <img
+                                    :src="'/storage/kittens/' + image.image_path"
+                                    :alt="'Photo du chaton ' + kitten?.name"
+                                    class="h-full w-full object-cover"
+                                />
                                 <!-- </CardContent> -->
                             </Card>
                         </div>
@@ -58,7 +62,7 @@ watchOnce(emblaMainApi, (emblaMainApi) => {
         </div>
 
         <!-- Miniatures -->
-        <div class="mb-8">
+        <div class="mx-auto mb-8 max-w-lg">
             <Carousel class="w-full" @init-api="(val) => (emblaThumbnailApi = val)">
                 <CarouselContent class="ml-0 flex gap-2 p-2">
                     <CarouselItem
@@ -71,7 +75,7 @@ watchOnce(emblaMainApi, (emblaMainApi) => {
                             <Card class="border-0 p-0">
                                 <CardContent class="aspect-square p-0">
                                     <img
-                                        :src="'/' + image.image_path"
+                                        :src="'/storage/kittens/' + image.image_path"
                                         :alt="'Miniature ' + (index + 1)"
                                         class="h-full w-full rounded-md object-cover"
                                     />
@@ -84,8 +88,8 @@ watchOnce(emblaMainApi, (emblaMainApi) => {
         </div>
 
         <!-- Infos chaton -->
-        <div v-if="kitten" class="mb-8 rounded-xl bg-white p-6 shadow-md">
-            <div class="mb-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+        <div v-if="kitten" class="mx-auto mb-8 max-w-2xl rounded-xl bg-white p-6 shadow-md">
+            <div class="mb-6 flex flex-col justify-between gap-4 md:flex-row">
                 <div>
                     <h1 class="flex items-center gap-2 text-3xl font-bold text-gray-900">
                         {{ kitten.name }}
@@ -103,12 +107,12 @@ watchOnce(emblaMainApi, (emblaMainApi) => {
                 </div>
 
                 <div class="flex gap-3">
-                    <div class="rounded-lg bg-gray-100 px-4 py-2">
-                        <p class="text-sm text-gray-500">Maman</p>
+                    <div class="rounded-lg bg-pink-100 px-4 py-2">
+                        <p class="text-sm text-pink-500">Maman</p>
                         <p class="font-medium">{{ kitten.litter.mother.name }}</p>
                     </div>
-                    <div class="rounded-lg bg-gray-100 px-4 py-2">
-                        <p class="text-sm text-gray-500">Papa</p>
+                    <div class="rounded-lg bg-blue-100 px-4 py-2">
+                        <p class="text-sm text-blue-500">Papa</p>
                         <p class="font-medium">{{ kitten.litter.father.name }}</p>
                     </div>
                 </div>
@@ -120,7 +124,7 @@ watchOnce(emblaMainApi, (emblaMainApi) => {
             </div>
 
             <div class="text-primary flex items-center gap-2">
-                <Heart class="h-5 w-5" />
+                <Heart class="h-5 w-5 text-red-500" />
                 <span class="font-medium">Disponible pour adoption</span>
             </div>
         </div>
