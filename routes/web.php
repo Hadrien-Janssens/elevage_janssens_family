@@ -31,15 +31,26 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
     Route::get('/', function () {
         return Inertia::render('admin/Dashboard');
     })->name('dashboard');
+
+
+    Route::resource('contents', 'App\Http\Controllers\ContentController')->names('contents');
 });
 
 
+
+
 Route::get('/', function () {
-    return Inertia::render('Home');
+    $contents = \App\Models\Content::all();
+    return Inertia::render('Home')->with([
+        'contents' => $contents,
+    ]);
 })->name('home');
 
 Route::get('/a-propos', function () {
-    return Inertia::render('Elevage');
+    $contents = \App\Models\Content::all();
+    return Inertia::render('Elevage')->with([
+        'contents' => $contents,
+    ]);
 })->name('elevage');
 
 Route::get('/chatons', function () {
@@ -77,17 +88,20 @@ Route::get('/chats', function () {
 })->name('cats');
 
 Route::get('/conditions-adoption', function () {
-    return Inertia::render('Booking');
+    $contents = \App\Models\Content::all();
+    return Inertia::render('Booking')->with([
+        'contents' => $contents,
+    ]);
 })->name('booking');
 
 Route::post('/send-mail', function (Request $request) {
 
 
     $request->validate([
-        'email' => 'required|email',
+        'email' => 'required_without:telephone|nullable|email',
         'nom' => 'required|string|max:255',
         'prenom' => 'required|string|max:255',
-        'telephone' => 'required|string|max:255',
+        'telephone' => 'required_without:email|string|max:255',
         'message' => 'required|string|max:500',
     ]);
     $data = [

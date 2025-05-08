@@ -2,16 +2,27 @@
 import { Link } from '@inertiajs/vue3';
 import Button from './Button.vue';
 
-defineProps({
+const props = defineProps({
     kitten: {
         type: Object,
         required: true,
     },
 });
+
+console.log('kitten', props.kitten);
 </script>
 
 <template>
     <div class="group relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 hover:scale-105">
+        <!-- Bandeau "Réservé" -->
+        <div v-if="kitten.is_booked" class="absolute -top-10 -right-18 z-10 w-50 text-center">
+            <div
+                class="origin-top-left translate-x-8 -translate-y-1 rotate-45 transform bg-white px-2 py-1 text-center text-xs font-black text-red-400 uppercase shadow-md"
+            >
+                Réservé
+            </div>
+        </div>
+
         <figure class="relative h-72 w-full overflow-hidden">
             <img
                 v-if="kitten.images?.length"
@@ -29,7 +40,7 @@ defineProps({
             </p>
             <div class="mt-2 flex justify-end">
                 <Link :href="route('kitten.show', kitten)">
-                    <Button label="Voir plus" class="bg-white/90 text-[#B5A9A4] hover:bg-white" />
+                    <Button label="Voir plus" class="text-black" />
                 </Link>
             </div>
         </div>

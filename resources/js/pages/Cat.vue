@@ -42,21 +42,18 @@ watchOnce(emblaMainApi, (emblaMainApi) => {
 <template>
     <Menu :title="capitalizeFirstLetter(cat?.name)" />
     <div class="mx-auto w-full max-w-4xl items-start gap-5 px-4 md:flex md:justify-center">
-        <!-- Carrousel principal -->
         <div class="basis-1/2">
             <div class="mx-auto mb-2 max-w-lg">
-                <Carousel class="max-h-[500px] w-full max-w-lg overflow-hidden rounded-xl shadow-lg" @init-api="(val) => (emblaMainApi = val)">
+                <Carousel class="w-full max-w-lg overflow-hidden rounded-xl shadow-lg" @init-api="(val) => (emblaMainApi = val)">
                     <CarouselContent>
                         <CarouselItem v-for="(image, index) in cat?.images" :key="index">
                             <div class="p-0">
-                                <Card class="border-0 p-0">
-                                    <!-- <CardContent class="aspect-[4/3] p-0"> -->
+                                <Card class="h-[350px] border-0 p-0">
                                     <img
                                         :src="'/storage/cats/' + image.image_path"
                                         :alt="'Photo du chaton ' + cat?.name"
-                                        class="h-full w-full object-cover"
+                                        class="h-full w-full object-cover object-center"
                                     />
-                                    <!-- </CardContent> -->
                                 </Card>
                             </div>
                         </CarouselItem>
@@ -92,17 +89,13 @@ watchOnce(emblaMainApi, (emblaMainApi) => {
         </div>
 
         <!-- Infos chat -->
-        <div v-if="cat" class="mx-auto mb-8 max-w-2xl basis-1/2 rounded-xl bg-white p-6 shadow-md">
+        <div v-if="cat" class="mx-auto mb-8 max-w-2xl basis-1/2 p-6">
             <div class="mb-6 flex flex-col justify-between gap-4 md:flex-row">
                 <div>
                     <h1 class="flex items-center gap-2 text-3xl font-bold text-gray-900">
                         {{ capitalizeFirstLetter(cat.name) }}
-                        <span v-if="cat.gender === 'Mâle'" class="flex items-center text-blue-500">
-                            <!-- <Mars class="h-5 w-5" /> -->
-                        </span>
-                        <span v-else class="flex items-center text-pink-500">
-                            <!-- <Venus class="h-5 w-5" /> -->
-                        </span>
+                        <span v-if="cat.gender === 'Mâle'" class="flex items-center text-blue-500"> </span>
+                        <span v-else class="flex items-center text-pink-500"> </span>
                     </h1>
                     <p class="mt-1 flex items-center gap-2 text-gray-600">
                         <Cake class="text-primary h-5 w-5" />

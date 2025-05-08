@@ -23,6 +23,12 @@ const mainNavItems: NavItem[] = [
         icon: Cat,
     },
     {
+        title: 'Contenu du site',
+        href: '/admin/contents',
+        icon: Cat,
+    },
+
+    {
         title: 'Site web',
         href: '/',
         icon: Cat,

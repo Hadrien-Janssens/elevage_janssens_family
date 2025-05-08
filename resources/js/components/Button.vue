@@ -11,7 +11,7 @@ const props = defineProps({
 
 <template>
     <button
-        class="group flex items-center justify-between gap-3 rounded-2xl border-2 border-[#B38D7D] bg-white p-1 pl-4 font-black"
+        class="group flex items-center justify-between gap-3 rounded-2xl border-2 border-[#B38D7D] bg-white p-1 pl-4 font-black hover:cursor-pointer"
         @click="$emit('click')"
     >
         {{ label }}

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Content;
 use App\Models\ImagesKitten;
 use App\Models\Litter;
 use App\Models\User;
@@ -28,6 +29,7 @@ class DatabaseSeeder extends Seeder
             CatsSeeder::class,
             LitterSeeder::class,
             // KittenSeeder::class,
+            ContentSeeder::class,
         ]);
     }
 }

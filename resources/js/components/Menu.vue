@@ -119,11 +119,10 @@ const goBack = () => {
             ></div>
         </button>
     </div>
-    <!-- <div class="h-[40px]"></div> -->
 
     <!-- Mobile Menu  -->
     <motion.ul
-        class="fixed top-0 left-0 z-40 flex h-screen w-full flex-col justify-center gap-7 bg-white px-8 py-4 shadow-lg"
+        class="fixed top-0 left-0 z-[999] flex h-screen w-full flex-col justify-center gap-7 bg-white px-8 py-4 shadow-lg"
         :initial="'hidden'"
         :animate="isMenuOpen ? 'visible' : 'hidden'"
         :exit="'hidden'"
@@ -150,21 +149,22 @@ const goBack = () => {
     </motion.ul>
 
     <!-- Desktop Menu -->
-    <ul class="hidden justify-end space-x-4 p-5 md:flex">
-        <Link
-            v-for="(item, index) in menuItems"
-            :key="item.route + '-desktop-' + index"
-            :href="route(item.route)"
-            class="poetsone text-primary transform transition-colors duration-200 hover:scale-105 hover:text-black"
-        >
-            {{ item.name }}
-        </Link>
-        <Link
-            :href="route('home') + '#contact'"
-            class="poetsone text-primary transform transition-colors duration-200 hover:scale-105 hover:text-black"
-            >Contact</Link
-        >
-    </ul>
+    <div class="mb-5 flex items-center justify-between p-5 text-lg">
+        <div class="poetsone text-primary hidden transform transition-colors duration-200 hover:scale-105 hover:text-black md:block">Logo</div>
+        <ul class="hidden justify-end space-x-4 md:flex">
+            <Link
+                v-for="(item, index) in menuItems"
+                :key="item.route + '-desktop-' + index"
+                :href="route(item.route)"
+                class="poetsone text-primary transform transition-colors duration-200 hover:scale-105 hover:text-black"
+            >
+                {{ item.name }}
+            </Link>
+            <Link
+                :href="route('home') + '#contact'"
+                class="poetsone text-primary transform transition-colors duration-200 hover:scale-105 hover:text-black"
+                >Contact</Link
+            >
+        </ul>
+    </div>
 </template>
-
-<style></style>

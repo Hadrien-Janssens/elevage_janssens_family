@@ -4,9 +4,16 @@ import Footer from '@/components/Footer.vue';
 import Menu from '@/components/Menu.vue';
 import { Input } from '@/components/ui/input';
 import Textarea from '@/components/ui/textarea/Textarea.vue';
+import { getContentByTitle } from '@/lib/utils';
 import { Link, useForm } from '@inertiajs/vue3';
 import { ArrowUp } from 'lucide-vue-next';
 import { motion } from 'motion-v';
+
+const props = defineProps<{
+    contents?: any;
+}>();
+
+console.log(props.contents);
 
 const draw = {
     hidden: { pathLength: 0, pathOffset: 1, opacity: 0 },
@@ -152,53 +159,95 @@ const submitForm = () => {
     <div class="mb-3 rounded-full bg-[#CDC6C2] p-3"><ArrowUp class="relative -top-1 rotate-180 animate-bounce text-white" /></div>
     <div class="w-full rounded-lg bg-gradient-to-b from-stone-400 to-stone-50 p-[2px]"></div>
 
-    <!-- Qui somme-nous -->
-    <div class="bg-tertiary z-40 m-3 mx-auto mt-10 flex max-w-3xl flex-col gap-3 rounded-xl p-5">
-        <h3 class="poetsone text-3xl text-[#B5A9A4]">Qui sommes-nous ?</h3>
-        <p class="text-justify text-white">
-            Nous sommes un élevage familial où passion, dévouement et amour des félins font partie intégrante de nos valeurs. Un foyer chaleureux où
-            les chats grandissent heureux et équilibrés, prêts à devenir le compagnon idéal pour votre famille. Avec un attachement particulier pour
-            les Scottish et les British, c’est tout naturellement que nous nous sommes tourné vers cette race pour nous élevage
-        </p>
-        <Link :href="route('elevage')" class="self-end">
-            <Button label="Découvrir" />
-        </Link>
-    </div>
-
-    <!-- Nos chats -->
-    <div class="m-3 mx-auto mt-10 max-w-3xl">
-        <h3 class="text-primary poetsone mb-3 text-3xl">Nos chats</h3>
-        <ul class="flex gap-3">
-            <li class="border-primary flex basis-1/2 flex-col justify-end rounded-bl-xl border-b-2 border-l-2 p-3">
-                <img src="reproducteurs.png" alt="chat1" class="w-10/12 rounded-lg" />
-                <h4 class="poetsone mb-3 text-center text-lg">Nos reproducteurs</h4>
-                <Link :href="route('cats')" class="self-center">
-                    <Button label="Découvrir" />
-                </Link>
-            </li>
-            <li class="border-primary flex basis-1/2 flex-col justify-end rounded-tr-xl border-t-2 border-r-2 border-b-2 border-b-transparent p-3">
-                <img src="chatons.png" alt="chat1" class="relative top-7 rounded-lg" />
-                <h4 class="poetsone mb-3 text-center text-lg">Nos chatons</h4>
-                <Link :href="route('kittens')" class="self-center">
-                    <Button label="Découvrir" />
-                </Link>
-            </li>
-        </ul>
-    </div>
-
-    <!-- Contacter nous -->
-    <form @submit.prevent="submitForm">
-        <div class="m-3 mx-auto mt-10 flex max-w-3xl flex-col gap-3 rounded-xl bg-[#ABA5A2] p-5" id="contact">
-            <h3 class="poetsone mb-3 text-3xl text-white">Contactez-nous</h3>
-            <Input v-model="form.nom" type="text" placeholder="Nom" class="rounded-lg bg-white text-black" />
-            <Input v-model="form.prenom" type="text" placeholder="Prénom" class="rounded-lg bg-white text-black" />
-            <Input v-model="form.email" type="email" placeholder="Email" class="rounded-lg bg-white text-black" />
-            <Input v-model="form.telephone" type="text" placeholder="Téléphone" class="rounded-lg bg-white text-black" />
-            <Textarea v-model="form.message" placeholder="Message" class="h-32 resize-none rounded-lg bg-white text-black" rows="4"></Textarea>
-            <Button type="submit" label="Envoyer" class="self-end" :disabled="form.processing" />
+    <div class="mx-3">
+        <!-- Qui somme-nous -->
+        <div class="bg-tertiary z-40 mx-auto mt-10 flex max-w-3xl flex-col rounded-xl p-5">
+            <h3 class="poetsone mb-3 text-3xl text-[#B5A9A4]">Qui sommes-nous ?</h3>
+            <p class="text-justify text-white" v-html="getContentByTitle('Qui sommes-nous ?', contents)"></p>
+            <Link :href="route('elevage')" class="mt-3 self-end">
+                <Button label="Découvrir" />
+            </Link>
         </div>
-    </form>
 
+        <!-- Nos chats -->
+        <div class="m-3 mx-auto mt-10 max-w-3xl">
+            <h3 class="text-primary poetsone mb-3 text-3xl">Nos chats</h3>
+            <ul class="flex gap-3">
+                <li class="border-primary flex basis-1/2 flex-col justify-end rounded-bl-xl border-b-2 border-l-2 p-3">
+                    <img src="reproducteurs.png" alt="chat1" class="w-10/12 rounded-lg" />
+                    <h4 class="poetsone mb-3 text-center text-lg">Nos reproducteurs</h4>
+                    <Link :href="route('cats')" class="self-center">
+                        <Button label="Découvrir" />
+                    </Link>
+                </li>
+                <li
+                    class="border-primary flex basis-1/2 flex-col justify-end rounded-tr-xl border-t-2 border-r-2 border-b-2 border-b-transparent p-3"
+                >
+                    <img src="chatons.png" alt="chat1" class="relative top-7 rounded-lg" />
+                    <h4 class="poetsone mb-3 text-center text-lg">Nos chatons</h4>
+                    <Link :href="route('kittens')" class="self-center">
+                        <Button label="Découvrir" />
+                    </Link>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Contacter nous -->
+        <!-- <form @submit.prevent="submitForm">
+            <div class="m-3 mx-auto mt-10 flex max-w-3xl flex-col gap-3 rounded-xl bg-[#ABA5A2] p-5" id="contact">
+                <h3 class="poetsone mb-3 text-3xl text-white">Contactez-nous</h3>
+                <Input v-model="form.nom" type="text" placeholder="Nom" class="rounded-lg bg-white text-black" />
+                <Input v-model="form.prenom" type="text" placeholder="Prénom" class="rounded-lg bg-white text-black" />
+                <Input v-model="form.email" type="email" placeholder="Email" class="rounded-lg bg-white text-black" />
+                <Input v-model="form.telephone" type="text" placeholder="Téléphone" class="rounded-lg bg-white text-black" />
+                <Textarea v-model="form.message" placeholder="Message" class="h-32 resize-none rounded-lg bg-white text-black" rows="4"></Textarea>
+                <Button type="submit" label="Envoyer" class="self-end" :disabled="form.processing" />
+            </div>
+        </form> -->
+        <!-- Contacter nous -->
+        <form @submit.prevent="submitForm">
+            <div class="m-3 mx-auto mt-10 flex max-w-3xl flex-col gap-3 rounded-xl bg-[#ABA5A2] p-5" id="contact">
+                <h3 class="poetsone mb-3 text-3xl text-white">Contactez-nous</h3>
+
+                <!-- Nom -->
+                <div>
+                    <Input v-model="form.nom" type="text" placeholder="Nom" class="rounded-lg bg-white text-black" />
+                    <p v-if="form.errors.nom" class="text-sm text-red-500">{{ form.errors.nom }}</p>
+                </div>
+
+                <!-- Prénom -->
+                <div>
+                    <Input v-model="form.prenom" type="text" placeholder="Prénom" class="rounded-lg bg-white text-black" />
+                    <p v-if="form.errors.prenom" class="text-sm text-red-500">{{ form.errors.prenom }}</p>
+                </div>
+
+                <!-- Email -->
+                <div>
+                    <Input v-model="form.email" type="email" placeholder="Email" class="rounded-lg bg-white text-black" />
+                    <p v-if="form.errors.email" class="text-sm text-red-500">{{ form.errors.email }}</p>
+                </div>
+
+                <!-- Téléphone -->
+                <div>
+                    <Input v-model="form.telephone" type="text" placeholder="Téléphone" class="rounded-lg bg-white text-black" />
+                    <p v-if="form.errors.telephone" class="text-sm text-red-500">{{ form.errors.telephone }}</p>
+                </div>
+
+                <!-- Message -->
+                <div>
+                    <Textarea
+                        v-model="form.message"
+                        placeholder="Message"
+                        class="h-32 resize-none rounded-lg bg-white text-black"
+                        rows="4"
+                    ></Textarea>
+                    <p v-if="form.errors.message" class="text-sm text-red-500">{{ form.errors.message }}</p>
+                </div>
+
+                <Button type="submit" label="Envoyer" class="self-end" :disabled="form.processing" />
+            </div>
+        </form>
+    </div>
     <Footer />
 </template>
 

@@ -45,13 +45,13 @@ watchOnce(emblaMainApi, (emblaMainApi) => {
     <Menu title="Nos chats" />
 
     <div class="mx-auto py-6">
-        <h2 class="poetsone mb-6 px-4 text-3xl text-[#B5A9A4]">Nos reproducteurs</h2>
+        <h2 class="poetsone mb-6 px-4 text-center text-3xl text-[#B5A9A4]">Nos reproducteurs</h2>
         <!-- mobile -->
-        <div class="grid grid-cols-1 gap-6 md:hidden md:grid-cols-2">
+        <div class="m-4 grid grid-cols-1 gap-6 md:hidden md:grid-cols-2">
             <div
                 v-for="(cat, index) in cats"
                 :key="index"
-                class="group relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 hover:scale-105"
+                class="group relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 hover:scale-105 hover:shadow-md"
             >
                 <figure class="relative h-72 w-full overflow-hidden">
                     <img
@@ -70,30 +70,27 @@ watchOnce(emblaMainApi, (emblaMainApi) => {
                     </p>
                     <div class="mt-2 flex justify-end">
                         <Link :href="route('cats.show', cat)">
-                            <Button label="Voir plus" class="bg-white/90 text-[#B5A9A4] hover:bg-white" />
+                            <Button label="Voir plus" class="text-black" />
                         </Link>
                     </div>
                 </div>
             </div>
         </div>
         <!-- desktop -->
-        <div v-for="(cat, index) in cats" :key="index" :class="[{ 'bg-[#F4F4F4] md:flex-row-reverse': index % 2 === 1 }, 'flex justify-center']">
+        <div v-for="(cat, index) in cats" :key="index" :class="[{ 'bg-[#F4F4F4] md:flex-row-reverse': index % 2 === 0 }, 'flex justify-center']">
             <div class="hidden w-full max-w-4xl items-start gap-5 p-5 px-4 md:flex md:justify-center">
                 <!-- Carrousel principal -->
                 <div class="basis-1/2">
-                    <div class="mx-auto mb-2 max-w-lg">
-                        <Carousel
-                            class="max-h-[500px] w-full max-w-lg overflow-hidden rounded-xl shadow-lg"
-                            @init-api="(val) => (emblaMainApi = val)"
-                        >
+                    <div class="mx-auto my-2 max-w-lg">
+                        <Carousel class="w-full max-w-lg overflow-hidden rounded-xl shadow-lg" @init-api="(val) => (emblaMainApi = val)">
                             <CarouselContent>
                                 <CarouselItem v-for="(image, index) in cat?.images" :key="index">
                                     <div class="p-0">
-                                        <Card class="border-0 p-0">
+                                        <Card class="h-[350px] w-full border-0 bg-red-300 p-0">
                                             <img
                                                 :src="'/storage/cats/' + image.image_path"
                                                 :alt="'Photo du chaton ' + cat?.name"
-                                                class="h-full w-full object-cover"
+                                                class="h-full w-full object-cover object-center"
                                             />
                                         </Card>
                                     </div>
@@ -130,7 +127,7 @@ watchOnce(emblaMainApi, (emblaMainApi) => {
                 </div>
 
                 <!-- Infos chat -->
-                <div v-if="cat" class="mx-auto mb-8 max-w-2xl shrink-0 basis-1/2 rounded-xl bg-white p-6 shadow-md">
+                <div v-if="cat" class="mx-auto mb-8 max-w-2xl shrink-0 basis-1/2 p-6">
                     <div class="mb-6 flex flex-col justify-between gap-4 md:flex-row">
                         <div>
                             <h1 class="flex items-center gap-2 text-3xl font-bold text-gray-900">

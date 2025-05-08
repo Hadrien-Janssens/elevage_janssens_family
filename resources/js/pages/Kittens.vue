@@ -19,12 +19,12 @@ defineProps({
     <Menu title="Nos chatons" />
 
     <div class="mx-auto py-6">
-        <h2 class="poetsone mb-6 px-4 text-3xl text-[#B5A9A4]">Chatons disponibles à l'adoption</h2>
+        <h2 class="poetsone mb-6 px-4 text-center text-3xl text-[#B5A9A4]">Chatons disponibles à l'adoption</h2>
         <CatsListing :kittens="kittens" />
     </div>
     <!-- LITTERS (inchangé) -->
     <div class="m-3 my-6">
-        <h2 class="poetsone mb-3 text-3xl text-[#B5A9A4]">Les portées</h2>
+        <h2 class="poetsone mb-3 text-center text-3xl text-[#B5A9A4]">Les portées</h2>
         <ul class="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             <li v-for="(litter, index) in litters" :key="index" class="relative w-full">
                 <figure class="h-64 w-full overflow-hidden rounded-lg bg-gray-200">

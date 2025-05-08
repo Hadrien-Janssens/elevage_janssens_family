@@ -153,12 +153,12 @@ function submit() {
                 </div>
 
                 <div class="flex items-center space-x-2">
-                    <Switch v-model:checked="form.is_booked" id="is_booked" />
+                    <Switch v-model="form.is_booked" id="is_booked" />
                     <Label for="is_booked">Réservé</Label>
                 </div>
 
                 <div class="flex items-center space-x-2">
-                    <Switch v-model:checked="form.is_adopted" id="is_adopted" />
+                    <Switch v-model="form.is_adopted" id="is_adopted" />
                     <Label for="is_adopted">Adopté</Label>
                 </div>
 
