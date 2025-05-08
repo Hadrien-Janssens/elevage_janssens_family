@@ -1,15 +1,14 @@
 <script lang="ts" setup>
 import Menu from '@/components/Menu.vue';
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
-import { Link } from '@inertiajs/vue3';
-import { Cake, Heart } from 'lucide-vue-next';
-import { Kitten } from '../types/index';
+import { Cake } from 'lucide-vue-next';
+import { Cat } from '../types/index';
 
 defineProps<{
-    kitten?: Kitten;
+    cat?: Cat;
 }>();
 
-import Button from '@/components/Button.vue';
+import Footer from '@/components/Footer.vue';
 import { Card, CardContent } from '@/components/ui/card';
 import { type CarouselApi } from '@/components/ui/carousel';
 import { capitalizeFirstLetter } from '@/lib/utils';
@@ -41,20 +40,20 @@ watchOnce(emblaMainApi, (emblaMainApi) => {
 </script>
 
 <template>
-    <Menu :title="capitalizeFirstLetter(kitten?.name)" />
-    <div class="mx-auto w-full max-w-4xl items-start px-4 lg:flex lg:justify-center">
+    <Menu :title="capitalizeFirstLetter(cat?.name)" />
+    <div class="mx-auto w-full max-w-4xl items-start gap-5 px-4 md:flex md:justify-center">
+        <!-- Carrousel principal -->
         <div class="basis-1/2">
-            <!-- Carrousel principal -->
             <div class="mx-auto mb-2 max-w-lg">
                 <Carousel class="max-h-[500px] w-full max-w-lg overflow-hidden rounded-xl shadow-lg" @init-api="(val) => (emblaMainApi = val)">
                     <CarouselContent>
-                        <CarouselItem v-for="(image, index) in kitten?.images" :key="index">
+                        <CarouselItem v-for="(image, index) in cat?.images" :key="index">
                             <div class="p-0">
                                 <Card class="border-0 p-0">
                                     <!-- <CardContent class="aspect-[4/3] p-0"> -->
                                     <img
-                                        :src="'/storage/kittens/' + image.image_path"
-                                        :alt="'Photo du chaton ' + kitten?.name"
+                                        :src="'/storage/cats/' + image.image_path"
+                                        :alt="'Photo du chaton ' + cat?.name"
                                         class="h-full w-full object-cover"
                                     />
                                     <!-- </CardContent> -->
@@ -70,7 +69,7 @@ watchOnce(emblaMainApi, (emblaMainApi) => {
                 <Carousel class="w-full" @init-api="(val) => (emblaThumbnailApi = val)">
                     <CarouselContent class="ml-0 flex gap-2 p-2">
                         <CarouselItem
-                            v-for="(image, index) in kitten?.images"
+                            v-for="(image, index) in cat?.images"
                             :key="index"
                             class="basis-16 cursor-pointer pl-0"
                             @click="onThumbClick(index)"
@@ -79,7 +78,7 @@ watchOnce(emblaMainApi, (emblaMainApi) => {
                                 <Card class="border-0 p-0">
                                     <CardContent class="aspect-square p-0">
                                         <img
-                                            :src="'/storage/kittens/' + image.image_path"
+                                            :src="'/storage/cats/' + image.image_path"
                                             :alt="'Miniature ' + (index + 1)"
                                             class="h-full w-full rounded-md object-cover"
                                         />
@@ -91,13 +90,14 @@ watchOnce(emblaMainApi, (emblaMainApi) => {
                 </Carousel>
             </div>
         </div>
-        <!-- Infos chaton -->
-        <div v-if="kitten" class="mx-auto mb-8 max-w-2xl rounded-xl bg-white p-6 shadow-md">
+
+        <!-- Infos chat -->
+        <div v-if="cat" class="mx-auto mb-8 max-w-2xl basis-1/2 rounded-xl bg-white p-6 shadow-md">
             <div class="mb-6 flex flex-col justify-between gap-4 md:flex-row">
                 <div>
                     <h1 class="flex items-center gap-2 text-3xl font-bold text-gray-900">
-                        {{ capitalizeFirstLetter(kitten.name) }}
-                        <span v-if="kitten.gender === 'Mâle'" class="flex items-center text-blue-500">
+                        {{ capitalizeFirstLetter(cat.name) }}
+                        <span v-if="cat.gender === 'Mâle'" class="flex items-center text-blue-500">
                             <!-- <Mars class="h-5 w-5" /> -->
                         </span>
                         <span v-else class="flex items-center text-pink-500">
@@ -106,38 +106,16 @@ watchOnce(emblaMainApi, (emblaMainApi) => {
                     </h1>
                     <p class="mt-1 flex items-center gap-2 text-gray-600">
                         <Cake class="text-primary h-5 w-5" />
-                        <span>Né le {{ kitten.litter.birth_date }}</span>
+                        <span>Né le {{ cat.birthday }}</span>
                     </p>
-                    <div class="text-primary flex items-center gap-2">
-                        <Heart class="h-5 w-5 text-red-500" />
-                        <span class="font-medium">Disponible pour adoption</span>
-                    </div>
                 </div>
             </div>
 
             <div class="mb-6">
                 <h2 class="mb-2 text-xl font-semibold text-gray-900">Description</h2>
-                <p class="leading-relaxed text-gray-700">{{ kitten.description }}</p>
+                <p class="leading-relaxed text-gray-700">{{ cat.description }}</p>
             </div>
-
-            <div class="mb-3 flex gap-3">
-                <Link :href="route('cats.show', { id: kitten.litter.mother.id })">
-                    <div class="rounded-lg bg-gray-100 px-4 py-2">
-                        <p class="text-sm text-gray-500">Maman</p>
-                        <p class="font-medium">{{ kitten.litter.mother.name }}</p>
-                    </div>
-                </Link>
-                <Link :href="route('cats.show', { id: kitten.litter.father.id })">
-                    <div class="rounded-lg bg-gray-100 px-4 py-2">
-                        <p class="text-sm text-gray-500">Papa</p>
-                        <p class="font-medium">{{ kitten.litter.father.name }}</p>
-                    </div>
-                </Link>
-            </div>
-
-            <Link :href="route('litter.show', { litter: kitten.litter })" class="mt-4">
-                <Button label="Voir la portée" />
-            </Link>
         </div>
     </div>
+    <Footer />
 </template>

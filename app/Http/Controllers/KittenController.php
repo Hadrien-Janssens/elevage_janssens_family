@@ -133,6 +133,7 @@ class KittenController extends Controller
      */
     public function update(Request $request, Kitten $kitten)
     {
+        // dd($kitten);
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
@@ -153,7 +154,7 @@ class KittenController extends Controller
             foreach ($validated['deleted_images'] as $imageId) {
                 $image = ImagesKitten::find($imageId);
                 if ($image) {
-                    Storage::disk('public')->delete($image->image_path);
+                    Storage::disk('public')->delete('kitten/' . $image->image_path);
                     $image->delete();
                 }
             }
@@ -180,14 +181,14 @@ class KittenController extends Controller
                     $manager = new ImageManager(new Driver());
                     $image = $manager->read($photo);
                     $image->scale(height: 300);
-                    $encoded = $image->encode(new JpegEncoder(75));
+                    $encoded = $image->encode(new JpegEncoder(95));
                     Storage::disk('public')->put('kittens/' . $filename, $encoded);
                 } else {
                     $photo->storeAs('kittens', $filename, 'public');
                 }
 
                 $kitten->images()->create([
-                    'image_path' => 'kittens/' . $filename
+                    'image_path' => $filename
                 ]);
             }
         }
@@ -199,11 +200,11 @@ class KittenController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(kitten $kitten)
+    public function destroy(Kitten $kitten)
     {
         // Supprimer les images associées
         foreach ($kitten->images as $image) {
-            Storage::disk('public')->delete($image->image_path);
+            Storage::disk('public')->delete('kittens/' . $image->image_path);
             $image->delete();
         }
 

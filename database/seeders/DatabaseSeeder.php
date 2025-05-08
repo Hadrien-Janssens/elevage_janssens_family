@@ -27,12 +27,7 @@ class DatabaseSeeder extends Seeder
             BodyColorSeeder::class,
             CatsSeeder::class,
             LitterSeeder::class,
-            KittenSeeder::class,
-        ]);
-
-        ImagesKitten::create([
-            'kitten_id' => 1,
-            'image_path' => '6818b81f82e8f.jpg',
+            // KittenSeeder::class,
         ]);
     }
 }

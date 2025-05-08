@@ -8,13 +8,8 @@ import AppLogo from './AppLogo.vue';
 
 const mainNavItems: NavItem[] = [
     {
-        title: 'Dashboard',
-        href: '/admin',
-        icon: Cat,
-    },
-    {
         title: 'Mes chats',
-        href: '/admin/chats',
+        href: '/admin/cats',
         icon: Cat,
     },
     {
@@ -33,19 +28,6 @@ const mainNavItems: NavItem[] = [
         icon: Cat,
     },
 ];
-
-// const footerNavItems: NavItem[] = [
-//     {
-//         title: 'Github Repo',
-//         href: 'https://github.com/laravel/vue-starter-kit',
-//         icon: Folder,
-//     },
-//     {
-//         title: 'Documentation',
-//         href: 'https://laravel.com/docs/starter-kits',
-//         icon: BookOpen,
-//     },
-// ];
 </script>
 
 <template>
@@ -54,7 +36,7 @@ const mainNavItems: NavItem[] = [
             <SidebarMenu>
                 <SidebarMenuItem>
                     <SidebarMenuButton size="lg" as-child>
-                        <Link :href="route('admin.dashboard')">
+                        <Link :href="route('admin.kitten.index')">
                             <AppLogo />
                         </Link>
                     </SidebarMenuButton>
@@ -65,11 +47,6 @@ const mainNavItems: NavItem[] = [
         <SidebarContent>
             <NavMain :items="mainNavItems" />
         </SidebarContent>
-
-        <!-- <SidebarFooter>
-            <NavFooter :items="footerNavItems" />
-            <NavUser />
-        </SidebarFooter> -->
     </Sidebar>
     <slot />
 </template>

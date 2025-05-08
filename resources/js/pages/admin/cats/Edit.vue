@@ -4,7 +4,6 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import Input from '@/components/ui/input/Input.vue';
 import Label from '@/components/ui/label/Label.vue';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import Switch from '@/components/ui/switch/Switch.vue';
 import { Textarea } from '@/components/ui/textarea';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { useForm } from '@inertiajs/vue3';
@@ -13,21 +12,16 @@ import { onMounted, ref } from 'vue';
 import { Images } from '../../../types/index';
 
 const props = defineProps({
-    kitten: Object,
-    litters: Object,
+    cat: Object,
     body_colors: Object,
     images: Array<Images> || [],
 });
 
 const form = useForm({
-    name: props.kitten?.name || '',
-    description: props.kitten?.description || '',
-    gender: props.kitten?.gender || '',
-    body_color_id: props.kitten?.body_color_id || '',
-    litter_id: props.kitten?.litter_id || '',
-    price: props.kitten?.price || '',
-    is_booked: props.kitten?.is_booked || false,
-    is_adopted: props.kitten?.is_adopted || false,
+    name: props.cat?.name || '',
+    description: props.cat?.description || '',
+    gender: props.cat?.gender || '',
+    body_color_id: props.cat?.body_color_id || '',
     photos: props.images?.map((image: Images) => image.image_path) || [],
     deleted_images: [] as number[],
     new_photos: [] as File[],
@@ -101,7 +95,7 @@ function submit() {
     form.deleted_images = deletedImageIds.value;
     form.new_photos = newPhotoFiles.value;
 
-    form.post(route('admin.kitten.update', props.kitten?.id), {
+    form.post(route('admin.cats.update', props.cat?.id), {
         onSuccess: () => {
             newPhotoFiles.value = [];
             deletedImageIds.value = [];
@@ -113,7 +107,7 @@ function submit() {
 <template>
     <AppLayout>
         <div class="container mx-auto p-6">
-            <h1 class="mb-6 text-2xl font-bold">Édition d'un chaton</h1>
+            <h1 class="mb-6 text-2xl font-bold">Édition d'un chat</h1>
             <form @submit.prevent="submit" class="space-y-6">
                 <div class="space-y-2">
                     <Label for="name">Nom</Label>
@@ -162,39 +156,6 @@ function submit() {
                 </div>
 
                 <div class="space-y-2">
-                    <Label>Portée</Label>
-                    <Select v-model="form.litter_id" class="w-full">
-                        <SelectTrigger class="w-full">
-                            <SelectValue placeholder="Choisis une portée" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectGroup>
-                                <SelectItem v-for="litter in litters" :key="litter.id" :value="litter.id">
-                                    {{ litter.name }}
-                                </SelectItem>
-                            </SelectGroup>
-                        </SelectContent>
-                    </Select>
-                    <p v-if="form.errors.litter_id" class="mt-1 text-sm text-red-600">{{ form.errors.litter_id }}</p>
-                </div>
-
-                <div class="space-y-2">
-                    <Label for="price">Prix</Label>
-                    <Input v-model="form.price" type="number" id="price" />
-                    <p v-if="form.errors.price" class="mt-1 text-sm text-red-600">{{ form.errors.price }}</p>
-                </div>
-
-                <div class="flex items-center space-x-2">
-                    <Switch v-model="form.is_booked" id="is_booked" />
-                    <Label for="is_booked">Réservé</Label>
-                </div>
-
-                <div class="flex items-center space-x-2">
-                    <Switch v-model="form.is_adopted" id="is_adopted" />
-                    <Label for="is_adopted">Adopté</Label>
-                </div>
-
-                <div class="space-y-2">
                     <Label for="photos">Ajouter des photos</Label>
                     <Input type="file" id="photos" accept="image/*" multiple @change="handlePhotoUpload" />
                     <p v-if="form.errors.photos" class="mt-1 text-sm text-red-600">{{ form.errors.photos }}</p>
@@ -205,7 +166,7 @@ function submit() {
                         <CarouselContent>
                             <CarouselItem v-for="(item, index) in photoPreviews" :key="index" class="relative">
                                 <img
-                                    :src="item.src.startsWith('data:') ? item.src : '/storage/kittens/' + item.src"
+                                    :src="item.src.startsWith('data:') ? item.src : '/storage/cats/' + item.src"
                                     class="h-64 w-full rounded-lg object-cover shadow"
                                 />
                                 <Button type="button" size="sm" class="absolute top-2 right-2 rounded-full font-black" @click="removePhoto(index)">
@@ -222,7 +183,7 @@ function submit() {
             </form>
 
             <form>
-                <Button type="button" variant="outline" class="mt-4 w-full" @click="form.delete(route('admin.kitten.destroy', props.kitten?.id))">
+                <Button type="button" variant="outline" class="mt-4 w-full" @click="form.delete(route('admin.kitten.destroy', props.cat?.id))">
                     Supprimer
                 </Button>
             </form>

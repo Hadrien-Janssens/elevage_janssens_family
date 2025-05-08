@@ -4,7 +4,7 @@ import Menu from '@/components/Menu.vue';
 </script>
 <template>
     <Menu title="Elevage" />
-    <div class="m-3 my-6 p-3">
+    <div class="m-3 mx-auto my-6 max-w-3xl p-3">
         <h1 class="text-primary poetsone mb-3 text-3xl">Qui sommes-nous ?</h1>
         <p class="text-justify">
             Bienvenue chez nous, Laura et Hadrien, un jeune couple passionné de chats, situé au cœur du Hainaut, à Morlanwelz. Nous avons
@@ -17,7 +17,7 @@ import Menu from '@/components/Menu.vue';
             <div class="absolute -right-3 -bottom-3 z-10 h-52 w-1/2 rounded-lg bg-[#CDC6C2]"></div>
         </div>
     </div>
-    <div class="relative m-3 mt-12 mb-0 flex-col justify-end p-3 text-justify">
+    <div class="relative m-3 mx-auto mt-12 mb-0 max-w-3xl flex-col justify-end p-3 text-justify">
         <div class="border-primary absolute bottom-0 -left-1 h-1/2 w-1/2 rounded-bl-xl border-b-2 border-l-2"></div>
         <div class="border-primary absolute top-0 -right-1 h-1/2 w-1/2 rounded-tr-xl border-t-2 border-r-2"></div>
         <p>
@@ -39,6 +39,6 @@ import Menu from '@/components/Menu.vue';
         <br />
         <p>N'hésitez pas à nous contacter pour découvrir notre élevage familial, où passion, dévouement et amour des chats sont les maîtres-mots.</p>
     </div>
-    <p class="grapenuts relative -top-5 pr-5 text-right text-2xl font-bold text-[#51687F]">Janssens Family</p>
+    <p class="grapenuts relative -top-5 mx-auto max-w-3xl pr-5 text-right text-2xl font-bold text-[#51687F]">Janssens Family</p>
     <Footer />
 </template>

@@ -22,10 +22,33 @@ const menuItems = [
 
 const isMenuOpen = ref(false);
 
+// const ulVariants = {
+//     hidden: {
+//         opacity: 0,
+//         x: -600,
+//         transition: {
+//             duration: 0.5,
+//             when: 'afterChildren',
+//             staggerChildren: 0.2,
+//             staggerDirection: -1,
+//         },
+//     },
+//     visible: {
+//         opacity: 1,
+//         x: 0,
+//         transition: {
+//             duration: 0.5,
+//             when: 'beforeChildren',
+//             staggerChildren: 0.1,
+//         },
+//     },
+// };
 const ulVariants = {
     hidden: {
         opacity: 0,
-        x: -600,
+        x: 0,
+        pointerEvents: 'none',
+        zIndex: -50,
         transition: {
             duration: 0.5,
             when: 'afterChildren',
@@ -36,6 +59,8 @@ const ulVariants = {
     visible: {
         opacity: 1,
         x: 0,
+        pointerEvents: 'auto',
+        zIndex: 10,
         transition: {
             duration: 0.5,
             when: 'beforeChildren',
@@ -66,7 +91,7 @@ const goBack = () => {
 </script>
 
 <template>
-    <!-- Hamburger Button (inchangé) -->
+    <!-- Hamburger Button -->
     <div
         class="sticky top-0 z-50 flex h-[80px] w-full items-start p-3 backdrop-blur-lg md:hidden"
         :class="{ 'justify-between': title, 'justify-end': !title }"
@@ -124,17 +149,21 @@ const goBack = () => {
         </motion.li>
     </motion.ul>
 
-    <!-- Desktop Menu (inchangé) -->
-    <ul class="hidden space-x-4 md:flex">
+    <!-- Desktop Menu -->
+    <ul class="hidden justify-end space-x-4 p-5 md:flex">
         <Link
             v-for="(item, index) in menuItems"
             :key="item.route + '-desktop-' + index"
             :href="route(item.route)"
-            class="hover:text-primary transform text-black transition-colors duration-200 hover:scale-105"
+            class="poetsone text-primary transform transition-colors duration-200 hover:scale-105 hover:text-black"
         >
             {{ item.name }}
         </Link>
-        <Link href="" class="hover:text-primary transform text-black transition-colors duration-200 hover:scale-105">Contact</Link>
+        <Link
+            :href="route('home') + '#contact'"
+            class="poetsone text-primary transform transition-colors duration-200 hover:scale-105 hover:text-black"
+            >Contact</Link
+        >
     </ul>
 </template>
 

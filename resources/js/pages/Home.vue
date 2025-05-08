@@ -3,6 +3,7 @@ import Button from '@/components/Button.vue';
 import Footer from '@/components/Footer.vue';
 import Menu from '@/components/Menu.vue';
 import { Input } from '@/components/ui/input';
+import Textarea from '@/components/ui/textarea/Textarea.vue';
 import { Link, useForm } from '@inertiajs/vue3';
 import { ArrowUp } from 'lucide-vue-next';
 import { motion } from 'motion-v';
@@ -62,14 +63,14 @@ const submitForm = () => {
     <Menu />
 
     <!-- header -->
-    <header class="h-90vh flex flex-col items-center justify-end">
+    <header class="h-90vh flex flex-col items-center justify-between lg:flex-row-reverse">
         <div class="h-[40px]"></div>
 
-        <div class="flex w-full max-w-md justify-end gap-10 self-end">
+        <div class="relative flex basis-1/3 justify-end gap-10 self-end">
             <motion.p
                 :initial="{ opacity: 0, y: -50 }"
                 :animate="{ opacity: 1, y: 0, transition: { duration: 1.5, delay: 1, ease: 'easeInOut' } }"
-                class="grapenuts relative -top-7 left-18 text-[27px] font-bold text-[#51687F]"
+                class="grapenuts absolute top-0 -left-10 text-[27px] font-bold text-[#51687F]"
                 >Voici Una</motion.p
             >
             <motion.svg width="81" height="67" initial="hidden" animate="visible" class="relative top-10 shrink-0">
@@ -93,28 +94,31 @@ const submitForm = () => {
                 :animate="{ opacity: 1, x: 0, transition: { duration: 3, delay: 0.2, ease: 'easeInOut' } }"
                 src="una.png"
                 alt=""
-                class="mb-10 w-7/12 self-end"
+                class="mb-10 self-end"
             />
         </div>
-        <motion.h1
-            :initial="{ opacity: 0, y: -50 }"
-            :animate="{ opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeInOut' } }"
-            class="mb-5 text-5xl font-black text-[#A28C83]"
-        >
-            Janssens <br />
-            Family
-        </motion.h1>
-        <motion.h2
-            :initial="{ opacity: 0, y: -50 }"
-            :animate="{ opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeInOut' } }"
-            class="relative left-10 text-[20px] font-bold text-[#CDC6C2]"
-            >Elevage familial de <br />Scottish & British</motion.h2
-        >
-        <div class="flex max-w-md self-start">
+
+        <div class="flex basis-1/3 flex-col items-center gap-5 text-end">
+            <motion.h1
+                :initial="{ opacity: 0, y: -50 }"
+                :animate="{ opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeInOut' } }"
+                class="mb-5 text-5xl font-black text-[#A28C83]"
+            >
+                Janssens <br />
+                Family
+            </motion.h1>
+            <motion.h2
+                :initial="{ opacity: 0, y: -50 }"
+                :animate="{ opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeInOut' } }"
+                class="relative text-[20px] font-bold text-[#CDC6C2]"
+                >Elevage familial de <br />Scottish & British</motion.h2
+            >
+        </div>
+        <div class="flex basis-1/3 self-start">
             <motion.img
                 src="urban.jpeg"
                 alt="british short hair black silver tabby"
-                class="relative right-10 w-7/12 self-start"
+                class="relative self-start"
                 :initial="{ opacity: 0, x: -5 }"
                 :animate="{ opacity: 1, x: 0, transition: { duration: 3, delay: 0.2, ease: 'easeInOut' } }"
             />
@@ -143,13 +147,13 @@ const submitForm = () => {
                 >
             </div>
         </div>
-        <p class="grapenuts relative text-2xl text-[#B5A9A4]">Scroll pour nous découvrir</p>
-        <div class="mb-3 rounded-full bg-[#CDC6C2] p-3"><ArrowUp class="relative -top-1 rotate-180 animate-bounce text-white" /></div>
-        <div class="w-full rounded-lg bg-gradient-to-b from-stone-400 to-stone-50 p-[2px]"></div>
     </header>
+    <p class="grapenuts relative text-2xl text-[#B5A9A4]">Scroll pour nous découvrir</p>
+    <div class="mb-3 rounded-full bg-[#CDC6C2] p-3"><ArrowUp class="relative -top-1 rotate-180 animate-bounce text-white" /></div>
+    <div class="w-full rounded-lg bg-gradient-to-b from-stone-400 to-stone-50 p-[2px]"></div>
 
     <!-- Qui somme-nous -->
-    <div class="bg-tertiary z-40 m-3 mt-10 flex flex-col gap-3 rounded-xl p-5">
+    <div class="bg-tertiary z-40 m-3 mx-auto mt-10 flex max-w-3xl flex-col gap-3 rounded-xl p-5">
         <h3 class="poetsone text-3xl text-[#B5A9A4]">Qui sommes-nous ?</h3>
         <p class="text-justify text-white">
             Nous sommes un élevage familial où passion, dévouement et amour des félins font partie intégrante de nos valeurs. Un foyer chaleureux où
@@ -162,7 +166,7 @@ const submitForm = () => {
     </div>
 
     <!-- Nos chats -->
-    <div class="m-3 mt-10">
+    <div class="m-3 mx-auto mt-10 max-w-3xl">
         <h3 class="text-primary poetsone mb-3 text-3xl">Nos chats</h3>
         <ul class="flex gap-3">
             <li class="border-primary flex basis-1/2 flex-col justify-end rounded-bl-xl border-b-2 border-l-2 p-3">
@@ -184,13 +188,13 @@ const submitForm = () => {
 
     <!-- Contacter nous -->
     <form @submit.prevent="submitForm">
-        <div class="m-3 mt-10 flex flex-col gap-3 rounded-xl bg-[#ABA5A2] p-5" id="contact">
+        <div class="m-3 mx-auto mt-10 flex max-w-3xl flex-col gap-3 rounded-xl bg-[#ABA5A2] p-5" id="contact">
             <h3 class="poetsone mb-3 text-3xl text-white">Contactez-nous</h3>
             <Input v-model="form.nom" type="text" placeholder="Nom" class="rounded-lg bg-white text-black" />
             <Input v-model="form.prenom" type="text" placeholder="Prénom" class="rounded-lg bg-white text-black" />
             <Input v-model="form.email" type="email" placeholder="Email" class="rounded-lg bg-white text-black" />
             <Input v-model="form.telephone" type="text" placeholder="Téléphone" class="rounded-lg bg-white text-black" />
-            <Input v-model="form.message" type="text" placeholder="Message" class="rounded-lg bg-white text-black" />
+            <Textarea v-model="form.message" placeholder="Message" class="h-32 resize-none rounded-lg bg-white text-black" rows="4"></Textarea>
             <Button type="submit" label="Envoyer" class="self-end" :disabled="form.processing" />
         </div>
     </form>

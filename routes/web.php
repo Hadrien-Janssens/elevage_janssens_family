@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\CatsController;
 use App\Http\Controllers\KittenController;
 use App\Http\Controllers\LitterController;
 use App\Mail\ContactMail;
+use App\Models\Cat;
 use App\Models\Kitten;
 use App\Models\Litter;
 use Illuminate\Support\Facades\Mail;
@@ -15,17 +17,17 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
     Route::get('/chats', function () {
         return Inertia::render('admin/Cats');
     })->name('cats');
-
+    Route::resource('/cats', CatsController::class)->names('cats')->except(['update']);
+    Route::post('/cats/{cats}', [CatsController::class, 'update'])->name('cats.update');
     Route::get('/chatons', [KittenController::class, 'index'])->name('kitten.index');
     Route::get('/chatons/creer', [KittenController::class, 'create'])->name('kitten.create');
     Route::post('/chatons', [KittenController::class, 'store'])->name('kitten.store');
     Route::get('/chaton/{id}/modifier', [KittenController::class, 'edit'])->name('kitten.edit');
     Route::post('/chatons/{kitten}', [KittenController::class, 'update'])->name('kitten.update');
     Route::delete('/chatons/{kitten}', [KittenController::class, 'destroy'])->name('kitten.destroy');
-    Route::resource('/portees', LitterController::class)->names('litters');
-
-
-
+    Route::resource('/portees', LitterController::class)->names('litters')
+        ->except(['update']);
+    Route::post('/portees/{litter}', [LitterController::class, 'update'])->name('litters.update');
     Route::get('/', function () {
         return Inertia::render('admin/Dashboard');
     })->name('dashboard');
@@ -54,9 +56,16 @@ Route::get('/chatons/{kitten}', function (Kitten $kitten) {
     ]);
 })->name('kitten.show');
 
+Route::get('/cats/{cat}', function (Cat $cat) {
+    return Inertia::render('Cat')->with([
+        'cat' => $cat->load(['bodycolor', 'images']),
+    ]);
+})->name('cats.show');
+
 Route::get('/portees/{litter}', function (Litter $litter) {
     return Inertia::render('Litter')->with([
-        'litter' => $litter->load(['mother', 'father', 'images']),
+        'litter' => $litter->load(['mother', 'father', 'images',]),
+        'kittens' => Kitten::with(['litter', 'litter.mother', 'litter.father', 'bodycolor', 'images'])->where('litter_id', $litter->id)->get(),
     ]);
 })->name('litter.show');
 

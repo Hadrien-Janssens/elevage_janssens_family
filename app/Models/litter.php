@@ -12,6 +12,7 @@ class Litter extends Model
         'mother_id',
         'father_id',
         'birth_date',
+        'image_path'
     ];
 
     public function kittens()
