@@ -149,8 +149,10 @@ const goBack = () => {
     </motion.ul>
 
     <!-- Desktop Menu -->
-    <div class="mb-5 flex items-center justify-between p-5 text-lg">
-        <div class="poetsone text-primary hidden transform transition-colors duration-200 hover:scale-105 hover:text-black md:block">Logo</div>
+    <div class="mb-5 flex justify-between gap-10 p-5 text-lg">
+        <div class="poetsone text-primary hidden transform transition-colors duration-200 hover:scale-105 hover:text-black md:block">
+            <img src="/logo.JPG" alt="" class="w-28 rounded-full" />
+        </div>
         <ul class="hidden justify-end space-x-4 md:flex">
             <Link
                 v-for="(item, index) in menuItems"

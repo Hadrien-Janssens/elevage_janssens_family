@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import Menu from '@/components/Menu.vue';
-import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
 import { Cake } from 'lucide-vue-next';
 import { Cat } from '../types/index';
 
@@ -8,8 +7,8 @@ defineProps<{
     cat?: Cat;
 }>();
 
+import DoubleCarrousel from '@/components/DoubleCarrousel.vue';
 import Footer from '@/components/Footer.vue';
-import { Card, CardContent } from '@/components/ui/card';
 import { type CarouselApi } from '@/components/ui/carousel';
 import { capitalizeFirstLetter } from '@/lib/utils';
 import { watchOnce } from '@vueuse/core';
@@ -42,51 +41,8 @@ watchOnce(emblaMainApi, (emblaMainApi) => {
 <template>
     <Menu :title="capitalizeFirstLetter(cat?.name)" />
     <div class="mx-auto w-full max-w-4xl items-start gap-5 px-4 md:flex md:justify-center">
-        <div class="basis-1/2">
-            <div class="mx-auto mb-2 max-w-lg">
-                <Carousel class="w-full max-w-lg overflow-hidden rounded-xl shadow-lg" @init-api="(val) => (emblaMainApi = val)">
-                    <CarouselContent>
-                        <CarouselItem v-for="(image, index) in cat?.images" :key="index">
-                            <div class="p-0">
-                                <Card class="h-[350px] border-0 p-0">
-                                    <img
-                                        :src="'/storage/cats/' + image.image_path"
-                                        :alt="'Photo du chaton ' + cat?.name"
-                                        class="h-full w-full object-cover object-center"
-                                    />
-                                </Card>
-                            </div>
-                        </CarouselItem>
-                    </CarouselContent>
-                </Carousel>
-            </div>
-
-            <!-- Miniatures -->
-            <div class="mx-auto mb-8 max-w-lg">
-                <Carousel class="w-full" @init-api="(val) => (emblaThumbnailApi = val)">
-                    <CarouselContent class="ml-0 flex gap-2 p-2">
-                        <CarouselItem
-                            v-for="(image, index) in cat?.images"
-                            :key="index"
-                            class="basis-16 cursor-pointer pl-0"
-                            @click="onThumbClick(index)"
-                        >
-                            <div class="p-0" :class="index === selectedIndex ? 'ring-primary rounded-md ring-2' : 'opacity-80'">
-                                <Card class="border-0 p-0">
-                                    <CardContent class="aspect-square p-0">
-                                        <img
-                                            :src="'/storage/cats/' + image.image_path"
-                                            :alt="'Miniature ' + (index + 1)"
-                                            class="h-full w-full rounded-md object-cover"
-                                        />
-                                    </CardContent>
-                                </Card>
-                            </div>
-                        </CarouselItem>
-                    </CarouselContent>
-                </Carousel>
-            </div>
-        </div>
+        <!-- Carrousel principal -->
+        <DoubleCarrousel :cat="cat" />
 
         <!-- Infos chat -->
         <div v-if="cat" class="mx-auto mb-8 max-w-2xl basis-1/2 p-6">

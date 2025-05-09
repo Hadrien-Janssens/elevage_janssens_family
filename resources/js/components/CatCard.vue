@@ -8,8 +8,6 @@ const props = defineProps({
         required: true,
     },
 });
-
-console.log('kitten', props.kitten);
 </script>
 
 <template>
@@ -39,7 +37,10 @@ console.log('kitten', props.kitten);
                 <span class="ml-1 text-2xl font-bold" v-else>♀</span>
             </p>
             <div class="mt-2 flex justify-end">
-                <Link :href="route('kitten.show', kitten)">
+                <Link v-if="kitten.price" :href="route('kitten.show', kitten)">
+                    <Button label="Voir plus" class="text-black" />
+                </Link>
+                <Link v-else :href="route('cats.show', kitten)">
                     <Button label="Voir plus" class="text-black" />
                 </Link>
             </div>

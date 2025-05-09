@@ -47,7 +47,6 @@ class KittenController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
@@ -134,7 +133,6 @@ class KittenController extends Controller
      */
     public function update(Request $request, Kitten $kitten)
     {
-        // dd($kitten);
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',

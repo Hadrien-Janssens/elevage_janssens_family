@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-import { Card, CardContent } from '@/components/ui/card';
-import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from '@/components/ui/carousel';
+import { type CarouselApi } from '@/components/ui/carousel';
 import { capitalizeFirstLetter } from '@/lib/utils';
 import { Link } from '@inertiajs/vue3';
 import { watchOnce } from '@vueuse/core';
 import { Cake, Heart, HeartCrack } from 'lucide-vue-next';
 import { ref } from 'vue';
 import CatCard from './CatCard.vue';
+import DoubleCarrousel from './DoubleCarrousel.vue';
 
 const emblaMainApi = ref<CarouselApi>();
 const emblaThumbnailApi = ref<CarouselApi>();
@@ -51,68 +51,33 @@ defineProps({
     <p v-else class="poetsone px-4 text-center text-xl text-[#B5A9A4]">Aucun chaton disponible à l'adoption pour le moment.</p>
 
     <!-- desktop -->
-    <div v-for="(kitten, index) in kittens" :key="index" :class="[{ 'bg-[#F4F4F4] md:flex-row-reverse': index % 2 === 0 }, 'flex justify-center']">
-        <div class="hidden w-full max-w-4xl items-start gap-5 p-5 px-4 md:flex md:justify-center">
+    <div v-for="(kitten, index) in kittens" :key="index" :class="[{ 'bg-[#F4F4F4]': index % 2 === 0 }, 'flex justify-center py-10']">
+        <div
+            class="hidden w-full max-w-4xl items-start gap-5 p-5 px-4 md:flex md:justify-center"
+            :class="[{ 'md:flex-row-reverse': index % 2 === 1 }]"
+        >
             <!-- Carrousel principal -->
-            <div class="basis-1/2">
-                <div class="mx-auto my-2 max-w-lg">
-                    <Carousel class="max-h-[500px] w-full max-w-lg overflow-hidden rounded-xl shadow-lg" @init-api="(val) => (emblaMainApi = val)">
-                        <!-- Bandeau "Réservé" -->
-                        <div v-if="kitten.is_booked" class="absolute -top-10 -right-18 z-10 w-50 text-center">
-                            <div
-                                class="origin-top-left translate-x-8 -translate-y-1 rotate-45 transform bg-white px-2 py-1 text-center text-xs font-black text-red-400 uppercase shadow-md"
-                            >
-                                Réservé
-                            </div>
-                        </div>
-                        <CarouselContent>
-                            <CarouselItem v-for="(image, index) in kitten?.images" :key="index">
-                                <div class="p-0">
-                                    <Card class="h-[350px] w-full border-0 p-0">
-                                        <img
-                                            :src="'/storage/kittens/' + image.image_path"
-                                            :alt="'Photo du chaton ' + kitten?.name"
-                                            class="objet-center h-full w-full object-cover"
-                                        />
-                                    </Card>
-                                </div>
-                            </CarouselItem>
-                        </CarouselContent>
-                    </Carousel>
-                </div>
-
-                <!-- Miniatures -->
-                <div class="mx-auto max-w-lg">
-                    <Carousel class="w-full" @init-api="(val) => (emblaThumbnailApi = val)">
-                        <CarouselContent class="ml-0 flex gap-2 p-2">
-                            <CarouselItem
-                                v-for="(image, index) in kitten?.images"
-                                :key="index"
-                                class="basis-16 cursor-pointer pl-0"
-                                @click="onThumbClick(index)"
-                            >
-                                <div class="p-0" :class="index === selectedIndex ? 'ring-primary rounded-md ring-2' : 'opacity-80'">
-                                    <Card class="border-0 p-0">
-                                        <CardContent class="aspect-square p-0">
-                                            <img
-                                                :src="'/storage/kittens/' + image.image_path"
-                                                :alt="'Miniature ' + (index + 1)"
-                                                class="h-full w-full rounded-md object-cover"
-                                            />
-                                        </CardContent>
-                                    </Card>
-                                </div>
-                            </CarouselItem>
-                        </CarouselContent>
-                    </Carousel>
-                </div>
-            </div>
+            <DoubleCarrousel :cat="kitten" />
 
             <!-- Infos chaton -->
-            <div class="mx-auto mb-8 max-w-2xl shrink-0 basis-1/2 p-6">
+            <div class="relative mx-auto mb-8 max-w-2xl shrink-0 basis-1/2 p-6 pl-10">
+                <!--   :class="[{ 'md:flex-row-reverse': index % 2 === 1 }]" -->
+                <div
+                    class="border-primary absolute top-0 h-30 w-52"
+                    :class="[
+                        { 'left-0 rounded-tl-xl border-t-2 border-l-2': index % 2 === 1 },
+                        { 'right-0 rounded-tr-xl border-t-2 border-r-2': index % 2 === 0 },
+                    ]"
+                ></div>
+
+                <div
+                    class="border-primary absolute right-0 bottom-0 h-30 w-52 rounded-br-xl border-r-2 border-b-2"
+                    :class="[{ '': index % 2 === 0 }]"
+                ></div>
+
                 <div class="mb-6 flex flex-col justify-between gap-4 md:flex-row">
                     <div>
-                        <h1 class="flex items-center gap-2 text-3xl font-bold text-gray-900">
+                        <h1 class="text-primary flex items-center gap-2 text-3xl font-bold">
                             {{ capitalizeFirstLetter(kitten.name) }}
                             <span v-if="kitten.gender === 'Mâle'" class="flex items-center text-gray-500"> </span>
                             <span v-else class="flex items-center text-gray-500"> </span>
