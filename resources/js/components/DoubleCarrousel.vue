@@ -1,15 +1,14 @@
 <script setup lang="ts">
 import { Card, CardContent } from '@/components/ui/card';
 import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from '@/components/ui/carousel';
+import { isKitten, isLitter } from '@/lib/utils';
+import { Cat, Kitten } from '@/types';
 import { watchOnce } from '@vueuse/core';
 import { ref } from 'vue';
 
-const props = defineProps({
-    cat: {
-        type: Object,
-        required: true,
-    },
-});
+defineProps<{
+    cat: Cat | Kitten;
+}>();
 
 const emblaMainApi = ref<CarouselApi>();
 const emblaThumbnailApi = ref<CarouselApi>();
@@ -33,19 +32,17 @@ watchOnce(emblaMainApi, (emblaMainApi) => {
     emblaMainApi.on('select', onSelect);
     emblaMainApi.on('reInit', onSelect);
 });
-
-console.log(props.cat);
 </script>
 
 <template>
     <!-- Carrousel principal -->
     <div class="basis-1/2">
-        <div class="mx-auto my-2 max-w-lg">
+        <div class="mx-auto mb-2 max-w-lg">
             <Carousel class="w-full max-w-lg overflow-hidden rounded-xl shadow-lg" @init-api="(val) => (emblaMainApi = val)">
                 <CarouselContent>
                     <CarouselItem v-for="(image, index) in cat?.images" :key="index">
                         <div class="p-0">
-                            <Card class="relative h-[350px] w-full border-0 bg-red-300 p-0">
+                            <Card class="relative h-[350px] w-full border-0 p-0">
                                 <!-- Bandeau "Réservé" -->
                                 <div v-if="cat.is_booked" class="absolute -top-10 -right-18 z-10 w-50 text-center">
                                     <div
@@ -55,17 +52,26 @@ console.log(props.cat);
                                     </div>
                                 </div>
                                 <img
-                                    v-if="!cat.price"
-                                    :src="'/storage/cats/' + image.image_path"
+                                    v-if="isLitter(cat)"
+                                    :src="'/storage/litters/' + image.image_path"
                                     :alt="'Photo du chaton ' + cat?.name"
                                     class="h-full w-full object-cover object-center"
                                 />
-                                <img
-                                    v-else
-                                    :src="'/storage/kittens/' + image.image_path"
-                                    :alt="'Photo du chaton ' + cat?.name"
-                                    class="h-full w-full object-cover object-center"
-                                />
+                                <div v-else class="h-full w-full">
+                                    <img
+                                        v-if="isKitten(cat)"
+                                        :src="'/storage/kittens/' + image.image_path"
+                                        :alt="'Photo du chaton ' + cat?.name"
+                                        class="h-full w-full object-cover object-center"
+                                    />
+
+                                    <img
+                                        v-else
+                                        :src="'/storage/cats/' + image.image_path"
+                                        :alt="'Photo du chaton ' + cat?.name"
+                                        class="h-full w-full object-cover object-center"
+                                    />
+                                </div>
                             </Card>
                         </div>
                     </CarouselItem>
@@ -87,17 +93,26 @@ console.log(props.cat);
                             <Card class="border-0 p-0">
                                 <CardContent class="aspect-square p-0">
                                     <img
-                                        v-if="!cat.price"
-                                        :src="'/storage/cats/' + image.image_path"
+                                        v-if="isLitter(cat)"
+                                        :src="'/storage/litters/' + image.image_path"
                                         :alt="'Miniature ' + (index + 1)"
-                                        class="h-full w-full rounded-md object-cover"
+                                        class="h-full w-full rounded-md object-cover object-center"
                                     />
-                                    <img
-                                        v-else
-                                        :src="'/storage/kittens/' + image.image_path"
-                                        :alt="'Miniature ' + (index + 1)"
-                                        class="h-full w-full rounded-md object-cover"
-                                    />
+                                    <div v-else>
+                                        <img
+                                            v-if="isKitten(cat)"
+                                            :src="'/storage/kittens/' + image.image_path"
+                                            :alt="'Miniature ' + (index + 1)"
+                                            class="h-full w-full rounded-md object-cover object-center"
+                                        />
+
+                                        <img
+                                            v-else
+                                            :src="'/storage/cats/' + image.image_path"
+                                            :alt="'Miniature ' + (index + 1)"
+                                            class="h-full w-full rounded-md object-cover object-center"
+                                        />
+                                    </div>
                                 </CardContent>
                             </Card>
                         </div>

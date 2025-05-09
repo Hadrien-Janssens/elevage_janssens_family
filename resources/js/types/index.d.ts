@@ -62,6 +62,7 @@ export interface Litter {
     name: string;
     mother: Cat;
     father: Cat;
+    images: Images[];
     birth_date: string | null;
 }
 

@@ -2,7 +2,7 @@
 import { Link } from '@inertiajs/vue3';
 import Button from './Button.vue';
 
-const props = defineProps({
+defineProps({
     kitten: {
         type: Object,
         required: true,
@@ -11,7 +11,7 @@ const props = defineProps({
 </script>
 
 <template>
-    <div class="group relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300 hover:scale-105">
+    <div class="group relative mx-auto max-w-md overflow-hidden rounded-lg shadow-lg transition-transform duration-300 hover:scale-105">
         <!-- Bandeau "Réservé" -->
         <div v-if="kitten.is_booked" class="absolute -top-10 -right-18 z-10 w-50 text-center">
             <div
@@ -24,7 +24,7 @@ const props = defineProps({
         <figure class="relative h-72 w-full overflow-hidden">
             <img
                 v-if="kitten.images?.length"
-                :src="'/storage/kittens/' + kitten.images[0].image_path"
+                :src="(kitten.litter ? '/storage/kittens/' : '/storage/cats/') + kitten.images[0].image_path"
                 alt="Photo de {{ kitten.name }}"
                 class="h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
             />

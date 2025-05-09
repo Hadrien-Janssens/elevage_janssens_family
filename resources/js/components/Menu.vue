@@ -22,27 +22,6 @@ const menuItems = [
 
 const isMenuOpen = ref(false);
 
-// const ulVariants = {
-//     hidden: {
-//         opacity: 0,
-//         x: -600,
-//         transition: {
-//             duration: 0.5,
-//             when: 'afterChildren',
-//             staggerChildren: 0.2,
-//             staggerDirection: -1,
-//         },
-//     },
-//     visible: {
-//         opacity: 1,
-//         x: 0,
-//         transition: {
-//             duration: 0.5,
-//             when: 'beforeChildren',
-//             staggerChildren: 0.1,
-//         },
-//     },
-// };
 const ulVariants = {
     hidden: {
         opacity: 0,

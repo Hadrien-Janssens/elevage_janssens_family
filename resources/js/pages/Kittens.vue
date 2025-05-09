@@ -3,16 +3,13 @@ import Button from '@/components/Button.vue';
 import CatsListing from '@/components/CatsListing.vue';
 import Footer from '@/components/Footer.vue';
 import Menu from '@/components/Menu.vue';
+import { Kitten, Litter } from '@/types';
 import { Link } from '@inertiajs/vue3';
 
-defineProps({
-    kittens: {
-        required: false,
-    },
-    litters: {
-        required: false,
-    },
-});
+defineProps<{
+    kittens: Kitten[];
+    litters: Litter[];
+}>();
 </script>
 
 <template>
@@ -39,7 +36,7 @@ defineProps({
                     <p class="poetsone">
                         {{ litter?.name }}
                     </p>
-                    <Link :href="route('litter.show', litter)" class="self-center">
+                    <Link :href="route('litter.show', { litter: litter })" class="self-center">
                         <Button label="Voir plus" />
                     </Link>
                 </div>
