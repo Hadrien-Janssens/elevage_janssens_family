@@ -2,12 +2,12 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from '@/components/ui/carousel';
 import { isKitten, isLitter } from '@/lib/utils';
-import { Cat, Kitten } from '@/types';
+import { Cat, Kitten, Litter } from '@/types';
 import { watchOnce } from '@vueuse/core';
 import { ref } from 'vue';
 
 defineProps<{
-    cat: Cat | Kitten;
+    cat: Cat | Kitten | Litter;
 }>();
 
 const emblaMainApi = ref<CarouselApi>();
@@ -44,7 +44,7 @@ watchOnce(emblaMainApi, (emblaMainApi) => {
                         <div class="p-0">
                             <Card class="relative h-[350px] w-full border-0 p-0">
                                 <!-- Bandeau "Réservé" -->
-                                <div v-if="cat.is_booked" class="absolute -top-10 -right-18 z-10 w-50 text-center">
+                                <div v-if="isKitten(cat) && cat.is_booked" class="absolute -top-10 -right-18 z-10 w-50 text-center">
                                     <div
                                         class="origin-top-left translate-x-8 -translate-y-1 rotate-45 transform bg-white px-2 py-1 text-center text-xs font-black text-red-400 uppercase shadow-md"
                                     >

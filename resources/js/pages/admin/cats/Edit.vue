@@ -13,7 +13,6 @@ import { Images } from '../../../types/index';
 
 const props = defineProps({
     cat: Object,
-    body_colors: Object,
     images: Array<Images> || [],
 });
 
@@ -21,7 +20,9 @@ const form = useForm({
     name: props.cat?.name || '',
     description: props.cat?.description || '',
     gender: props.cat?.gender || '',
-    body_color_id: props.cat?.body_color_id || '',
+    race: props.cat?.race || '',
+    birthday: props.cat?.birthday || '',
+    body_color: props.cat?.body_color || '',
     photos: props.images?.map((image: Images) => image.image_path) || [],
     deleted_images: [] as number[],
     new_photos: [] as File[],
@@ -131,7 +132,6 @@ function submit() {
                             <SelectGroup>
                                 <SelectItem value="Mâle">Mâle</SelectItem>
                                 <SelectItem value="Femelle">Femelle</SelectItem>
-                                <SelectItem value="Indéfini">Pas encore défini</SelectItem>
                             </SelectGroup>
                         </SelectContent>
                     </Select>
@@ -139,20 +139,21 @@ function submit() {
                 </div>
 
                 <div class="space-y-2">
-                    <Label>Couleur</Label>
-                    <Select v-model="form.body_color_id" class="w-full">
-                        <SelectTrigger class="w-full">
-                            <SelectValue placeholder="Choisis une couleur" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectGroup>
-                                <SelectItem v-for="body_color in body_colors" :key="body_color.id" :value="body_color.id">
-                                    {{ body_color.name }}
-                                </SelectItem>
-                            </SelectGroup>
-                        </SelectContent>
-                    </Select>
-                    <p v-if="form.errors.body_color_id" class="mt-1 text-sm text-red-600">{{ form.errors.body_color_id }}</p>
+                    <Label for="birthday">Date de naissance</Label>
+                    <Input v-model="form.birthday" type="date" id="birthday" />
+                    <p v-if="form.errors.birthday" class="mt-1 text-sm text-red-600">{{ form.errors.birthday }}</p>
+                </div>
+
+                <div class="space-y-2">
+                    <Label for="body_color">Race</Label>
+                    <Input v-model="form.race" type="text" id="race" />
+                    <p v-if="form.errors.race" class="mt-1 text-sm text-red-600">{{ form.errors.race }}</p>
+                </div>
+
+                <div class="space-y-2">
+                    <Label for="body_color">Couleur</Label>
+                    <Input v-model="form.body_color" type="text" id="body_color" />
+                    <p v-if="form.errors.body_color" class="mt-1 text-sm text-red-600">{{ form.errors.body_color }}</p>
                 </div>
 
                 <div class="space-y-2">

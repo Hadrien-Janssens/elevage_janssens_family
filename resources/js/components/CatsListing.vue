@@ -86,7 +86,7 @@ const desktopItemAnimation = {
     <motion.div
         v-for="(kitten, index) in kittens"
         :key="index"
-        :class="[{ 'bg-[#F4F4F4]': index % 2 === 0 }, 'hidden justify-center py-10 md:flex']"
+        :class="[{ 'bg-[#F4F4F4]': index % 2 === 1 }, 'hidden justify-center py-10 md:flex']"
         :initial="{ opacity: 0 }"
         :in-view="{ opacity: 1 }"
         :viewport="{ once: true, margin: '-10%' }"

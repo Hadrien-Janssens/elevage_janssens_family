@@ -15,7 +15,6 @@ import { Images } from '../../../types/index';
 const props = defineProps({
     kitten: Object,
     litters: Object,
-    body_colors: Object,
     images: Array<Images> || [],
 });
 
@@ -23,7 +22,8 @@ const form = useForm({
     name: props.kitten?.name || '',
     description: props.kitten?.description || '',
     gender: props.kitten?.gender || '',
-    body_color_id: props.kitten?.body_color_id || '',
+    race: props.kitten?.race,
+    body_color: props.kitten?.body_color || '',
     litter_id: props.kitten?.litter_id || '',
     price: props.kitten?.price || '',
     is_booked: props.kitten?.is_booked || false,
@@ -74,7 +74,6 @@ async function handlePhotoUpload(event: Event) {
             }
         }
     }
-    console.log(photoPreviews.value);
 }
 
 function removePhoto(index: number) {
@@ -93,7 +92,6 @@ function removePhoto(index: number) {
     }
 
     photoPreviews.value.splice(index, 1);
-    console.log('deletedImageIds', deletedImageIds.value);
 }
 
 function submit() {
@@ -145,20 +143,9 @@ function submit() {
                 </div>
 
                 <div class="space-y-2">
-                    <Label>Couleur</Label>
-                    <Select v-model="form.body_color_id" class="w-full">
-                        <SelectTrigger class="w-full">
-                            <SelectValue placeholder="Choisis une couleur" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectGroup>
-                                <SelectItem v-for="body_color in body_colors" :key="body_color.id" :value="body_color.id">
-                                    {{ body_color.name }}
-                                </SelectItem>
-                            </SelectGroup>
-                        </SelectContent>
-                    </Select>
-                    <p v-if="form.errors.body_color_id" class="mt-1 text-sm text-red-600">{{ form.errors.body_color_id }}</p>
+                    <Label for="body_color">Couleur</Label>
+                    <Input v-model="form.body_color" type="text" id="body_color" />
+                    <p v-if="form.errors.body_color" class="mt-1 text-sm text-red-600">{{ form.errors.body_color }}</p>
                 </div>
 
                 <div class="space-y-2">

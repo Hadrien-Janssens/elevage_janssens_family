@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\BodyColor;
 use App\Models\ImagesKitten;
 use App\Models\kitten;
 use App\Models\Litter;
@@ -20,7 +19,7 @@ class KittenController extends Controller
      */
     public function index()
     {
-        $kittens = Kitten::with(['litter', 'litter.mother', 'litter.father', 'bodycolor', 'images'])->get();
+        $kittens = Kitten::with(['litter', 'litter.mother', 'litter.father', 'images'])->get();
 
         return Inertia::render('admin/kitten/Index')
             ->with([
@@ -33,11 +32,9 @@ class KittenController extends Controller
      */
     public function create()
     {
-        $body_colors = BodyColor::all();
         $litters = Litter::with(['mother', 'father'])->get();
 
         return Inertia::render('admin/kitten/Create')->with([
-            'body_colors' => $body_colors,
             'litters' => $litters,
         ]);
     }
@@ -49,20 +46,22 @@ class KittenController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
+            'description' => 'nullable|string|string',
             'gender' => 'required|string|in:Mâle,Femelle,Indéfini',
-            'body_color_id' => 'required|exists:body_colors,id',
+            'race' => 'nullable|string',
+            'body_color' => 'nullable|string',
             'litter_id' => 'required|exists:litters,id',
             'price' => 'required|numeric|min:0',
             'is_booked' => 'boolean',
             'is_adopted' => 'boolean',
-            'photos.*' => 'nullable|image|max:10240', // max 10 MB par photo
+            'photos.*' => 'nullable|string|image|max:10240', // max 10 MB par photo
         ]);
         $kitten = Kitten::create([
             'name' => $validated['name'],
             'description' => $validated['description'],
             'gender' => $validated['gender'],
-            'body_color_id' => $validated['body_color_id'],
+            'race' => $validated['race'],
+            'body_color' => $validated['body_color'],
             'litter_id' => $validated['litter_id'],
             'price' => $validated['price'],
             'is_booked' => $validated['is_booked'] ?? false,
@@ -110,19 +109,18 @@ class KittenController extends Controller
      */
     public function edit(string $id)
     {
+
         $kitten = Kitten::findOrFail($id);
         if (!$kitten) {
             return redirect()->route('admin.kitten.index')
                 ->with('error', 'Le chaton n\'existe pas.');
         }
-        $body_colors = BodyColor::all();
         $litters = Litter::with(['mother', 'father'])->get();
         $images = $kitten->images()->get();
 
 
         return Inertia::render('admin/kitten/Edit')->with([
             'kitten' => $kitten,
-            'body_colors' => $body_colors,
             'litters' => $litters,
             'images' => $images,
         ]);
@@ -138,11 +136,13 @@ class KittenController extends Controller
             return redirect()->route('admin.kitten.index')
                 ->with('error', 'Le chaton n\'existe pas.');
         }
+
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
+            'description' => 'nullable|string|string',
             'gender' => 'required|string|in:Mâle,Femelle,Indéfini',
-            'body_color_id' => 'required|exists:body_colors,id',
+            'race' => 'nullable|string',
+            'body_color' => 'required|string',
             'litter_id' => 'required|exists:litters,id',
             'price' => 'required|numeric|min:0',
             'is_booked' => 'boolean',
@@ -169,7 +169,8 @@ class KittenController extends Controller
             'name' => $validated['name'],
             'description' => $validated['description'],
             'gender' => $validated['gender'],
-            'body_color_id' => $validated['body_color_id'],
+            'race' => $validated['race'],
+            'body_color' => $validated['body_color'],
             'litter_id' => $validated['litter_id'],
             'price' => $validated['price'],
             'is_booked' => $validated['is_booked'] ?? false,

@@ -16,8 +16,9 @@ class CatsSeeder extends Seeder
     {
         Cat::create([
             'name' => 'Urban',
-            'body_color_id' => 1,
+            'body_color' => 'Black Silver tabby',
             'gender' => 'Mâle',
+            'race' => 'British shorthair',
             'birthday' => '2023-04-28',
             'description' => 'Un chat noir et blanc avec une personnalité amicale.',
 
@@ -25,8 +26,9 @@ class CatsSeeder extends Seeder
 
         Cat::create([
             'name' => 'Una',
-            'body_color_id' => 5,
+            'body_color' => 'Blue',
             'gender' => 'Femelle',
+            'race' => 'Scottish fold shorthair',
             'birthday' => '2023-04-17',
             'description' => 'Un chat blue et blanc avec une personnalité amicale.',
 

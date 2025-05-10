@@ -25,10 +25,9 @@ class DatabaseSeeder extends Seeder
 
 
         $this->call([
-            BodyColorSeeder::class,
             CatsSeeder::class,
             LitterSeeder::class,
-            // KittenSeeder::class,
+            KittenSeeder::class,
             ContentSeeder::class,
         ]);
     }

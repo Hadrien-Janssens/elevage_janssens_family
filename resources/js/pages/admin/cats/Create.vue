@@ -10,16 +10,13 @@ import { useForm } from '@inertiajs/vue3';
 import heic2any from 'heic2any';
 import { ref } from 'vue';
 
-defineProps({
-    body_colors: Object,
-});
-
 const form = useForm({
     name: '',
     description: '',
     gender: '',
-    body_color_id: '',
+    body_color: '',
     birthday: '',
+    race: '',
     photos: [],
 });
 
@@ -114,20 +111,15 @@ function submit() {
                 </div>
 
                 <div class="space-y-2">
-                    <Label>Couleur</Label>
-                    <Select v-model="form.body_color_id" class="w-full">
-                        <SelectTrigger class="w-full">
-                            <SelectValue placeholder="Choisis une couleur" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectGroup>
-                                <SelectItem v-for="body_color in body_colors" :key="body_color.id" :value="body_color.id">
-                                    {{ body_color.name }}
-                                </SelectItem>
-                            </SelectGroup>
-                        </SelectContent>
-                    </Select>
-                    <p v-if="form.errors.body_color_id" class="mt-1 text-sm text-red-600">{{ form.errors.body_color_id }}</p>
+                    <Label for="race">Race</Label>
+                    <Input type="text " id="race" v-model="form.race" />
+                    <p v-if="form.errors.race" class="mt-1 text-sm text-red-600">{{ form.errors.race }}</p>
+                </div>
+
+                <div class="space-y-2">
+                    <Label for="body_color">Couleur</Label>
+                    <Input type="text " id="body_color" v-model="form.body_color" />
+                    <p v-if="form.errors.body_color" class="mt-1 text-sm text-red-600">{{ form.errors.body_color }}</p>
                 </div>
 
                 <div class="space-y-2">

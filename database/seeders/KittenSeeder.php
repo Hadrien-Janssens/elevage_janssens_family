@@ -15,8 +15,9 @@ class KittenSeeder extends Seeder
     {
         Kitten::create([
             'name' => 'Snow',
-            'body_color_id' => 5,
+            'body_color' => 'Black Silver tabby',
             'gender' => 'Mâle',
+            'race' => 'British shorthair',
             'litter_id' => 1,
             'description' => 'Un chat blue et blanc avec une personnalité amicale.',
             'price' => 1000,
@@ -24,8 +25,9 @@ class KittenSeeder extends Seeder
 
         Kitten::create([
             'name' => 'Sia',
-            'body_color_id' => 6,
+            'body_color' => 'Blue',
             'gender' => 'Femelle',
+            'race' => 'Scottish fold shorthair',
             'litter_id' => 1,
             'description' => 'Un chat blue et blanc avec une personnalité amicale.',
             'price' => 900,

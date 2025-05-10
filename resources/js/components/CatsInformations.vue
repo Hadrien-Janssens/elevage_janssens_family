@@ -3,10 +3,11 @@ import { capitalizeFirstLetter, isKitten } from '@/lib/utils';
 import { Cat, Kitten } from '@/types';
 import { Link } from '@inertiajs/vue3';
 import { Cake, Heart, HeartCrack } from 'lucide-vue-next';
+import ParentCard from './ParentCard.vue';
 
 defineProps<{
     kitten: Kitten | Cat;
-    index: number;
+    index: number; // savoir si c'est pair ou impair pour l'affichage 0|1
 }>();
 </script>
 <template>
@@ -31,8 +32,42 @@ defineProps<{
             <div>
                 <h1 class="text-primary flex items-center gap-2 text-3xl font-bold">
                     {{ capitalizeFirstLetter(kitten.name) }}
-                    <span v-if="kitten.gender === 'Mâle'" class="flex items-center text-gray-500"> </span>
-                    <span v-else class="flex items-center text-gray-500"> </span>
+                    <div v-if="kitten.gender !== 'Indéfini'">
+                        <svg
+                            v-if="kitten.gender === 'Mâle'"
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="4"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            class="lucide lucide-mars-icon lucide-mars"
+                        >
+                            <path d="M16 3h5v5" />
+                            <path d="m21 3-6.75 6.75" />
+                            <circle cx="10" cy="14" r="6" />
+                        </svg>
+                        <svg
+                            v-else
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="4"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            class="lucide lucide-venus-icon lucide-venus"
+                        >
+                            <path d="M12 15v7" />
+                            <path d="M9 19h6" />
+                            <circle cx="12" cy="9" r="6" />
+                        </svg>
+                    </div>
                 </h1>
                 <p class="mt-1 flex items-center gap-2 text-gray-600">
                     <Cake class="h-5 w-5 text-[#51687F]" />
@@ -40,6 +75,7 @@ defineProps<{
                     <span v-else>Né le {{ kitten.birthday }}</span>
                 </p>
             </div>
+            <p class="leading-relaxed text-gray-700">Sexe : {{ kitten.gender }}</p>
         </div>
 
         <div class="mb-6">
@@ -49,22 +85,16 @@ defineProps<{
 
         <div class="mb-5 flex gap-3" v-if="isKitten(kitten) && kitten.litter">
             <Link :href="route('cats.show', { id: kitten.litter.mother.id })">
-                <div class="rounded-lg bg-gray-100 px-4 py-2" :class="[{ 'bg-white': index % 2 === 0 }]">
-                    <p class="text-sm text-gray-500">Maman</p>
-                    <p class="font-medium">{{ kitten.litter.mother.name }}</p>
-                </div>
+                <ParentCard :name="kitten.litter.mother.name" parent="Maman" :index="index" />
             </Link>
             <Link :href="route('cats.show', { id: kitten.litter.father.id })">
-                <div class="rounded-lg bg-gray-100 px-4 py-2" :class="[{ 'bg-white': index % 2 === 0 }]">
-                    <p class="text-sm text-gray-500">Papa</p>
-                    <p class="font-medium">{{ kitten.litter.father.name }}</p>
-                </div>
+                <ParentCard :name="kitten.litter.father.name" parent="Papa" :index="index" />
             </Link>
         </div>
 
         <div v-if="isKitten(kitten)">
             <p>Status</p>
-            <div v-if="!isKitten(kitten)" class="text-primary flex items-center gap-2">
+            <div v-if="!kitten.is_booked" class="text-primary flex items-center gap-2">
                 <Heart class="h-5 w-5 text-red-500" />
                 <span class="font-medium">Disponible pour adoption</span>
             </div>
@@ -72,6 +102,7 @@ defineProps<{
                 <HeartCrack class="h-5 w-5 text-red-500" />
                 <span class="font-medium">Ce chaton est réservé</span>
             </div>
+            <p>Prix : {{ kitten.price }}€</p>
         </div>
     </div>
 </template>

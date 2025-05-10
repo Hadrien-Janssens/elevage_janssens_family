@@ -17,9 +17,7 @@ export function getContentByTitle(title: string, contents: any[]) {
 }
 
 //iskitten
-export function isKitten(obj: Cat | Kitten): obj is Kitten {
-    console.log('obj', obj);
-
+export function isKitten(obj: Cat | Kitten | Litter): obj is Kitten {
     return 'litter' in obj;
 }
 //isLitter

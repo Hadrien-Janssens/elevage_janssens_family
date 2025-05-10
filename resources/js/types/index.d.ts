@@ -42,18 +42,14 @@ export interface Images {
     updated_at: string;
 }
 
-export interface BodyColor {
-    id: number;
-    name: string;
-}
-
 export interface Cat {
     id: number;
     name: string;
+    race: string | null;
     birthday: string | null;
     description: string | null;
     gender: string | null;
-    body_color: BodyColor;
+    body_color: string | null;
     images: Images[];
 }
 
@@ -70,6 +66,7 @@ export interface Kitten {
     id: number;
     name: string;
     gender: string | null;
+    race: string | null;
     description: string | null;
     vaccination: boolean;
     sterilization: boolean;
@@ -78,7 +75,7 @@ export interface Kitten {
     price: string | null;
     images: Images[];
     litter: Litter;
-    body_color_id: number | null;
+    body_color: string | null;
     is_booked: boolean;
     is_adopted: boolean;
     created_at: string;

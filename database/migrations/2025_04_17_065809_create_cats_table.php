@@ -17,7 +17,8 @@ return new class extends Migration
             $table->date('birthday');
             $table->string('gender');
             $table->text('description')->nullable();
-            $table->foreignId('body_color_id')->constrained('body_colors')->onDelete('cascade');
+            $table->text('race')->nullable();
+            $table->text('body_color')->nullable();
             $table->timestamps();
         });
     }

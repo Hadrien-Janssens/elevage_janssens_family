@@ -22,7 +22,8 @@ return new class extends Migration
             $table->boolean('chip')->default(false);
             $table->decimal('price', 8, 2)->nullable();
             $table->foreignId('litter_id')->constrained('litters')->onDelete('cascade');
-            $table->foreignId('body_color_id')->nullable()->constrained('body_colors')->nullOnDelete();
+            $table->text('race')->nullable();
+            $table->text('body_color')->nullable();
             $table->boolean('is_booked')->default(false);
             $table->boolean('is_adopted')->default(false);
             $table->timestamps();

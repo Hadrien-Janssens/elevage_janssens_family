@@ -13,15 +13,13 @@ class Cat extends Model
     protected $fillable = [
         'name',
         'birthday',
+        'body_color',
         'body_color_id',
         'description',
         'gender'
     ];
 
-    public function bodycolor()
-    {
-        return $this->belongsTo(BodyColor::class);
-    }
+
     public function images()
     {
         return $this->hasMany(ImagesCat::class);

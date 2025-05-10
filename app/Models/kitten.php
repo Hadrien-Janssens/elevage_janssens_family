@@ -17,6 +17,7 @@ class Kitten extends Model
         'gender',
         'vaccination',
         'chip',
+        'body_color',
         'sterilization',
         'publication_at',
         'is_adopted',
@@ -29,10 +30,7 @@ class Kitten extends Model
     {
         return $this->belongsTo(Litter::class);
     }
-    public function bodycolor()
-    {
-        return $this->belongsTo(BodyColor::class);
-    }
+
     public function images()
     {
         return $this->hasMany(ImagesKitten::class);

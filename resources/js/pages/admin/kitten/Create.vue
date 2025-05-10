@@ -13,14 +13,14 @@ import { ref } from 'vue';
 
 defineProps({
     litters: Object,
-    body_colors: Object,
 });
 
 const form = useForm({
     name: '',
     description: '',
     gender: '',
-    body_color_id: '',
+    race: '',
+    body_color: '',
     litter_id: '',
     price: '',
     is_booked: false,
@@ -113,20 +113,15 @@ function submit() {
                 </div>
 
                 <div class="space-y-2">
-                    <Label>Couleur</Label>
-                    <Select v-model="form.body_color_id" class="w-full">
-                        <SelectTrigger class="w-full">
-                            <SelectValue placeholder="Choisis une couleur" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectGroup>
-                                <SelectItem v-for="body_color in body_colors" :key="body_color.id" :value="body_color.id">
-                                    {{ body_color.name }}
-                                </SelectItem>
-                            </SelectGroup>
-                        </SelectContent>
-                    </Select>
-                    <p v-if="form.errors.body_color_id" class="mt-1 text-sm text-red-600">{{ form.errors.body_color_id }}</p>
+                    <Label for="body_color">Race</Label>
+                    <Input v-model="form.race" type="text" id="race" />
+                    <p v-if="form.errors.race" class="mt-1 text-sm text-red-600">{{ form.errors.race }}</p>
+                </div>
+
+                <div class="space-y-2">
+                    <Label for="body_color">Couleur</Label>
+                    <Input v-model="form.body_color" type="text" id="body_color" />
+                    <p v-if="form.errors.body_color" class="mt-1 text-sm text-red-600">{{ form.errors.body_color }}</p>
                 </div>
 
                 <div class="space-y-2">

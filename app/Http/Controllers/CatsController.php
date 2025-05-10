@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\BodyColor;
 use App\Models\Cat;
 use App\Models\ImagesCat;
 use Illuminate\Http\Request;
@@ -20,7 +19,7 @@ class CatsController extends Controller
     public function index()
     {
 
-        $cats = Cat::with(['bodycolor', 'images'])->get();
+        $cats = Cat::with(['images'])->get();
 
         return Inertia::render('admin/cats/Index')
             ->with([
@@ -33,11 +32,8 @@ class CatsController extends Controller
      */
     public function create()
     {
-        $body_colors = BodyColor::all();
 
-        return Inertia::render('admin/cats/Create')->with([
-            'body_colors' => $body_colors,
-        ]);
+        return Inertia::render('admin/cats/Create');
     }
 
     /**
@@ -50,15 +46,17 @@ class CatsController extends Controller
             'description' => 'nullable|string',
             'birthday' => 'date',
             'gender' => 'required|string|in:Mâle,Femelle,Indéfini',
-            'body_color_id' => 'required|exists:body_colors,id',
+            'race' => 'nullable|string',
+            'body_color' => 'required|string',
             'photos.*' => 'nullable|image|max:10240', // max 10 MB par photo
         ]);
         $cat = Cat::create([
             'name' => $validated['name'],
             'description' => $validated['description'],
+            'race' => $validated['race'],
             'birthday' => $validated['birthday'],
             'gender' => $validated['gender'],
-            'body_color_id' => $validated['body_color_id'],
+            'body_color' => $validated['body_color'],
         ]);
 
         if ($request->hasFile('photos')) {
@@ -111,13 +109,11 @@ class CatsController extends Controller
             return redirect()->route('admin.cats.index')
                 ->with('error', 'Le chat n\'existe pas.');
         }
-        $body_colors = BodyColor::all();
         $images = $cat->images()->get();
 
 
         return Inertia::render('admin/cats/Edit')->with([
             'cat' => $cat,
-            'body_colors' => $body_colors,
             'images' => $images,
         ]);
     }
@@ -132,7 +128,8 @@ class CatsController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
             'gender' => 'required|string|in:Mâle,Femelle,Indéfini',
-            'body_color_id' => 'required|exists:body_colors,id',
+            'race' => 'nullable|string',
+            'body_color' => 'required|string',
             'deleted_images' => 'nullable|array',
             'deleted_images.*' => 'integer|exists:images_cats,id',
             'new_photos' => 'nullable|array',
@@ -156,7 +153,8 @@ class CatsController extends Controller
             'name' => $validated['name'],
             'description' => $validated['description'],
             'gender' => $validated['gender'],
-            'body_color_id' => $validated['body_color_id'],
+            'race' => $validated['race'],
+            'body_color' => $validated['body_color'],
         ]);
 
         // Ajout des nouvelles images
