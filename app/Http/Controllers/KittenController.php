@@ -131,8 +131,13 @@ class KittenController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Kitten $kitten)
+    public function update(Request $request, String $id)
     {
+        $kitten = Kitten::findOrFail($id);
+        if (!$kitten) {
+            return redirect()->route('admin.kitten.index')
+                ->with('error', 'Le chaton n\'existe pas.');
+        }
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',

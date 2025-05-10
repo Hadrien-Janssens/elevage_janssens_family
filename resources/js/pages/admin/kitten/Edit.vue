@@ -101,7 +101,7 @@ function submit() {
     form.deleted_images = deletedImageIds.value;
     form.new_photos = newPhotoFiles.value;
 
-    form.post(route('admin.kitten.update', props.kitten?.id), {
+    form.post(route('admin.kitten.update', { kitten: props.kitten?.id }), {
         onSuccess: () => {
             newPhotoFiles.value = [];
             deletedImageIds.value = [];
@@ -222,7 +222,12 @@ function submit() {
             </form>
 
             <form>
-                <Button type="button" variant="outline" class="mt-4 w-full" @click="form.delete(route('admin.kitten.destroy', props.kitten?.id))">
+                <Button
+                    type="button"
+                    variant="outline"
+                    class="mt-4 w-full"
+                    @click="form.delete(route('admin.kitten.destroy', { kitten: props.kitten?.id }))"
+                >
                     Supprimer
                 </Button>
             </form>
