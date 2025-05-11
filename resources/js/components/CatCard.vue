@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import { isKitten, isLitter } from '@/lib/utils';
-import { Kitten, Litter } from '@/types';
+import { Cat, Kitten, Litter } from '@/types';
 import { Link } from '@inertiajs/vue3';
 import Button from './Button.vue';
 
 const props = defineProps<{
-    kitten: Kitten | Litter;
+    kitten: Cat | Kitten | Litter;
     isLiked?: boolean;
 }>();
 
@@ -49,6 +49,7 @@ const toggleLike = () => {
 
         <figure class="relative h-72 w-full overflow-hidden">
             <img
+                loading="lazy"
                 v-if="!isLitter(kitten) && kitten.images?.length"
                 :src="(isKitten(kitten) && kitten.litter ? '/storage/kittens/' : '/storage/cats/') + kitten.images[0].image_path"
                 alt="Photo de {{ kitten.name }}"
@@ -71,15 +72,15 @@ const toggleLike = () => {
                 </span>
             </p>
             <div v-if="!isLitter(kitten)" class="mt-2 flex justify-end">
-                <Link v-if="isKitten(kitten)" :href="route('kitten.show', kitten)">
+                <Link v-if="isKitten(kitten)" :href="route('kitten.show', { id: kitten.id })">
                     <Button label="Voir plus" class="text-black" />
                 </Link>
-                <Link v-else :href="route('cats.show', kitten)">
+                <Link v-else :href="route('cats.show', { id: kitten.id })">
                     <Button label="Voir plus" class="text-black" />
                 </Link>
             </div>
             <div v-if="isLitter(kitten)">
-                <Link :href="route('litter.show', kitten)">
+                <Link :href="route('litter.show', { id: kitten.id })">
                     <Button label="Voir plus" class="text-black" />
                 </Link>
             </div>

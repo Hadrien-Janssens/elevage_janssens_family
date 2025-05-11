@@ -1,11 +1,10 @@
 <script lang="ts" setup>
-import Button from '@/components/Button.vue';
 import Footer from '@/components/Footer.vue';
 import Menu from '@/components/Menu.vue';
 import { getContentByTitle } from '@/lib/utils';
 
 defineProps<{
-    contents?: any[];
+    contents: any[];
 }>();
 </script>
 <template>
@@ -23,10 +22,9 @@ defineProps<{
         <div class="bg-tertiary z-40 m-3 flex flex-col gap-3 rounded-xl p-5">
             <p class="text-justify text-white" v-html="getContentByTitle('Réservation', contents)"></p>
         </div>
-        <h2 class="text-primary poetsone m-3 mt-10 text-3xl">Nos conseils pour acceuillir votre chaton</h2>
+        <h2 class="text-primary poetsone m-3 mt-10 text-3xl">Nos conseils</h2>
         <div class="z-40 m-3 flex flex-col gap-3 rounded-xl bg-[#B5A9A4] p-5">
             <p class="text-justify text-white" v-html="getContentByTitle('Conseils', contents)"></p>
-            <Button label="Lire plus" class="mt-3 self-end" />
         </div>
     </div>
     <Footer />

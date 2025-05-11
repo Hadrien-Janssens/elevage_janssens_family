@@ -59,6 +59,7 @@ watchOnce(emblaMainApi, (emblaMainApi) => {
                                     </div>
                                 </div>
                                 <img
+                                    loading="lazy"
                                     v-if="isLitter(cat)"
                                     :src="'/storage/litters/' + image.image_path"
                                     :alt="'Photo du chaton ' + cat?.name"
@@ -66,6 +67,7 @@ watchOnce(emblaMainApi, (emblaMainApi) => {
                                 />
                                 <div v-else class="h-full w-full">
                                     <img
+                                        loading="lazy"
                                         v-if="isKitten(cat)"
                                         :src="'/storage/kittens/' + image.image_path"
                                         :alt="'Photo du chaton ' + cat?.name"
@@ -73,6 +75,7 @@ watchOnce(emblaMainApi, (emblaMainApi) => {
                                     />
 
                                     <img
+                                        loading="lazy"
                                         v-else
                                         :src="'/storage/cats/' + image.image_path"
                                         :alt="'Photo du chaton ' + cat?.name"
@@ -100,6 +103,7 @@ watchOnce(emblaMainApi, (emblaMainApi) => {
                             <Card class="border-0 p-0">
                                 <CardContent class="aspect-square p-0">
                                     <img
+                                        loading="lazy"
                                         v-if="isLitter(cat)"
                                         :src="'/storage/litters/' + image.image_path"
                                         :alt="'Miniature ' + (index + 1)"
@@ -107,6 +111,7 @@ watchOnce(emblaMainApi, (emblaMainApi) => {
                                     />
                                     <div v-else>
                                         <img
+                                            loading="lazy"
                                             v-if="isKitten(cat)"
                                             :src="'/storage/kittens/' + image.image_path"
                                             :alt="'Miniature ' + (index + 1)"
@@ -114,6 +119,7 @@ watchOnce(emblaMainApi, (emblaMainApi) => {
                                         />
 
                                         <img
+                                            loading="lazy"
                                             v-else
                                             :src="'/storage/cats/' + image.image_path"
                                             :alt="'Miniature ' + (index + 1)"

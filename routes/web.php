@@ -28,9 +28,8 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
     Route::resource('/portees', LitterController::class)->names('litters')
         ->except(['update']);
     Route::post('/portees/{litter}', [LitterController::class, 'update'])->name('litters.update');
-    Route::get('/', function () {
-        return Inertia::render('admin/Dashboard');
-    })->name('dashboard');
+
+    Route::get('/', [KittenController::class, 'index'])->name('kitten.index');
 
 
     Route::resource('contents', 'App\Http\Controllers\ContentController')->names('contents');

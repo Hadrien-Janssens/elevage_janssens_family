@@ -1,13 +1,14 @@
 <script lang="ts" setup>
+import { isKitten } from '@/lib/utils';
 import { motion } from 'motion-v';
 import { reactive } from 'vue';
-import { Kitten } from '../types/index';
+import { Cat, Kitten } from '../types/index';
 import CatCard from './CatCard.vue';
 import CatsInformations from './CatsInformations.vue';
 import DoubleCarrousel from './DoubleCarrousel.vue';
 
 const props = defineProps<{
-    kittens: Kitten[];
+    kittens: Kitten[] | Cat[];
 }>();
 
 // État réactif pour suivre les likes
@@ -68,14 +69,14 @@ const desktopItemAnimation = {
 
 <template>
     <!-- Version mobile -->
-    <motion.div
+    <motion.section
         v-if="kittens.length > 0"
         class="m-4 grid grid-cols-1 gap-6 md:hidden md:grid-cols-2"
         :initial="containerAnimation.initial"
         :in-view="containerAnimation.inView"
         :viewport="{ once: true, margin: '-20%' }"
     >
-        <motion.div
+        <motion.article
             v-for="(kitten, index) in kittens"
             :key="index"
             :initial="cardAnimation.initial"
@@ -86,13 +87,13 @@ const desktopItemAnimation = {
         >
             <CatCard
                 :kitten="kitten"
-                v-if="!kitten.is_adopted"
+                v-if="(isKitten(kitten) && !kitten.is_adopted) || !isKitten(kitten)"
                 class="group relative overflow-hidden rounded-lg shadow-lg transition-transform duration-300"
                 :isLiked="likes[kitten.id]"
                 @toggle-like="handleLikeToggle"
             />
-        </motion.div>
-    </motion.div>
+        </motion.article>
+    </motion.section>
 
     <motion.p
         v-else
@@ -105,7 +106,7 @@ const desktopItemAnimation = {
     </motion.p>
 
     <!-- Version desktop -->
-    <motion.div
+    <motion.article
         v-for="(kitten, index) in kittens"
         :key="index"
         :class="[{ 'bg-[#F4F4F4]': index % 2 === 1 }, 'hidden justify-center py-10 md:flex']"
@@ -114,7 +115,7 @@ const desktopItemAnimation = {
         :viewport="{ once: true, margin: '200%' }"
     >
         <motion.div
-            v-if="!kitten.is_adopted"
+            v-if="(isKitten(kitten) && !kitten.is_adopted) || !isKitten(kitten)"
             class="hidden w-full max-w-4xl items-start gap-5 p-5 px-4 md:flex md:justify-center"
             :class="[{ 'md:flex-row-reverse': index % 2 === 1 }]"
             :initial="desktopItemAnimation.initial"
@@ -139,5 +140,5 @@ const desktopItemAnimation = {
                 <CatsInformations :kitten="kitten" :index="index" :isLiked="likes[kitten.id]" @toggle-like="handleLikeToggle" />
             </motion.div>
         </motion.div>
-    </motion.div>
+    </motion.article>
 </template>

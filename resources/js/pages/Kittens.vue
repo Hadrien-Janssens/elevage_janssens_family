@@ -14,7 +14,7 @@ defineProps<{
 <template>
     <Menu title="Nos chatons" />
 
-    <div class="mx-auto lg:mt-20 lg:py-6">
+    <div class="mx-auto overflow-hidden lg:mt-20 lg:py-6">
         <h2 class="poetsone px-4 text-center text-3xl text-[#B5A9A4]">Chatons disponibles à l'adoption</h2>
         <CatsListing :kittens="kittens" />
     </div>

@@ -131,7 +131,7 @@ const goBack = () => {
             :href="route('home')"
             class="poetsone text-primary hidden transform transition-colors duration-400 hover:scale-[101%] hover:cursor-pointer md:block"
         >
-            <img src="/logo.JPG" alt="" class="w-20 rounded-full" />
+            <img src="/logo.webp" alt="" class="w-20 rounded-full" />
         </Link>
         <ul class="hidden justify-end space-x-4 md:flex">
             <Link
