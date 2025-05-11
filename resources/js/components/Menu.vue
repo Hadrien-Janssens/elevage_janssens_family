@@ -73,7 +73,9 @@ const goBack = () => {
         class="sticky top-0 z-[9999] flex h-[80px] w-full items-start p-3 backdrop-blur-lg lg:hidden"
         :class="{ 'justify-between': title, 'justify-end': !title }"
     >
-        <button v-if="title" @click="goBack" class="duration-300 hover:scale-125 hover:cursor-pointer"><ArrowLeft class="scale-110" /></button>
+        <button v-if="title" @click="goBack" class="duration-300 hover:scale-125 hover:cursor-pointer" aria-label="retour">
+            <ArrowLeft class="scale-110" />
+        </button>
         <h1 v-if="title">{{ title }}</h1>
 
         <button

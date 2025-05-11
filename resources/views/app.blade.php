@@ -18,6 +18,24 @@
     @routes
     @vite(['resources/js/app.ts'])
     @inertiaHead
+
+
+    @if (request()->cookie('analytics_consent') === 'yes')
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-NMF8WZ840F"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag('js', new Date());
+
+            gtag('config', 'G-NMF8WZ840F', , {
+                page_path: window.location.pathname,
+            });
+        </script>
+    @endif
 </head>
 
 <body class="font-sans antialiased">

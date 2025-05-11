@@ -8,7 +8,7 @@ import ParentCard from './ParentCard.vue';
 const props = defineProps<{
     kitten: Kitten | Cat;
     index: number; // savoir si c'est pair ou impair pour l'affichage 0|1
-    isLiked: boolean;
+    isLiked?: boolean;
 }>();
 
 const emit = defineEmits(['toggle-like']);
@@ -98,7 +98,7 @@ const toggleLike = () => {
                 <p class="leading-relaxed text-gray-700">Sexe : {{ kitten.gender }}</p>
                 <p class="leading-relaxed text-gray-700">Race : {{ kitten.race }}</p>
                 <p class="leading-relaxed text-gray-700">Couleur : {{ kitten.body_color }}</p>
-                <p v-if="isKitten(kitten)" class="leading-relaxed text-gray-700">Prix : {{ kitten.price }}€</p>
+                <p v-if="isKitten(kitten) && !kitten.is_adopted" class="leading-relaxed text-gray-700">Prix : {{ kitten.price }}€</p>
             </div>
         </div>
 
