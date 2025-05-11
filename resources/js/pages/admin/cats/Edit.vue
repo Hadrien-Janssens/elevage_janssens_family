@@ -184,7 +184,7 @@ function submit() {
             </form>
 
             <form>
-                <Button type="button" variant="outline" class="mt-4 w-full" @click="form.delete(route('admin.kitten.destroy', props.cat?.id))">
+                <Button type="button" variant="outline" class="mt-4 w-full" @click="form.delete(route('admin.cats.destroy', props.cat?.id))">
                     Supprimer
                 </Button>
             </form>

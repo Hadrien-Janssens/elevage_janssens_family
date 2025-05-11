@@ -54,16 +54,16 @@ Route::get('/a-propos', function () {
 })->name('elevage');
 
 Route::get('/chatons', function () {
-    $kittens = Kitten::with(['litter', 'litter.mother', 'litter.father', 'images'])->get();
+    $kittens = Kitten::with(['litter.images', 'litter.mother.images', 'litter.father.images', 'images'])->get();
     return Inertia::render('Kittens')->with([
         'kittens' => $kittens,
-        'litters' => Litter::with(['mother', 'father', 'images'])->get(),
+        'litters' => Litter::with(['mother',  'father', 'images'])->get(),
     ]);
 })->name('kittens');
 
 Route::get('/chatons/{kitten}', function (Kitten $kitten) {
     return Inertia::render('Kitten')->with([
-        'kitten' => $kitten->load(['litter', 'litter.mother', 'litter.father',  'images']),
+        'kitten' => $kitten->load(['litter', 'litter.mother.images', 'litter.father.images',  'images']),
     ]);
 })->name('kitten.show');
 
@@ -75,7 +75,7 @@ Route::get('/cats/{cat}', function (Cat $cat) {
 
 Route::get('/portees/{litter}', function (Litter $litter) {
     return Inertia::render('Litter')->with([
-        'litter' => $litter->load(['mother', 'father', 'images',]),
+        'litter' => $litter->load(['mother.images', 'father.images', 'images',]),
         'kittens' => Kitten::with(['litter', 'litter.mother', 'litter.father', 'images'])->where('litter_id', $litter->id)->get(),
     ]);
 })->name('litter.show');
@@ -93,6 +93,10 @@ Route::get('/conditions-adoption', function () {
         'contents' => $contents,
     ]);
 })->name('booking');
+
+Route::get('/mentions-legales', function () {
+    return Inertia::render('MentionsLegales')->with([]);
+})->name('mentions');
 
 Route::post('/send-mail', function (Request $request) {
 

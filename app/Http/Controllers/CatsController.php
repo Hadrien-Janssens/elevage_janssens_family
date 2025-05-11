@@ -185,8 +185,23 @@ class CatsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Cat $cats)
+    public function destroy(string $id)
     {
-        //
+        $cat = Cat::findOrFail($id);
+        if (!$cat) {
+            return redirect()->route('admin.cats.index')
+                ->with('error', 'Le chaton n\'existe pas.');
+        }
+        // Supprimer les images associées
+        foreach ($cat->images as $image) {
+            Storage::disk('public')->delete('cats/' . $image->image_path);
+            $image->delete();
+        }
+
+        // Supprimer le chaton
+        $cat->delete();
+
+        return redirect()->route('admin.cats.index')
+            ->with('success', 'Le chaton a été supprimé avec succès.');
     }
 }

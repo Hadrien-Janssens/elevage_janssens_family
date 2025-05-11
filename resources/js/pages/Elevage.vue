@@ -18,7 +18,7 @@ const props = defineProps<{
         <meta property="og:url" content="https://www.janssensfamily.be/elevage" />
     </Head>
     <Menu title="Elevage" />
-    <div class="m-3 mx-auto my-6 max-w-3xl p-3">
+    <div class="m-3 mx-auto my-6 max-w-3xl p-3 lg:mt-20 lg:py-6">
         <h1 class="text-primary poetsone mb-3 text-3xl">Qui sommes-nous ?</h1>
         <p class="text-justify" v-html="getContentByTitle('A propos avant la photographie', props.contents)"></p>
 

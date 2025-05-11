@@ -44,11 +44,18 @@ watchOnce(emblaMainApi, (emblaMainApi) => {
                         <div class="p-0">
                             <Card class="relative h-[350px] w-full border-0 p-0">
                                 <!-- Bandeau "Réservé" -->
-                                <div v-if="isKitten(cat) && cat.is_booked" class="absolute -top-10 -right-18 z-10 w-50 text-center">
+                                <div v-if="isKitten(cat) && cat.is_booked" class="absolute -top-10 -right-18 z-10 w-52 text-center">
                                     <div
-                                        class="origin-top-left translate-x-8 -translate-y-1 rotate-45 transform bg-white px-2 py-1 text-center text-xs font-black text-red-400 uppercase shadow-md"
+                                        class="text-primary -translate-x-7 translate-y-20 rotate-45 transform bg-white px-2 py-1 text-center text-lg font-black uppercase shadow-md"
                                     >
                                         Réservé
+                                    </div>
+                                </div>
+                                <div v-if="isKitten(cat) && cat.is_adopted" class="absolute -top-10 -right-18 z-10 w-50 text-center">
+                                    <div
+                                        class="text-primary -translate-x-7 translate-y-20 rotate-45 transform bg-white px-2 py-1 text-center text-lg font-black uppercase shadow-md"
+                                    >
+                                        Adopté
                                     </div>
                                 </div>
                                 <img

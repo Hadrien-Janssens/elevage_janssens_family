@@ -54,7 +54,8 @@ class KittenController extends Controller
             'price' => 'required|numeric|min:0',
             'is_booked' => 'boolean',
             'is_adopted' => 'boolean',
-            'photos.*' => 'nullable|string|image|max:10240', // max 10 MB par photo
+            'photos' => 'nullable|array',
+            'photos.*' => 'nullable|image|max:10240', // max 10 MB par photo
         ]);
         $kitten = Kitten::create([
             'name' => $validated['name'],
@@ -205,8 +206,13 @@ class KittenController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Kitten $kitten)
+    public function destroy(string $id)
     {
+        $kitten = Kitten::findOrFail($id);
+        if (!$kitten) {
+            return redirect()->route('admin.kitten.index')
+                ->with('error', 'Le chaton n\'existe pas.');
+        }
         // Supprimer les images associées
         foreach ($kitten->images as $image) {
             Storage::disk('public')->delete('kittens/' . $image->image_path);

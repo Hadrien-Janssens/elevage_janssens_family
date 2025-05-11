@@ -10,7 +10,7 @@ defineProps<{
 </script>
 <template>
     <Menu title="Réservation et conditions" />
-    <div class="mx-auto max-w-3xl">
+    <div class="mx-auto max-w-3xl lg:mt-20 lg:py-6">
         <div class="relative m-3 mt-12 mb-0 flex-col justify-end p-3 text-justify">
             <div class="border-primary absolute bottom-0 -left-1 h-1/2 w-1/2 rounded-bl-xl border-b-2 border-l-2"></div>
             <div class="border-primary absolute top-0 -right-1 h-1/2 w-1/2 rounded-tr-xl border-t-2 border-r-2"></div>

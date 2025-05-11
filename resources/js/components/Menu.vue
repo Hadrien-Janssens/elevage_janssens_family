@@ -27,7 +27,6 @@ const ulVariants = {
         opacity: 0,
         x: 0,
         pointerEvents: 'none',
-        zIndex: -50,
         transition: {
             duration: 0.5,
             when: 'afterChildren',
@@ -39,7 +38,6 @@ const ulVariants = {
         opacity: 1,
         x: 0,
         pointerEvents: 'auto',
-        zIndex: 10,
         transition: {
             duration: 0.5,
             when: 'beforeChildren',
@@ -72,7 +70,7 @@ const goBack = () => {
 <template>
     <!-- Hamburger Button -->
     <div
-        class="sticky top-0 z-50 flex h-[80px] w-full items-start p-3 backdrop-blur-lg md:hidden"
+        class="sticky top-0 z-[9999] flex h-[80px] w-full items-start p-3 backdrop-blur-lg lg:hidden"
         :class="{ 'justify-between': title, 'justify-end': !title }"
     >
         <button v-if="title" @click="goBack" class="duration-300 hover:scale-125 hover:cursor-pointer"><ArrowLeft class="scale-110" /></button>
@@ -128,22 +126,25 @@ const goBack = () => {
     </motion.ul>
 
     <!-- Desktop Menu -->
-    <div class="mb-5 flex justify-between gap-10 p-5 text-lg">
-        <div class="poetsone text-primary hidden transform transition-colors duration-200 hover:scale-105 hover:text-black md:block">
-            <img src="/logo.JPG" alt="" class="w-28 rounded-full" />
-        </div>
+    <div class="fixed top-0 right-0 z-[999] mb-5 hidden w-full justify-between gap-10 px-5 pt-2 text-lg backdrop-blur-lg lg:flex">
+        <Link
+            :href="route('home')"
+            class="poetsone text-primary hidden transform transition-colors duration-400 hover:scale-[101%] hover:cursor-pointer md:block"
+        >
+            <img src="/logo.JPG" alt="" class="w-20 rounded-full" />
+        </Link>
         <ul class="hidden justify-end space-x-4 md:flex">
             <Link
                 v-for="(item, index) in menuItems"
                 :key="item.route + '-desktop-' + index"
                 :href="route(item.route)"
-                class="poetsone text-primary transform transition-colors duration-200 hover:scale-105 hover:text-black"
+                class="poetsone text-primary transform transition-colors duration-400 hover:scale-[101%] hover:text-[#51687F]"
             >
                 {{ item.name }}
             </Link>
             <Link
                 :href="route('home') + '#contact'"
-                class="poetsone text-primary transform transition-colors duration-200 hover:scale-105 hover:text-black"
+                class="poetsone text-primary transform transition-colors duration-400 hover:scale-[101%] hover:text-[#51687F]"
                 >Contact</Link
             >
         </ul>
