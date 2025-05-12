@@ -1,14 +1,16 @@
 <script lang="ts" setup>
+import ProgressBar from '@/components/ProgressBar.vue';
 import { Button } from '@/components/ui/button';
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
+import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
 import Input from '@/components/ui/input/Input.vue';
 import Label from '@/components/ui/label/Label.vue';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import Switch from '@/components/ui/switch/Switch.vue';
 import { Textarea } from '@/components/ui/textarea';
+import { useImageHandler } from '@/composables/useImageHandler';
+import { useProgress } from '@/composables/useProgress';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { useForm } from '@inertiajs/vue3';
-import heic2any from 'heic2any';
 import { onMounted, ref } from 'vue';
 import { Images } from '../../../types/index';
 
@@ -46,34 +48,24 @@ onMounted(() => {
     }));
 });
 
+const { addPhoto } = useImageHandler(existingImages, photoPreviews);
+const { progress, totalItems, currentItem, isProcessing, isComplete, startProcessing, updateProgress, completeProcessing } = useProgress();
+
+// Gestion des uploads
 async function handlePhotoUpload(event: Event) {
     const files = (event.target as HTMLInputElement).files;
-    if (files) {
-        for (let i = 0; i < files.length; i++) {
-            const file = files[i];
-            if (file.type === 'image/heic' || file.name.endsWith('.heic')) {
-                try {
-                    const convertedBlob = await heic2any({ blob: file, toType: 'image/jpeg' });
-                    const convertedFile = new File([convertedBlob as BlobPart], file.name.replace(/\.heic$/i, '.jpeg'), { type: 'image/jpeg' });
-                    newPhotoFiles.value.push(convertedFile);
-                    const reader = new FileReader();
-                    reader.onload = (e) => {
-                        photoPreviews.value.push({ src: e.target?.result as string });
-                    };
-                    reader.readAsDataURL(convertedFile);
-                } catch (error) {
-                    console.error('Erreur de conversion HEIC :', error);
-                }
-            } else {
-                newPhotoFiles.value.push(file);
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    photoPreviews.value.push({ src: e.target?.result as string });
-                };
-                reader.readAsDataURL(file);
-            }
-        }
+    if (!files) return;
+
+    startProcessing(files.length);
+    newPhotoFiles.value = [];
+
+    for (let i = 0; i < files.length; i++) {
+        const processedFile = await addPhoto(files[i]);
+        if (processedFile) newPhotoFiles.value.push(processedFile);
+        updateProgress();
     }
+
+    completeProcessing();
 }
 
 function removePhoto(index: number) {
@@ -95,7 +87,6 @@ function removePhoto(index: number) {
 }
 
 function submit() {
-    // Utilisez Inertia.put directement
     form.deleted_images = deletedImageIds.value;
     form.new_photos = newPhotoFiles.value;
 
@@ -187,9 +178,19 @@ function submit() {
                     <p v-if="form.errors.photos" class="mt-1 text-sm text-red-600">{{ form.errors.photos }}</p>
                 </div>
 
+                <ProgressBar
+                    :current="currentItem"
+                    :total="totalItems"
+                    :progress="progress"
+                    :is-processing="isProcessing"
+                    :is-complete="isComplete"
+                />
+                <p v-if="form.errors.new_photos" class="mt-1 text-sm text-red-600">{{ form.errors.new_photos }}</p>
+                <p v-if="form.errors.deleted_images" class="mt-1 text-sm text-red-600">{{ form.errors.deleted_images }}</p>
+
                 <div v-if="photoPreviews.length" class="mt-4">
                     <Carousel class="mx-auto w-full max-w-xl">
-                        <CarouselContent>
+                        <CarouselContent class="w-3/4">
                             <CarouselItem v-for="(item, index) in photoPreviews" :key="index" class="relative">
                                 <img
                                     :src="item.src.startsWith('data:') ? item.src : '/storage/kittens/' + item.src"
@@ -200,12 +201,9 @@ function submit() {
                                 </Button>
                             </CarouselItem>
                         </CarouselContent>
-                        <CarouselPrevious />
-                        <CarouselNext />
                     </Carousel>
                 </div>
-
-                <Button type="submit" class="w-full">Mettre à jour</Button>
+                <Button type="submit" class="w-full" :disabled="isProcessing">Mettre à jour</Button>
             </form>
 
             <form>

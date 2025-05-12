@@ -18,17 +18,18 @@ class DatabaseSeeder extends Seeder
     {
 
         User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+            'name' => config('services.env.ADMIN_NAME'),
+            'password' => bcrypt(config('services.env.ADMIN_PASSWORD')),
+            'email' => config('services.env.ADMIN_EMAIL'),
         ]);
 
 
 
         $this->call([
-            CatsSeeder::class,
-            LitterSeeder::class,
-            KittenSeeder::class,
-            ContentSeeder::class,
+            // CatsSeeder::class,
+            // LitterSeeder::class,
+            // KittenSeeder::class,
+            // ContentSeeder::class,
         ]);
     }
 }

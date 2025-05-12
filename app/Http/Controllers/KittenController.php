@@ -19,7 +19,8 @@ class KittenController extends Controller
      */
     public function index()
     {
-        $kittens = Kitten::with(['litter', 'litter.mother', 'litter.father', 'images'])->get();
+        // trié par date decroissante de creation
+        $kittens = Kitten::with(['litter', 'litter.mother', 'litter.father', 'images'])->orderBy('created_at', 'desc')->get();
 
         return Inertia::render('admin/kitten/Index')
             ->with([
@@ -100,10 +101,7 @@ class KittenController extends Controller
             ->with('success', 'Le chaton a été créé avec succès.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(kitten $kitten) {}
+
 
     /**
      * Show the form for editing the specified resource.

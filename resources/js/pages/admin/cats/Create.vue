@@ -1,14 +1,16 @@
 <script lang="ts" setup>
+import ProgressBar from '@/components/ProgressBar.vue';
 import { Button } from '@/components/ui/button';
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
+import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
 import Input from '@/components/ui/input/Input.vue';
 import Label from '@/components/ui/label/Label.vue';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { useForm } from '@inertiajs/vue3';
-import heic2any from 'heic2any';
 import { ref } from 'vue';
+import { useImageHandler } from '../../../composables/useImageHandler';
+import { useProgress } from '../../../composables/useProgress';
 
 const form = useForm({
     name: '',
@@ -21,36 +23,28 @@ const form = useForm({
 });
 
 const photoFiles = ref<File[]>([]);
-const photoPreviews = ref<string[]>([]);
+const photoPreviews = ref<{ id?: number; src: string }[]>([]);
+const existingImages = ref<{ id?: number; src: string }[]>([]);
 
+const { addPhoto } = useImageHandler(existingImages, photoPreviews);
+const { progress, totalItems, currentItem, isProcessing, isComplete, startProcessing, updateProgress, completeProcessing } = useProgress();
+
+// Gestion des uploads
 async function handlePhotoUpload(event: Event) {
     const files = (event.target as HTMLInputElement).files;
-    if (files) {
-        for (let i = 0; i < files.length; i++) {
-            const file = files[i];
-            if (file.type === 'image/heic' || file.name.endsWith('.heic')) {
-                try {
-                    const convertedBlob = await heic2any({ blob: file, toType: 'image/jpeg' });
-                    const convertedFile = new File([convertedBlob as BlobPart], file.name.replace(/\.heic$/i, '.jpeg'), { type: 'image/jpeg' });
-                    photoFiles.value.push(convertedFile);
-                    const reader = new FileReader();
-                    reader.onload = (e) => {
-                        photoPreviews.value.push(e.target?.result as string);
-                    };
-                    reader.readAsDataURL(convertedFile);
-                } catch (error) {
-                    console.error('Erreur de conversion HEIC :', error);
-                }
-            } else {
-                photoFiles.value.push(file);
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    photoPreviews.value.push(e.target?.result as string);
-                };
-                reader.readAsDataURL(file);
-            }
-        }
+    if (!files) return;
+
+    startProcessing(files.length);
+    photoFiles.value = [];
+
+    for (let i = 0; i < files.length; i++) {
+        const processedFile = await addPhoto(files[i]);
+        if (processedFile) photoFiles.value.push(processedFile);
+
+        updateProgress();
     }
+
+    completeProcessing();
 }
 
 function removePhoto(index: number) {
@@ -127,23 +121,28 @@ function submit() {
                     <Input type="file" id="photos" accept="image/*" multiple @change="handlePhotoUpload" />
                     <p v-if="form.errors.photos" class="mt-1 text-sm text-red-600">{{ form.errors.photos }}</p>
                 </div>
+                <ProgressBar
+                    :current="currentItem"
+                    :total="totalItems"
+                    :progress="progress"
+                    :is-processing="isProcessing"
+                    :is-complete="isComplete"
+                />
 
                 <div v-if="photoPreviews.length" class="mt-4">
                     <Carousel class="mx-auto w-full max-w-xl">
-                        <CarouselContent>
+                        <CarouselContent class="w-3/4">
                             <CarouselItem v-for="(src, index) in photoPreviews" :key="index" class="relative">
-                                <img :src="src" class="h-64 w-full rounded-lg object-cover shadow" />
+                                <img :src="src.src" class="h-64 w-full rounded-lg object-cover shadow" />
                                 <Button type="button" variant="destructive" size="sm" class="absolute top-2 right-2" @click="removePhoto(index)">
                                     Supprimer
                                 </Button>
                             </CarouselItem>
                         </CarouselContent>
-                        <CarouselPrevious />
-                        <CarouselNext />
                     </Carousel>
                 </div>
 
-                <Button type="submit" class="w-full">Enregistrer</Button>
+                <Button type="submit" class="w-full" :disable="isProcessing">Enregistrer</Button>
             </form>
         </div>
     </AppLayout>

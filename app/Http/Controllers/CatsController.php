@@ -91,14 +91,6 @@ class CatsController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(cat $cats)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      */
     public function edit(String $id)
@@ -123,7 +115,6 @@ class CatsController extends Controller
      */
     public function update(Request $request, Cat $cats)
     {
-        // dd($request->all());
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',

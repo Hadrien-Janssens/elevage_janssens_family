@@ -18,7 +18,7 @@ class LitterController extends Controller
      */
     public function index()
     {
-        $litters = Litter::with(['mother', 'father', 'kittens'])->get();
+        $litters = Litter::with(['mother', 'father', 'kittens'])->orderBy('birth_date', 'desc')->get();
 
 
         return Inertia::render('admin/litters/Index')->with([
