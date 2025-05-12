@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import { Button } from '@/components/ui/button';
 import Label from '@/components/ui/label/Label.vue';
-import Textarea from '@/components/ui/textarea/Textarea.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { useForm } from '@inertiajs/vue3';
+import { QuillEditor } from '@vueup/vue-quill';
 import { ref } from 'vue';
 
 const props = defineProps<{
@@ -45,7 +45,16 @@ function submit(index: number) {
 
                     <div class="space-y-2">
                         <Label :for="`content-${form.id}`">Contenu</Label>
-                        <Textarea v-model="form.content" :id="`content-${form.id}`" class="min-h-[200px] w-full" />
+
+                        <QuillEditor
+                            toolbar="full"
+                            v-model:content="form.content"
+                            content-type="html"
+                            :id="`content-${form.id}`"
+                            theme="snow"
+                            class="bg-white"
+                        />
+
                         <p v-if="form.errors.content" class="mt-1 text-sm text-red-600">
                             {{ form.errors.content }}
                         </p>

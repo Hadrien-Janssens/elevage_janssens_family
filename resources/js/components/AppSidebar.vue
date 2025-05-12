@@ -5,6 +5,8 @@ import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/vue3';
 import { Cat } from 'lucide-vue-next';
 import AppLogo from './AppLogo.vue';
+import NavUser from './NavUser.vue';
+import SidebarFooter from './ui/sidebar/SidebarFooter.vue';
 
 const mainNavItems: NavItem[] = [
     {
@@ -53,6 +55,10 @@ const mainNavItems: NavItem[] = [
         <SidebarContent>
             <NavMain :items="mainNavItems" />
         </SidebarContent>
+
+        <SidebarFooter>
+            <NavUser />
+        </SidebarFooter>
     </Sidebar>
     <slot />
 </template>

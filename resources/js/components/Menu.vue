@@ -74,9 +74,9 @@ const goBack = () => {
         :class="{ 'justify-between': title, 'justify-end': !title }"
     >
         <button v-if="title" @click="goBack" class="duration-300 hover:scale-125 hover:cursor-pointer" aria-label="retour">
-            <ArrowLeft class="scale-110" />
+            <ArrowLeft class="scale-110 text-[#51687F]" />
         </button>
-        <h1 v-if="title">{{ title }}</h1>
+        <h1 v-if="title" class="text-[#51687F]">{{ title }}</h1>
 
         <button
             @click="isMenuOpen = !isMenuOpen"
@@ -84,14 +84,17 @@ const goBack = () => {
             aria-label="Menu"
         >
             <div
-                class="absolute h-1 w-10 rounded-md bg-black transition-all duration-500"
+                class="absolute h-1 w-10 rounded-md bg-[#51687F] transition-all duration-500"
                 :class="{ 'translate-y-0 rotate-45': isMenuOpen, '-translate-y-2': !isMenuOpen }"
             ></div>
-            <div class="absolute h-1 w-8 rounded-md bg-black transition-all duration-500 group-hover:w-10" :class="{ 'opacity-0': isMenuOpen }"></div>
+            <div
+                class="absolute h-1 w-8 rounded-md bg-[#51687F] transition-all duration-500 group-hover:w-10"
+                :class="{ 'opacity-0': isMenuOpen }"
+            ></div>
             <div
                 class="absolute h-1 rounded-md transition-all duration-500 group-hover:w-10"
                 :class="{
-                    'top-0 w-10 translate-y-0 -rotate-45 bg-black': isMenuOpen,
+                    'top-0 w-10 translate-y-0 -rotate-45 bg-[#51687F]': isMenuOpen,
                     'w-6 translate-y-2': !isMenuOpen,
                     'bg-[#B38D7D]': !isMenuOpen,
                 }"

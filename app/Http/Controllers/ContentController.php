@@ -20,16 +20,16 @@ class ContentController extends Controller
         ]);
     }
 
-    public function create()
-    {
-        return Inertia::render('admin/contents/Create');
-    }
+    // public function create()
+    // {
+    //     return Inertia::render('admin/contents/Create');
+    // }
 
-    public function store(Request $request)
-    {
-        // Store the content
-        return redirect()->route('admin.contents.index');
-    }
+    // public function store(Request $request)
+    // {
+    //     // Store the content
+    //     return redirect()->route('admin.contents.index');
+    // }
 
     public function edit($id)
     {
@@ -64,9 +64,9 @@ class ContentController extends Controller
             ->with('success', 'Contenu mis à jour avec succès');
     }
 
-    public function destroy($id)
-    {
-        // Delete the content
-        return redirect()->route('admin.contents.index');
-    }
+    // public function destroy($id)
+    // {
+    //     // Delete the content
+    //     return redirect()->route('admin.contents.index');
+    // }
 }

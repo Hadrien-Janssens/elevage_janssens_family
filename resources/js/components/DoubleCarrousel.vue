@@ -90,7 +90,7 @@ watchOnce(emblaMainApi, (emblaMainApi) => {
         </div>
 
         <!-- Miniatures -->
-        <div class="mx-auto mb-8 max-w-lg">
+        <div class="mx-auto mb-8 max-w-sm">
             <Carousel class="w-full" @init-api="(val) => (emblaThumbnailApi = val)">
                 <CarouselContent class="ml-0 flex gap-2 p-2">
                     <CarouselItem

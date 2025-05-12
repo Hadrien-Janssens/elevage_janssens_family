@@ -77,15 +77,15 @@ const handleLikeToggle = (kittenId: number) => {
                         ></div>
 
                         <!-- Information -->
-                        <div class="flex min-h-0 w-full grow flex-col gap-3">
+                        <div class="flex min-h-0 w-full shrink-0 grow flex-col gap-3">
                             <h1 class="flex gap-2 text-3xl font-bold text-gray-900">
                                 {{ capitalizeFirstLetter(litter.name) }}
                             </h1>
                             <p class="mb-5 flex items-center gap-2"><Cake /> Né le : {{ litter.birth_date }}</p>
 
-                            <div class="z-10 flex h-full flex-col items-stretch gap-3 sm:flex-row">
-                                <ParentCard :cat="litter.mother" parent="Maman" :index="0" class="h-full basis-1/2" />
-                                <ParentCard :cat="litter.father" parent="Papa" :index="0" class="h-full basis-1/2" />
+                            <div class="z-10 flex h-full items-stretch gap-3">
+                                <ParentCard :cat="litter.mother" parent="Maman" :index="0" class="h-full min-h-38 grow basis-1/2" />
+                                <ParentCard :cat="litter.father" parent="Papa" :index="0" class="h-full grow basis-1/2" />
                             </div>
                             <div class="mb-6 rounded-lg bg-[#51687F] p-3 text-white">
                                 <h2 class="mb-2 text-xl font-semibold">Description</h2>

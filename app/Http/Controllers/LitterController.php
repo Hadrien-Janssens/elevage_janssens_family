@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ImagesLitters;
 use App\Models\Litter;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -82,13 +81,7 @@ class LitterController extends Controller
         return redirect()->route('admin.litters.index')->with('success', 'Portée créée avec succès.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Litter $litter)
-    {
-        //
-    }
+
 
     /**
      * Show the form for editing the specified resource.

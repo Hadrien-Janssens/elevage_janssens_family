@@ -6,6 +6,7 @@ import Textarea from '@/components/ui/textarea/Textarea.vue';
 import { getContentByTitle } from '@/lib/utils';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import { motion } from 'motion-v';
+import { toast, Toaster } from 'vue-sonner';
 import Layout from './Layout.vue';
 
 defineProps<{
@@ -43,7 +44,15 @@ const form = useForm({
 
 const submitForm = () => {
     form.post('/send-mail', {
-        onSuccess: () => form.reset(),
+        onSuccess: () => {
+            form.reset();
+
+            toast('✅ Votre email a bien été envoyé;', {
+                description: 'Nous vous répondrons dans les plus brefs délais.',
+                duration: 5000,
+                closeButton: true,
+            });
+        },
     });
 };
 </script>
@@ -63,7 +72,10 @@ const submitForm = () => {
     <Menu />
 
     <Layout>
+        <Toaster class="pointer-events-auto" />
+
         <!-- header -->
+
         <header
             class="h-70vh border-primary relative flex flex-col items-center justify-between overflow-hidden border-b-2 md:flex-row-reverse lg:mt-20"
         >
@@ -165,7 +177,7 @@ const submitForm = () => {
                         :in-view="{ opacity: 1, x: 0, transition: { duration: 1, delay: 0 } }"
                         :viewport="{ once: true }"
                     >
-                        <img loading="lazy" src="chatons.webp" alt="" class="relative top-7 rounded-lg" />
+                        <img loading="lazy" src="img/chatons.webp" alt="" class="relative top-7 rounded-lg" />
                         <h4 class="poetsone mb-3 text-center text-lg">Nos chatons</h4>
                         <Link :href="route('kittens')" class="self-center">
                             <Button label="Découvrir" />

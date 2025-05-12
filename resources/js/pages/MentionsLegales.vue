@@ -37,7 +37,7 @@ import Layout from './Layout.vue';
                     <strong>Nom de l’élevage :</strong> Élevage Janssens Family<br />
                     <strong>Adresse :</strong> Rue Joseph Wauters 81, 7140 Morlanwelz, Belgique<br />
                     <strong>Statut :</strong> Éleveur agréé par la Région wallonne<br />
-                    <strong>Email de contact :</strong> <a href="mailto:laurablanni7@hotmail.com">laurablanni7@hotmail.com</a>
+                    <strong>Email de contact :</strong> <a href="mailto:laurablanni7@hotmail.com">elevagejanssensfamily@gmail.com</a>
                 </p>
 
                 <h2 class="mt-6 mb-2 flex items-start gap-2 text-xl font-semibold"><Server /> Hébergeur</h2>
@@ -51,7 +51,7 @@ import Layout from './Layout.vue';
                 <p>
                     L’ensemble de ce site (structure, design, textes, images, photos, logo, etc.) constitue une œuvre protégée.
                     <br />
-                    Le <strong>logo</strong> réalisé par Hadrien Janssens est également protégé par le droit d’auteur.
+                    Le <strong>logo</strong> réalisé par Monsieur Hadrien Janssens est également protégé par le droit d’auteur.
                     <br />
                     Toute reproduction, modification ou diffusion, même partielle, est interdite sans autorisation écrite. Les infractions sont
                     passibles de poursuites civiles et/ou pénales.
@@ -65,12 +65,12 @@ import Layout from './Layout.vue';
 
                 <h2 class="mt-6 mb-2 flex items-start gap-2 text-xl font-semibold"><LockOpen /> Données personnelles</h2>
                 <p>
-                    Les données transmises via le formulaire de contact (nom, prénom, téléphone, email) sont envoyées par email à Laura Blanni, sans
-                    stockage en base de données. Ces données ne sont jamais revendues ni utilisées à d’autres fins.
+                    Les données transmises via le formulaire de contact (nom, prénom, téléphone, email) sont envoyées par email à Madame Laura Blanni,
+                    sans stockage en base de données. Ces données ne sont jamais revendues ni utilisées à d’autres fins.
 
                     <br />
                     Vous pouvez demander la suppression de vos données à tout moment par email à :
-                    <a href="mailto:laurablanni7@hotmail.com">laurablanni7@hotmail.com</a>
+                    <a href="mailto:elevagejanssensfamily@gmail.com">elevagejanssensfamily@gmail.com</a>
                 </p>
 
                 <h2 class="mt-6 mb-2 flex items-start gap-2 text-xl font-semibold"><Cookie /> Cookies</h2>

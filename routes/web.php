@@ -116,7 +116,7 @@ Route::post('/send-mail', function (Request $request) {
     ];
 
 
-    Mail::to('hadrien.janssens7@gmail.com')->send(new ContactMail($data));
+    Mail::to('elevagejanssensfamily@gmail.com')->send(new ContactMail($data));
 
     return redirect()->back()->with('success', 'Email envoyé avec succès !');
 });

@@ -13,13 +13,10 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 /* import font awesome icon component */
 import { far } from '@fortawesome/free-regular-svg-icons';
 import { fas } from '@fortawesome/free-solid-svg-icons';
-// import { fab } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { QuillEditor } from '@vueup/vue-quill';
+import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
-/* import specific icons */
-// import { faUserSecret } from '@fortawesome/free-solid-svg-icons';
-
-/* add icons to the library */
 library.add(fas, far);
 
 // Extend ImportMeta interface for Vite...
@@ -45,6 +42,7 @@ createInertiaApp({
             .use(plugin)
             .use(ZiggyVue)
             .component('font-awesome-icon', FontAwesomeIcon)
+            .component('QuillEditor', QuillEditor)
             .mount(el);
     },
     progress: {

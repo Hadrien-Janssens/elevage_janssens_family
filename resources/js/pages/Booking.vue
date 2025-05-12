@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import Menu from '@/components/Menu.vue';
 import { getContentByTitle } from '@/lib/utils';
+import { Head } from '@inertiajs/vue3';
 import Layout from './Layout.vue';
 
 defineProps<{

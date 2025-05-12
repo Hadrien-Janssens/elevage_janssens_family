@@ -9,7 +9,7 @@ defineProps<{
 }>();
 </script>
 <template>
-    <div class="flex h-full flex-col justify-between rounded-lg bg-[#ABA5A2] px-4 py-2 text-white hover:cursor-pointer">
+    <div class="flex h-full flex-col justify-between rounded-lg bg-[#ABA5A2] p-2 py-2 text-white hover:cursor-pointer md:px-4">
         <div class="flex-1 grow">
             <p class="text-md">
                 {{ parent }} <span>{{ cat.name }}</span>
@@ -18,6 +18,6 @@ defineProps<{
             <p class="text-sm">{{ cat.body_color }}</p>
         </div>
 
-        <Button label="voir plus" class="mt-3 self-end text-black" />
+        <Button label="voir plus" class="mt-3 justify-center text-black md:self-end" />
     </div>
 </template>

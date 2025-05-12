@@ -82,12 +82,12 @@
     font-weight: normal;
     font-style: normal;
 }
-@font-face {
+/* @font-face {
     font-family: 'koho';
     src: url('/fonts/koHo/KoHo-SemiBold.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
-}
+} */
 @font-face {
     font-family: 'grapenuts';
     src: url('/fonts/GrapeNuts-Regular.ttf') format('truetype');
@@ -177,8 +177,13 @@
     .grapenuts {
         font-family: grapenuts;
     }
-    p,
+    /* p,
     .koho {
         font-family: koho;
+    } */
+    p {
+        font-weight: 500;
+        font-family:
+            'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
     }
 }

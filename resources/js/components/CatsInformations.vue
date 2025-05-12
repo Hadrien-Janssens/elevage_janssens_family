@@ -102,7 +102,7 @@ const toggleLike = () => {
             </div>
         </div>
 
-        <div class="mb-5 flex flex-col justify-between gap-3 sm:flex-row" v-if="isKitten(kitten) && kitten.litter">
+        <div class="mb-5 flex justify-between gap-3" v-if="isKitten(kitten) && kitten.litter">
             <Link :href="route('cats.show', { id: kitten.litter.mother.id })" class="grow basis-1/2">
                 <ParentCard :cat="kitten.litter.mother" parent="Maman" :index="index" />
             </Link>
