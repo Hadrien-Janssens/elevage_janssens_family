@@ -3,6 +3,7 @@ import CatsInformations from '@/components/CatsInformations.vue';
 import DoubleCarrousel from '@/components/DoubleCarrousel.vue';
 import Menu from '@/components/Menu.vue';
 import { capitalizeFirstLetter } from '@/lib/utils';
+import { Head } from '@inertiajs/vue3';
 import { ref } from 'vue';
 import { Kitten } from '../types/index';
 import Layout from './Layout.vue';

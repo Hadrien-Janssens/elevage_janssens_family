@@ -69,7 +69,6 @@ async function handlePhotoUpload(event: Event) {
             }
         }
     }
-    console.log(photoPreviews.value);
 }
 
 function removePhoto(index: number) {

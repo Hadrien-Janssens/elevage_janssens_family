@@ -11,6 +11,7 @@ import CatCard from '@/components/CatCard.vue';
 import DoubleCarrousel from '@/components/DoubleCarrousel.vue';
 import ParentCard from '@/components/ParentCard.vue';
 import { capitalizeFirstLetter } from '@/lib/utils';
+import { Head } from '@inertiajs/vue3';
 import { Cake } from 'lucide-vue-next';
 import { reactive, ref } from 'vue';
 import Layout from './Layout.vue';
@@ -85,6 +86,10 @@ const handleLikeToggle = (kittenId: number) => {
                             <div class="z-10 flex h-full flex-col items-stretch gap-3 sm:flex-row">
                                 <ParentCard :cat="litter.mother" parent="Maman" :index="0" class="h-full basis-1/2" />
                                 <ParentCard :cat="litter.father" parent="Papa" :index="0" class="h-full basis-1/2" />
+                            </div>
+                            <div class="mb-6 rounded-lg bg-[#51687F] p-3 text-white">
+                                <h2 class="mb-2 text-xl font-semibold">Description</h2>
+                                <p class="leading-relaxed">{{ litter.description }}</p>
                             </div>
                         </div>
                     </div>

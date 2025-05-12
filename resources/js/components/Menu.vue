@@ -110,7 +110,10 @@ const goBack = () => {
         <motion.li v-for="(item, index) in menuItems" :key="item.route + '-' + index" class="overflow-hidden text-left" :variants="liVariants">
             <Link
                 :href="route(item.route)"
-                class="text-primary poetsone block py-4 text-xl font-black transition-colors hover:text-black"
+                :class="[
+                    'text-primary poetsone block py-4 text-xl font-black transition-colors duration-400 hover:text-[#51687F]',
+                    route().current(item.route + '*') ? 'underline' : '',
+                ]"
                 @click="isMenuOpen = false"
             >
                 {{ item.name }}
@@ -119,7 +122,10 @@ const goBack = () => {
         <motion.li class="overflow-hidden text-left" :variants="liVariants">
             <Link
                 :href="route('home') + '#contact'"
-                class="text-primary poetsone block py-4 text-xl font-black transition-colors hover:text-black"
+                :class="[
+                    'text-primary poetsone block py-4 text-xl font-black transition-colors duration-400 hover:text-[#51687F]',
+                    route().current('home#contact') ? 'underline' : '',
+                ]"
                 @click="isMenuOpen = false"
             >
                 Contact
@@ -133,22 +139,29 @@ const goBack = () => {
             :href="route('home')"
             class="poetsone text-primary hidden transform transition-colors duration-400 hover:scale-[101%] hover:cursor-pointer md:block"
         >
-            <img src="/logo.webp" alt="" class="w-20 rounded-full" />
+            <img src="img/logo.jpeg" alt="" class="w-20 rounded-full" />
         </Link>
         <ul class="hidden justify-end space-x-4 md:flex">
             <Link
                 v-for="(item, index) in menuItems"
                 :key="item.route + '-desktop-' + index"
                 :href="route(item.route)"
-                class="poetsone text-primary transform transition-colors duration-400 hover:scale-[101%] hover:text-[#51687F]"
+                :class="[
+                    'poetsone text-primary transform transition-colors duration-400 hover:scale-[101%] hover:text-[#51687F]',
+                    route().current(item.route + '*') ? 'underline' : '',
+                ]"
             >
                 {{ item.name }}
             </Link>
             <Link
                 :href="route('home') + '#contact'"
-                class="poetsone text-primary transform transition-colors duration-400 hover:scale-[101%] hover:text-[#51687F]"
-                >Contact</Link
+                :class="[
+                    'poetsone text-primary transform transition-colors duration-400 hover:scale-[101%] hover:text-[#51687F]',
+                    route().current('home#contact') ? 'underline' : '',
+                ]"
             >
+                Contact
+            </Link>
         </ul>
     </div>
 </template>

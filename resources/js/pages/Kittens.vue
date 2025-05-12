@@ -3,6 +3,7 @@ import CatCard from '@/components/CatCard.vue';
 import CatsListing from '@/components/CatsListing.vue';
 import Menu from '@/components/Menu.vue';
 import { Kitten, Litter } from '@/types';
+import { Head } from '@inertiajs/vue3';
 import Layout from './Layout.vue';
 
 defineProps<{
@@ -13,7 +14,7 @@ defineProps<{
 
 <template>
     <Head>
-        <title>Nos chatons - Janssens Family</title>
+        <title>Nos chatons</title>
         <meta
             name="description"
             content="Découvrez nos chatons disponibles à l'adoption chez Janssens Family, élevage familial de Scottish et British."

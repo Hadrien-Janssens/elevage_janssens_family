@@ -28,7 +28,7 @@ const props = defineProps<{
             <div class="relative m-auto mt-12 h-64 w-64">
                 <div class="absolute -top-3 -left-3 h-52 w-1/2 rounded-lg bg-[#CDC6C2]"></div>
                 <div class="absolute -right-3 -bottom-3 h-52 w-1/2 rounded-lg bg-[#CDC6C2]"></div>
-                <img src="hadrien-laura.jpg" alt="" class="absolute inset-0 h-full w-full rounded-lg object-cover object-center" />
+                <img src="img/hadrien-laura.jpg" alt="" class="absolute inset-0 h-full w-full rounded-lg object-cover object-center" />
             </div>
         </div>
         <div class="relative m-3 mx-auto mt-12 mb-0 max-w-3xl flex-col justify-end p-3 text-justify">

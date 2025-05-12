@@ -101,7 +101,7 @@ watchOnce(emblaMainApi, (emblaMainApi) => {
                     >
                         <div class="p-0" :class="index === selectedIndex ? 'ring-primary rounded-md ring-2' : 'opacity-80'">
                             <Card class="border-0 p-0">
-                                <CardContent class="aspect-square p-0">
+                                <CardContent class="aspect-square min-h-[80px] p-0">
                                     <img
                                         loading="lazy"
                                         v-if="isLitter(cat)"
@@ -109,7 +109,7 @@ watchOnce(emblaMainApi, (emblaMainApi) => {
                                         :alt="'Miniature ' + (index + 1)"
                                         class="h-full w-full rounded-md object-cover object-center"
                                     />
-                                    <div v-else>
+                                    <div v-else class="h-full w-full">
                                         <img
                                             loading="lazy"
                                             v-if="isKitten(cat)"

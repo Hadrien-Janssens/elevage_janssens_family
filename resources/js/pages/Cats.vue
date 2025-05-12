@@ -2,6 +2,7 @@
 import CatsListing from '@/components/CatsListing.vue';
 import Menu from '@/components/Menu.vue';
 import { Cat } from '@/types';
+import { Head } from '@inertiajs/vue3';
 import Layout from './Layout.vue';
 
 defineProps<{

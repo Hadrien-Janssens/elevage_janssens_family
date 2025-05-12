@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import Menu from '@/components/Menu.vue';
+import { Head } from '@inertiajs/vue3';
 import { Brain, Cookie, LockOpen, PenTool, Scale, Server } from 'lucide-vue-next';
 import Layout from './Layout.vue';
 </script>

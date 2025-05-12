@@ -88,7 +88,7 @@ const submitForm = () => {
             </div>
             <div class="flex w-3/4 self-start md:basis-1/3">
                 <motion.img
-                    src="urban.webp"
+                    src="img/urban.webp"
                     alt=""
                     class="relative self-start"
                     :initial="{ opacity: 0, x: -5 }"
@@ -146,14 +146,6 @@ const submitForm = () => {
 
             <!-- Nos chats -->
             <section class="m-3 mx-auto max-w-3xl overflow-hidden">
-                <motion.h3
-                    class="text-primary poetsone mb-3 text-3xl"
-                    :initial="{ opacity: 0, x: -30 }"
-                    :in-view="{ opacity: 1, x: 0, transition: { duration: 1, delay: 0 } }"
-                    :viewport="{ once: true }"
-                >
-                    Nos chats
-                </motion.h3>
                 <ul class="flex gap-3">
                     <motion.li
                         class="border-primary flex basis-1/2 flex-col justify-end rounded-bl-xl border-b-2 border-l-2 p-3"
@@ -161,7 +153,7 @@ const submitForm = () => {
                         :in-view="{ opacity: 1, x: 0, transition: { duration: 1, delay: 0 } }"
                         :viewport="{ once: true }"
                     >
-                        <img loading="lazy" src="reproducteurs.webp" alt="" class="w-10/12 rounded-lg" />
+                        <img loading="lazy" src="img/reproducteurs.webp" alt="" class="w-10/12 rounded-lg" />
                         <h4 class="poetsone mb-3 text-center text-lg">Nos reproducteurs</h4>
                         <Link :href="route('cats')" class="self-center">
                             <Button label="Découvrir" />
@@ -191,29 +183,42 @@ const submitForm = () => {
                 :viewport="{ once: true }"
                 aria-labelledby="contactez-nous"
             >
-                <section class="m-3 mx-auto mt-20 flex max-w-3xl flex-col gap-3 rounded-xl bg-[#ABA5A2] p-5">
-                    <h3 id="contactez-nous" class="poetsone mb-3 text-3xl text-white">Contactez-nous</h3>
+                <section class="m-3 mx-auto mt-20 mb-0 flex max-w-3xl flex-col gap-3 rounded-xl bg-[#ABA5A2] p-5 md:gap-5">
                     <div>
-                        <Input v-model="form.nom" type="text" placeholder="Nom" class="rounded-lg bg-white text-black" aria-label="Nom" />
-                        <p v-if="form.errors.nom" class="text-sm text-red-500">{{ form.errors.nom }}</p>
+                        <h3 id="contactez-nous" class="poetsone text-3xl text-white">Contactez-nous</h3>
+                        <p class="text-justify text-white">Envie de procéder à une réservation ? Ou simplement poser une question ?</p>
                     </div>
-                    <div>
-                        <Input v-model="form.prenom" type="text" placeholder="Prénom" class="rounded-lg bg-white text-black" aria-label="Prénom" />
-                        <p v-if="form.errors.prenom" class="text-sm text-red-500">{{ form.errors.prenom }}</p>
+                    <div class="flex flex-col gap-3 md:flex-row md:gap-5">
+                        <div class="grow">
+                            <Input v-model="form.nom" type="text" placeholder="Nom" class="rounded-lg bg-white text-black" aria-label="Nom" />
+                            <p v-if="form.errors.nom" class="text-sm text-red-500">{{ form.errors.nom }}</p>
+                        </div>
+                        <div class="grow">
+                            <Input
+                                v-model="form.prenom"
+                                type="text"
+                                placeholder="Prénom"
+                                class="rounded-lg bg-white text-black"
+                                aria-label="Prénom"
+                            />
+                            <p v-if="form.errors.prenom" class="text-sm text-red-500">{{ form.errors.prenom }}</p>
+                        </div>
                     </div>
-                    <div>
-                        <Input v-model="form.email" type="email" placeholder="Email" class="rounded-lg bg-white text-black" aria-label="Email" />
-                        <p v-if="form.errors.email" class="text-sm text-red-500">{{ form.errors.email }}</p>
-                    </div>
-                    <div>
-                        <Input
-                            v-model="form.telephone"
-                            type="text"
-                            placeholder="Téléphone"
-                            class="rounded-lg bg-white text-black"
-                            aria-label="Téléphone"
-                        />
-                        <p v-if="form.errors.telephone" class="text-sm text-red-500">{{ form.errors.telephone }}</p>
+                    <div class="flex flex-col gap-3 md:flex-row md:gap-5">
+                        <div class="grow">
+                            <Input v-model="form.email" type="email" placeholder="Email" class="rounded-lg bg-white text-black" aria-label="Email" />
+                            <p v-if="form.errors.email" class="text-sm text-red-500">{{ form.errors.email }}</p>
+                        </div>
+                        <div class="grow">
+                            <Input
+                                v-model="form.telephone"
+                                type="text"
+                                placeholder="Téléphone"
+                                class="rounded-lg bg-white text-black"
+                                aria-label="Téléphone"
+                            />
+                            <p v-if="form.errors.telephone" class="text-sm text-red-500">{{ form.errors.telephone }}</p>
+                        </div>
                     </div>
                     <div>
                         <Textarea
