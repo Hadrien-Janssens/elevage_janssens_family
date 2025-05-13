@@ -26,10 +26,10 @@ class DatabaseSeeder extends Seeder
 
 
         $this->call([
-            // CatsSeeder::class,
-            // LitterSeeder::class,
-            // KittenSeeder::class,
-            // ContentSeeder::class,
+            CatsSeeder::class,
+            LitterSeeder::class,
+            KittenSeeder::class,
+            ContentSeeder::class,
         ]);
     }
 }
