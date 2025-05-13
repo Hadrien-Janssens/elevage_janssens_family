@@ -21,22 +21,35 @@
     @inertiaHead
 
 
-    @if (request()->cookie('analytics_consent') === 'yes')
-        <!-- Google tag (gtag.js) -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-NMF8WZ840F"></script>
-        <script>
-            window.dataLayer = window.dataLayer || [];
+    <?php
+    
+    $cookieConsent = request()->cookie('analytics_consent');
+    echo '<script>console.log("Cookie consent: ' . $cookieConsent . '");</script>';
+    if ($cookieConsent === 'yes') {
+        echo '<script>console.log("Google Analytics loaded");</script>';
+    } else {
+        echo '<script>console.log("Google Analytics not loaded");</script>';
+    }
+    ?>
 
-            function gtag() {
-                dataLayer.push(arguments);
-            }
-            gtag('js', new Date());
+    {{-- @if (request()->cookie('analytics_consent') === 'yes') --}}
+    <!-- Google tag (gtag.js) -->
 
-            gtag('config', 'G-NMF8WZ840F', , {
-                page_path: window.location.pathname,
-            });
-        </script>
-    @endif
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-NMF8WZ840F"></script>
+    <script>
+        console.log('Google Analytics loaded');
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'G-NMF8WZ840F');
+        console.log('Google Analytics loaded2');
+    </script>
+    {{-- @endif --}}
 </head>
 
 <body class="font-sans antialiased">

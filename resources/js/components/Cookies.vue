@@ -12,13 +12,13 @@ const emit = defineEmits<{
 }>();
 
 const accept = () => {
-    document.cookie = 'analytics_consent=yes; path=/; max-age=31536000';
+    document.cookie = 'analytics_consent=yes; path=/; max-age=31536000; domain=hadrien-janssens.com; SameSite=Lax';
     emit('update:showBanner', false);
     window.location.reload();
 };
 
 const decline = () => {
-    document.cookie = 'analytics_consent=no; path=/; max-age=31536000';
+    document.cookie = 'analytics_consent=no; path=/; max-age=31536000; domain=hadrien-janssens.com; SameSite=Lax';
     emit('update:showBanner', false);
     window.location.reload();
 };
