@@ -47,7 +47,7 @@ class KittenController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'description' => 'nullable|string|string',
+            'description' => 'nullable|string|max:5000',
             'gender' => 'required|string|in:Mâle,Femelle,Indéfini',
             'race' => 'nullable|string',
             'body_color' => 'nullable|string',
@@ -138,7 +138,7 @@ class KittenController extends Controller
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'description' => 'nullable|string|string',
+            'description' => 'nullable|string|max:5000',
             'gender' => 'required|string|in:Mâle,Femelle,Indéfini',
             'race' => 'nullable|string',
             'body_color' => 'required|string',

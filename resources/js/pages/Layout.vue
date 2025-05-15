@@ -17,18 +17,6 @@ onMounted(() => {
 </script>
 
 <template>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-NMF8WZ840F"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-
-        function gtag() {
-            dataLayer.push(arguments);
-        }
-        gtag('js', new Date());
-
-        gtag('config', 'G-NMF8WZ840F');
-    </script>
-
     <slot />
     <Cookies :showBanner="showBanner" @update:showBanner="showBanner = $event" />
     <Footer @show-banner="showBanner = true" />

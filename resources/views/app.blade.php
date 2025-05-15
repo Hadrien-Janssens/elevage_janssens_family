@@ -33,6 +33,8 @@
     ?>
 
     {{-- @if (request()->cookie('analytics_consent') === 'yes') --}}
+
+
     <!-- Google tag (gtag.js) -->
 
 

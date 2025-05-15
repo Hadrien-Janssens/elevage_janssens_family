@@ -32,8 +32,8 @@ import Layout from './Layout.vue';
 
                 <h2 class="mt-6 mb-2 flex items-center gap-2 text-xl font-semibold"><PenTool /> Éditeur du site</h2>
                 <p>
-                    Ce site est édité par <strong>Hadrien Janssens</strong>, développeur indépendant. <br />
-                    Les contenus sont rédigés et mis à jour par <strong>Laura Blanni</strong>, éleveuse agréée. <br /><br />
+                    Ce site est édité par Monsieur <strong>Hadrien Janssens</strong>, développeur indépendant. <br />
+                    Les contenus sont rédigés et mis à jour par Madame<strong> Laura Blanni</strong>, éleveuse agréée. <br /><br />
                     <strong>Nom de l’élevage :</strong> Élevage Janssens Family<br />
                     <strong>Adresse :</strong> Rue Joseph Wauters 81, 7140 Morlanwelz, Belgique<br />
                     <strong>Statut :</strong> Éleveur agréé par la Région wallonne<br />

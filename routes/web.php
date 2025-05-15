@@ -53,7 +53,7 @@ Route::get('/a-propos', function () {
 })->name('elevage');
 
 Route::get('/chatons', function () {
-    $kittens = Kitten::with(['litter.images', 'litter.mother.images', 'litter.father.images', 'images'])->get();
+    $kittens = Kitten::with(['litter.images', 'litter.mother.images', 'litter.father.images', 'images'])->where('is_adopted', false)->get();
     return Inertia::render('Kittens')->with([
         'kittens' => $kittens,
         'litters' => Litter::with(['mother',  'father', 'images'])->orderBy('birth_date', 'desc')->get(),
@@ -61,6 +61,7 @@ Route::get('/chatons', function () {
 })->name('kittens');
 
 Route::get('/chatons/{kitten}', function (Kitten $kitten) {
+
     return Inertia::render('Kitten')->with([
         'kitten' => $kitten->load(['litter', 'litter.mother.images', 'litter.father.images',  'images']),
     ]);
@@ -105,7 +106,7 @@ Route::post('/send-mail', function (Request $request) {
         'nom' => 'required|string|max:255',
         'prenom' => 'required|string|max:255',
         'telephone' => 'required_without:email|string|max:255',
-        'message' => 'required|string|max:500',
+        'message' => 'required|string|max:5000',
     ]);
     $data = [
         'email' => $request->input('email'),

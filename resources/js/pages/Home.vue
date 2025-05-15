@@ -202,7 +202,15 @@ const submitForm = () => {
                     </div>
                     <div class="flex flex-col gap-3 md:flex-row md:gap-5">
                         <div class="grow">
-                            <Input v-model="form.nom" type="text" placeholder="Nom" class="rounded-lg bg-white text-black" aria-label="Nom" />
+                            <Input
+                                v-model="form.nom"
+                                type="text"
+                                placeholder="Nom"
+                                class="rounded-lg bg-white text-black"
+                                aria-label="Nom"
+                                required
+                                maxlength="255"
+                            />
                             <p v-if="form.errors.nom" class="text-sm text-red-500">{{ form.errors.nom }}</p>
                         </div>
                         <div class="grow">
@@ -212,13 +220,22 @@ const submitForm = () => {
                                 placeholder="Prénom"
                                 class="rounded-lg bg-white text-black"
                                 aria-label="Prénom"
+                                required
+                                maxlength="255"
                             />
                             <p v-if="form.errors.prenom" class="text-sm text-red-500">{{ form.errors.prenom }}</p>
                         </div>
                     </div>
                     <div class="flex flex-col gap-3 md:flex-row md:gap-5">
                         <div class="grow">
-                            <Input v-model="form.email" type="email" placeholder="Email" class="rounded-lg bg-white text-black" aria-label="Email" />
+                            <Input
+                                v-model="form.email"
+                                type="email"
+                                placeholder="Email"
+                                class="rounded-lg bg-white text-black"
+                                aria-label="Email"
+                                maxlength="255"
+                            />
                             <p v-if="form.errors.email" class="text-sm text-red-500">{{ form.errors.email }}</p>
                         </div>
                         <div class="grow">
@@ -228,6 +245,7 @@ const submitForm = () => {
                                 placeholder="Téléphone"
                                 class="rounded-lg bg-white text-black"
                                 aria-label="Téléphone"
+                                maxlength="255"
                             />
                             <p v-if="form.errors.telephone" class="text-sm text-red-500">{{ form.errors.telephone }}</p>
                         </div>
@@ -239,6 +257,8 @@ const submitForm = () => {
                             class="h-32 resize-none rounded-lg bg-white text-black"
                             rows="4"
                             aria-label="Message"
+                            required
+                            maxlength="5000"
                         ></Textarea>
                         <p v-if="form.errors.message" class="text-sm text-red-500">{{ form.errors.message }}</p>
                     </div>

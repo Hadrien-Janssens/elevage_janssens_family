@@ -45,6 +45,8 @@ class LitterController extends Controller
             'birth_date' => 'required|date',
             'mother_id' => 'nullable|exists:cats,id',
             'father_id' => 'nullable|exists:cats,id',
+            'description' => 'nullable|string|max:255',
+            'photos' => 'nullable|array',
             'photos.*' => 'image|mimes:jpeg,png,jpg,gif|max:10240',
         ]);
 
@@ -104,16 +106,40 @@ class LitterController extends Controller
     public function update(Request $request, Litter $litter)
     {
 
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'birth_date' => 'required|date',
-            'mother_id' => 'nullable|exists:cats,id',
-            'father_id' => 'nullable|exists:cats,id',
-            'deleted_images' => 'nullable|array',
-            'deleted_images.*' => 'integer|exists:images_litters,id',
-            'new_photos' => 'nullable|array',
-            'new_photos.*' => 'image|max:10240',
-        ]);
+        // dd($request->all());
+        // $validated = $request->validate([
+        //     'name' => 'required|string|max:255',
+        //     'birth_date' => 'required|date',
+        //     'mother_id' => 'nullable|exists:cats,id',
+        //     'father_id' => 'nullable|exists:cats,id',
+        //     'description' => 'nullable|string',
+        //     'photos' => 'nullable|array',
+        //     'photos.*' => 'image|mimes:jpeg,png,jpg,gif|max:10240',
+        //     'deleted_images' => 'nullable|array',
+        //     'deleted_images.*' => 'integer|exists:images_litters,id',
+        //     'new_photos' => 'nullable|array',
+        //     'new_photos.*' => 'image|max:10240',
+        // ]);
+        // dd($request->all());
+        try {
+            $validated = $request->validate([
+                'name' => 'required|string|max:255',
+                'birth_date' => 'required|date',
+                'mother_id' => 'nullable|exists:cats,id',
+                'father_id' => 'nullable|exists:cats,id',
+                'description' => 'nullable|string',
+                // 'photos' => 'nullable|array',
+                // 'photos.*' => 'image|mimes:jpeg,png,jpg,gif|max:10240',
+                'deleted_images' => 'nullable|array',
+                'deleted_images.*' => 'integer|exists:images_litters,id',
+                'new_photos' => 'nullable|array',
+                'new_photos.*' => 'image|max:10240',
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            dd($e->errors()); // Montre exactement quelle règle échoue
+        }
+
+
 
         // Suppression des images
         if (!empty($validated['deleted_images'])) {
@@ -132,6 +158,7 @@ class LitterController extends Controller
             'birth_date' => $validated['birth_date'],
             'mother_id' => $validated['mother_id'],
             'father_id' => $validated['father_id'],
+            'description' => $validated['description'],
         ]);
 
         // Ajout des nouvelles images

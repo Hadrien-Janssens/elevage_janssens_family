@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import Input from '@/components/ui/input/Input.vue';
 import Label from '@/components/ui/label/Label.vue';
+import Textarea from '@/components/ui/textarea/Textarea.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { useForm } from '@inertiajs/vue3';
 import heic2any from 'heic2any';
@@ -20,6 +21,7 @@ const form = useForm({
     birth_date: props.litter?.birth_date || '',
     mother_id: props.litter?.mother_id || '',
     father_id: props.litter?.father_id || '',
+    description: props.litter?.description || '',
     photos: props.images?.map((image: Images) => image.image_path) || [],
     deleted_images: [] as number[],
     new_photos: [] as File[],
@@ -129,6 +131,12 @@ function submit() {
                         <option v-for="cat in cats" :key="cat.id" :value="cat.id">{{ cat.name }}</option>
                     </select>
                     <p v-if="form.errors.father_id" class="mt-1 text-sm text-red-600">{{ form.errors.father_id }}</p>
+                </div>
+
+                <div class="space-y-2">
+                    <Label for="description">Description</Label>
+                    <Textarea v-model="form.description" type="text" id="description" rows="4" />
+                    <p v-if="form.errors.description" class="mt-1 text-sm text-red-600">{{ form.errors.description }}</p>
                 </div>
 
                 <div class="space-y-2">

@@ -38,7 +38,7 @@ defineProps<{
             <h2 class="poetsone text-primary px-4 text-center text-3xl">Chatons disponibles à l'adoption</h2>
             <CatsListing :kittens="kittens" />
         </div>
-        <!-- LITTERS (inchangé) -->
+        <!-- LITTERS -->
         <div v-if="litters.length" class="m-3 my-6">
             <h2 class="poetsone mb-3 text-center text-3xl text-[#B5A9A4]">Les portées</h2>
 
