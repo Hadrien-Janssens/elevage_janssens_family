@@ -14,9 +14,9 @@ class Cat extends Model
         'name',
         'birthday',
         'body_color',
-        'body_color_id',
         'description',
-        'gender'
+        'gender',
+        'race',
     ];
 
 

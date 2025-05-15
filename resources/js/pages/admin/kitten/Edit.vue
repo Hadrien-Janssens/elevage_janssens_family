@@ -134,6 +134,12 @@ function submit() {
                 </div>
 
                 <div class="space-y-2">
+                    <Label for="body_color">Race</Label>
+                    <Input v-model="form.race" type="text" id="race" />
+                    <p v-if="form.errors.race" class="mt-1 text-sm text-red-600">{{ form.errors.race }}</p>
+                </div>
+
+                <div class="space-y-2">
                     <Label for="body_color">Couleur</Label>
                     <Input v-model="form.body_color" type="text" id="body_color" />
                     <p v-if="form.errors.body_color" class="mt-1 text-sm text-red-600">{{ form.errors.body_color }}</p>

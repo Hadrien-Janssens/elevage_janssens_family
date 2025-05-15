@@ -52,13 +52,13 @@ const toggleLike = () => {
                 loading="lazy"
                 v-if="!isLitter(kitten) && kitten.images?.length"
                 :src="(isKitten(kitten) && kitten.litter ? '/storage/kittens/' : '/storage/cats/') + kitten.images[0].image_path"
-                alt="Photo de {{ kitten.name }}"
+                :alt="'Photo de' + kitten.name"
                 class="h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
             />
             <img
                 v-if="isLitter(kitten) && kitten.images?.length"
-                :src="'/litters/' + kitten.images[0].image_path"
-                alt="Photo de {{ kitten.name }}"
+                :src="'/storage/litters/' + kitten.images[0].image_path"
+                :alt="'Photo de' + kitten.name"
                 class="h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
             />
             <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>

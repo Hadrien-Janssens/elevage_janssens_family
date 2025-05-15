@@ -16,7 +16,7 @@ const menuItems = [
     { name: 'Accueil', route: 'home' },
     { name: 'A propos', route: 'elevage' },
     { name: 'Nos chatons', route: 'kittens' },
-    { name: 'Nos chat', route: 'cats' },
+    { name: 'Nos chats', route: 'cats' },
     { name: "Conditions d'adoption", route: 'booking' },
 ];
 

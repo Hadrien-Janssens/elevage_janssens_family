@@ -1,0 +1,9 @@
+ne pas pusher :
+-public
+-database
+-storage
+-nodemodules
+
+
+ensuite faire une push du dossier public, sans le storage
+

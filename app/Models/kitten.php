@@ -14,6 +14,7 @@ class Kitten extends Model
         'name',
         'description',
         'price',
+        'race',
         'gender',
         'vaccination',
         'chip',

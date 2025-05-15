@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { capitalizeFirstLetter, isKitten } from '@/lib/utils';
 import { Cat, Kitten } from '@/types';
-import { Link } from '@inertiajs/vue3';
 import { Cake, HeartCrack } from 'lucide-vue-next';
 import ParentCard from './ParentCard.vue';
 
@@ -92,8 +91,8 @@ const toggleLike = () => {
                 </div>
                 <p class="mt-1 flex items-center gap-2 text-gray-600">
                     <Cake class="h-5 w-5 text-[#51687F]" />
-                    <span v-if="isKitten(kitten)">Né le {{ kitten.litter.birth_date }}</span>
-                    <span v-else>Né le {{ kitten.birthday }}</span>
+                    <span v-if="isKitten(kitten)">Né{{ kitten.gender === 'Femelle' ? 'e' : '' }} le {{ kitten.litter.birth_date }}</span>
+                    <span v-else>Né{{ kitten.gender === 'Femelle' ? 'e' : '' }} le {{ kitten.birthday }}</span>
                 </p>
                 <p class="leading-relaxed text-gray-700">Sexe : {{ kitten.gender }}</p>
                 <p class="leading-relaxed text-gray-700">Race : {{ kitten.race }}</p>
@@ -102,13 +101,9 @@ const toggleLike = () => {
             </div>
         </div>
 
-        <div class="mb-5 flex justify-between gap-3" v-if="isKitten(kitten) && kitten.litter">
-            <Link :href="route('cats.show', { id: kitten.litter.mother.id })" class="grow basis-1/2">
-                <ParentCard :cat="kitten.litter.mother" parent="Maman" :index="index" />
-            </Link>
-            <Link :href="route('cats.show', { id: kitten.litter.father.id })" class="grow basis-1/2">
-                <ParentCard :cat="kitten.litter.father" parent="Papa" :index="index" />
-            </Link>
+        <div class="mb-5 flex h-full items-stretch justify-between gap-3" v-if="isKitten(kitten) && kitten.litter">
+            <ParentCard :cat="kitten.litter.mother" parent="Maman" :index="index" class="h-full min-h-38 grow basis-1/2" />
+            <ParentCard :cat="kitten.litter.father" parent="Papa" :index="index" class="h-full min-h-38 grow basis-1/2" />
         </div>
 
         <div class="mb-6 rounded-lg bg-[#51687F] p-3 text-white">
