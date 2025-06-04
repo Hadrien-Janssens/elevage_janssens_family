@@ -13,11 +13,11 @@ import Layout from './Layout.vue';
             content="Consultez les mentions légales du site de l'élevage Janssens Family, éleveur familial de Scottish et British."
         />
         <meta name="keywords" content="mentions légales, élevage familial, Scottish, British, Janssens Family" />
-        <meta name="author" content="Janssens Family" />
-        <meta property="og:title" content="Mentions Légales - Janssens Family" />
+        <meta name="author" content="la chatterie des petits plis" />
+        <meta property="og:title" content="Mentions Légales - la chatterie des petits plis" />
         <meta
             property="og:description"
-            content="Consultez les mentions légales du site de l'élevage Janssens Family, éleveur familial de Scottish et British."
+            content="Consultez les mentions légales du site de la chatterie des petits plis, éleveur familial de Scottish et British."
         />
         <meta property="og:image" content="/images/mentions-legales.jpg" />
         <meta property="og:url" content="https://www.janssensfamily.be/mentions-legales" />
@@ -34,10 +34,10 @@ import Layout from './Layout.vue';
                 <p>
                     Ce site est édité par Monsieur <strong>Hadrien Janssens</strong>, développeur indépendant. <br />
                     Les contenus sont rédigés et mis à jour par Madame<strong> Laura Blanni</strong>, éleveuse agréée. <br /><br />
-                    <strong>Nom de l’élevage :</strong> Élevage Janssens Family<br />
+                    <strong>Nom de l’élevage :</strong> Chatterie des petits plis<br />
                     <strong>Adresse :</strong> Rue Joseph Wauters 81, 7140 Morlanwelz, Belgique<br />
                     <strong>Statut :</strong> Éleveur agréé par la Région wallonne<br />
-                    <strong>Email de contact :</strong> <a href="mailto:laurablanni7@hotmail.com">elevagejanssensfamily@gmail.com</a>
+                    <strong>Email de contact :</strong> <a href="mailto:laurablanni7@hotmail.com">chatteriedespetitsplis@gmail.com</a>
                 </p>
 
                 <h2 class="mt-6 mb-2 flex items-start gap-2 text-xl font-semibold"><Server /> Hébergeur</h2>
@@ -70,7 +70,7 @@ import Layout from './Layout.vue';
 
                     <br />
                     Vous pouvez demander la suppression de vos données à tout moment par email à :
-                    <a href="mailto:elevagejanssensfamily@gmail.com">elevagejanssensfamily@gmail.com</a>
+                    <a href="mailto:chatteriedespetitsplis@gmail.com">chatteriedespetitsplis@gmail.com</a>
                 </p>
 
                 <h2 class="mt-6 mb-2 flex items-start gap-2 text-xl font-semibold"><Cookie /> Cookies</h2>
