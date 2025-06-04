@@ -21,37 +21,20 @@
     @inertiaHead
 
 
-    <?php
-    
-    $cookieConsent = request()->cookie('analytics_consent');
-    echo '<script>console.log("Cookie consent: ' . $cookieConsent . '");</script>';
-    if ($cookieConsent === 'yes') {
-        echo '<script>console.log("Google Analytics loaded");</script>';
-    } else {
-        echo '<script>console.log("Google Analytics not loaded");</script>';
-    }
-    ?>
-
-    {{-- @if (request()->cookie('analytics_consent') === 'yes') --}}
-
-
     <!-- Google tag (gtag.js) -->
+    @if (request()->cookie('analytics_consent') === 'yes')
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-01R6T4ZEX5"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
 
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag('js', new Date());
 
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-NMF8WZ840F"></script>
-    <script>
-        console.log('Google Analytics loaded');
-        window.dataLayer = window.dataLayer || [];
-
-        function gtag() {
-            dataLayer.push(arguments);
-        }
-        gtag('js', new Date());
-
-        gtag('config', 'G-NMF8WZ840F');
-        console.log('Google Analytics loaded2');
-    </script>
-    {{-- @endif --}}
+            gtag('config', 'G-01R6T4ZEX5');
+        </script>
+    @endif
 </head>
 
 <body class="font-sans antialiased">

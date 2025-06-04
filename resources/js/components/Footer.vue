@@ -56,7 +56,7 @@ import { Cookie, Facebook, IdCard, Instagram, Mail, MapPinHouse, Scale } from 'l
                     </p>
                     <p class="flex items-center gap-2">
                         <a
-                            href="mailto:elevagejanssensfamily@gmail.com"
+                            href="mailto:chatteriedespetitsplis@gmail.com"
                             target="_blank"
                             rel="noopener noreferrer"
                             class="flex items-center gap-2"

@@ -58,13 +58,13 @@ const submitForm = () => {
 </script>
 <template>
     <!-- SEO Meta Tags -->
-    <Head title="Janssens Family - Elevage familial de Scottish & British">
+    <Head title="Chatterie des petits plis- Elevage familial de Scottish & British">
         <meta
             name="description"
-            content="Découvrez l'élevage familial Janssens Family spécialisé dans les chats Scottish et British. Contactez-nous pour en savoir plus sur nos reproducteurs et chatons."
+            content="Découvrez la chatterie des petits plis, spécialisé dans l'élevage de Scottish et British shortair. Contactez-nous pour en savoir plus sur nos reproducteurs et chatons."
         />
         <meta name="keywords" content="élevage familial, Scottish, Fold, British, chats, chatons, reproducteurs, Janssens Family" />
-        <meta name="author" content="Janssens Family" />
+        <meta name="author" content="Chatterie des petits plis" />
         <meta property="og:type" content="website" />
     </Head>
 
@@ -80,23 +80,23 @@ const submitForm = () => {
             class="h-70vh border-primary relative flex flex-col items-center justify-between overflow-hidden border-b-2 md:flex-row-reverse lg:mt-20"
         >
             <div class="z-10 basis-1/3 flex-col items-center gap-5 text-end md:static md:mr-20 md:flex">
-                <motion.h1
-                    as="h1"
-                    :initial="{ opacity: 0, y: -50 }"
-                    :animate="{ opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeInOut' } }"
-                    class="text-primary mb-5 text-5xl font-black md:text-6xl lg:text-8xl"
-                    aria-label="Janssens Family - Elevage familial de Scottish et British"
-                >
-                    Janssens <br />
-                    Family
-                </motion.h1>
                 <motion.h2
                     as="h2"
                     :initial="{ opacity: 0, y: -50 }"
                     :animate="{ opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeInOut' } }"
-                    class="relative text-[20px] font-bold text-[#A28C83] lg:text-4xl"
-                    ><strong>Elevage familial de <br />Scottish & British </strong></motion.h2
+                    class="text-primary poetsone mb-5 text-5xl font-black xl:text-8xl"
+                    aria-label="Janssens Family - Elevage familial de Scottish et British"
                 >
+                    Chatterie des <br />
+                    petits plis
+                </motion.h2>
+                <motion.h1
+                    as="h1"
+                    :initial="{ opacity: 0, y: -50 }"
+                    :animate="{ opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeInOut' } }"
+                    class="relative text-[20px] font-bold text-[#A28C83] lg:text-4xl"
+                    >Elevage familial de <br /><strong>Scottish</strong> & <strong>British</strong>
+                </motion.h1>
             </div>
             <div class="flex w-3/4 self-start md:basis-1/3">
                 <motion.img

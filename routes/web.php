@@ -117,7 +117,7 @@ Route::post('/send-mail', function (Request $request) {
     ];
 
 
-    Mail::to('elevagejanssensfamily@gmail.com')->send(new ContactMail($data));
+    Mail::to('chatteriedespetitsplis@gmail.com')->send(new ContactMail($data));
 
     return redirect()->back()->with('success', 'Email envoyé avec succès !');
 });
