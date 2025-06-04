@@ -78,12 +78,16 @@ const toggleLike = () => {
                         </div>
                     </h1>
                     <div v-if="isKitten(kitten)" class="text-right">
-                        <div v-if="!kitten.is_booked" class="text-primary flex items-center gap-2" @click="toggleLike">
+                        <div v-if="!kitten.is_booked && !kitten.is_adopted" class="text-primary flex items-center gap-2" @click="toggleLike">
                             <font-awesome-icon v-if="isLiked" icon="fa-solid fa-heart " class="z-10 text-lg text-red-500" />
                             <font-awesome-icon v-else icon="fa-regular fa-heart" class="z-10 text-lg text-red-500" />
                             <span class="font-medium">Disponible pour adoption</span>
                         </div>
-                        <div v-else class="text-primary flex items-center gap-2">
+                        <div v-if="kitten.is_adopted" class="text-primary flex items-center gap-2">
+                            <HeartCrack class="h-5 w-5 text-red-500" />
+                            <span class="font-medium">Ce chaton a été adopté</span>
+                        </div>
+                        <div v-if="kitten.is_booked" class="text-primary flex items-center gap-2">
                             <HeartCrack class="h-5 w-5 text-red-500" />
                             <span class="font-medium">Ce chaton est réservé</span>
                         </div>
