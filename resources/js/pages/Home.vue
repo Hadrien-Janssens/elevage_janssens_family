@@ -79,16 +79,16 @@ const submitForm = () => {
         <header
             class="h-70vh border-primary relative flex flex-col items-center justify-between overflow-hidden border-b-2 md:flex-row-reverse lg:mt-20"
         >
-            <div class="z-10 basis-1/3 flex-col items-center gap-5 text-end md:static md:mr-20 md:flex">
+            <div class="z-10 basis-1/3 flex-col items-center gap-5 text-end md:static md:mr-32 md:flex">
                 <motion.h2
                     as="h2"
                     :initial="{ opacity: 0, y: -50 }"
                     :animate="{ opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeInOut' } }"
-                    class="text-primary poetsone mb-5 text-5xl font-black xl:text-8xl"
+                    class="text-primary poetsone mb-5 text-5xl font-black xl:text-7xl"
                     aria-label="Janssens Family - Elevage familial de Scottish et British"
                 >
                     Chatterie des <br />
-                    petits plis
+                    Petits Plis
                 </motion.h2>
                 <motion.h1
                     as="h1"
