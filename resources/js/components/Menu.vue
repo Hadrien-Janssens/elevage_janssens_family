@@ -70,7 +70,7 @@ const goBack = () => {
 <template>
     <!-- Hamburger Button -->
     <div
-        class="sticky top-0 z-[9999] flex h-[80px] w-full items-start p-3 backdrop-blur-lg lg:hidden"
+        class="fixed top-0 z-[9999] flex h-[80px] w-full items-start p-3 backdrop-blur-lg lg:hidden"
         :class="{ 'justify-between': title, 'justify-end': !title }"
     >
         <button v-if="title" @click="goBack" class="duration-300 hover:scale-125 hover:cursor-pointer" aria-label="retour">

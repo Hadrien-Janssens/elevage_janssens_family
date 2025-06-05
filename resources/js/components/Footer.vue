@@ -4,7 +4,7 @@ import { Cookie, Facebook, IdCard, Instagram, Mail, MapPinHouse, Scale } from 'l
 </script>
 
 <template>
-    <footer class="mt-6 flex flex-col justify-between bg-[#F5F5F5] p-3">
+    <footer class="mt-6 flex w-full flex-col justify-between bg-[#F5F5F5] p-3">
         <div>
             <div class="flex items-start justify-between gap-2">
                 <div>

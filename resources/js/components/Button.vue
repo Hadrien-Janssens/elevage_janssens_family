@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ArrowUpRight } from 'lucide-vue-next';
 
-const props = defineProps({
+defineProps({
     label: {
         type: String,
         required: true,
@@ -11,7 +11,7 @@ const props = defineProps({
 
 <template>
     <button
-        class="group flex items-center justify-between gap-3 rounded-2xl border-2 border-[#B38D7D] bg-white p-1 pl-4 font-black hover:cursor-pointer"
+        class="group flex items-center justify-between gap-3 rounded-2xl border-2 border-[#B38D7D] bg-white p-1 pl-2 font-black hover:cursor-pointer sm:pl-4"
         @click="$emit('click')"
     >
         {{ label }}

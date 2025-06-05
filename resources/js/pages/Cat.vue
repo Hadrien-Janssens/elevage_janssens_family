@@ -31,9 +31,9 @@ defineProps<{
         <meta property="og:type" content="website" />
     </Head>
 
-    <Menu :title="capitalizeFirstLetter(cat?.name)" />
     <Layout>
-        <div class="mx-auto w-full max-w-4xl items-start gap-5 px-4 md:flex md:justify-center lg:mt-20 lg:py-6">
+        <Menu :title="capitalizeFirstLetter(cat?.name)" />
+        <div class="mx-auto w-full max-w-4xl grow items-start gap-5 px-4 md:flex md:justify-center lg:mt-20 lg:py-6">
             <DoubleCarrousel :cat="cat" />
 
             <CatsInformations :kitten="cat" :index="0" />

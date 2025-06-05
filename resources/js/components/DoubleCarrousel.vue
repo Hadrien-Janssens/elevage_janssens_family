@@ -99,8 +99,8 @@ watchOnce(emblaMainApi, (emblaMainApi) => {
                         class="basis-16 cursor-pointer pl-0"
                         @click="onThumbClick(index)"
                     >
-                        <div class="p-0" :class="index === selectedIndex ? 'ring-primary rounded-md ring-2' : 'opacity-80'">
-                            <Card class="border-0 p-0">
+                        <div class="overflow-hidden p-0" :class="index === selectedIndex ? 'ring-primary rounded-xl ring-2' : 'opacity-80'">
+                            <Card class="overflow-hidden border-0 p-0">
                                 <CardContent class="aspect-square min-h-[80px] p-0">
                                     <img
                                         loading="lazy"

@@ -105,7 +105,7 @@ Route::post('/send-mail', function (Request $request) {
         'email' => 'required_without:telephone|nullable|email',
         'nom' => 'required|string|max:255',
         'prenom' => 'required|string|max:255',
-        'telephone' => 'required_without:email|string|max:255',
+        'telephone' => 'required_without:email|nullable|max:255',
         'message' => 'required|string|max:5000',
     ]);
     $data = [

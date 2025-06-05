@@ -10,7 +10,7 @@ defineProps<{
 </script>
 <template>
     <Head>
-        <title>Réservation et conditions - Janssens Family</title>
+        <title>Réservation et conditions - Chatterie des petits plis</title>
         <meta
             name="description"
             content="Découvrez les conditions d'adoption et les informations sur la réservation chez Janssens Family, élevage familial de Scottish et British."
@@ -23,12 +23,11 @@ defineProps<{
             content="Découvrez les conditions d'adoption et les informations sur la réservation chez Janssens Family, élevage familial de Scottish et British."
         />
         <meta property="og:image" content="/images/reservation.jpg" />
-        <meta property="og:url" content="https://www.janssensfamily.be/booking" />
         <meta property="og:type" content="website" />
     </Head>
 
-    <Menu title="Réservation et conditions" />
     <Layout>
+        <Menu title="Réservation et conditions" />
         <div class="mx-auto max-w-3xl lg:mt-20 lg:py-6">
             <div class="relative m-3 mt-12 mb-0 flex-col justify-end p-3 text-justify">
                 <div class="border-primary absolute bottom-0 -left-1 h-1/2 w-1/2 rounded-bl-xl border-b-2 border-l-2"></div>

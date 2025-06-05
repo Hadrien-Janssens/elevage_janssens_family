@@ -44,6 +44,7 @@ const form = useForm({
 
 const submitForm = () => {
     form.post('/send-mail', {
+        preserveScroll: true,
         onSuccess: () => {
             form.reset();
 
@@ -95,7 +96,7 @@ const submitForm = () => {
                     :initial="{ opacity: 0, y: -50 }"
                     :animate="{ opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeInOut' } }"
                     class="relative text-[20px] font-bold text-[#A28C83] lg:text-4xl"
-                    >Elevage familial de <br /><strong>Scottish</strong> & <strong>British</strong>
+                    >Elevage familial de <br /><strong>Scottish & British</strong>
                 </motion.h1>
             </div>
             <div class="flex w-3/4 self-start md:basis-1/3">

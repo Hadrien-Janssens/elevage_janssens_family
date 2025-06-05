@@ -11,7 +11,7 @@ defineProps<{
 }>();
 </script>
 <template>
-    <div class="flex h-full grow basis-1/2 flex-col justify-between rounded-lg bg-[#ABA5A2] p-2 py-2 text-white md:px-4">
+    <div class="flex flex-col rounded-lg bg-[#ABA5A2] p-2 py-2 text-white md:px-4">
         <div class="grow">
             <p class="text-md">
                 {{ parent }} <span>{{ cat.name }}</span>
