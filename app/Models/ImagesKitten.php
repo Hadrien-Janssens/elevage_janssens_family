@@ -9,6 +9,7 @@ class ImagesKitten extends Model
     protected $fillable = [
         'kitten_id',
         'image_path',
+        'order'
     ];
 
     public function kitten()

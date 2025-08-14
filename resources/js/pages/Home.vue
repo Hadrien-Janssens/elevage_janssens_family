@@ -64,7 +64,7 @@ const submitForm = () => {
             name="description"
             content="Découvrez la chatterie des petits plis, spécialisé dans l'élevage de Scottish et British shortair. Contactez-nous pour en savoir plus sur nos reproducteurs et chatons."
         />
-        <meta name="keywords" content="élevage familial, Scottish, Fold, British, chats, chatons, reproducteurs, Janssens Family" />
+        <meta name="keywords" content="élevage familial, Scottish, Fold, British, chats, chatons, reproducteurs, Chatterie des petits plis" />
         <meta name="author" content="Chatterie des petits plis" />
         <meta property="og:type" content="website" />
     </Head>
@@ -78,7 +78,7 @@ const submitForm = () => {
         <!-- header -->
 
         <header
-            class="h-70vh border-primary relative flex flex-col items-center justify-between overflow-hidden border-b-2 md:flex-row-reverse lg:mt-20"
+            class="h-70vh border-primary relative mt-10 flex flex-col items-center justify-between overflow-hidden border-b-2 md:mt-20 md:flex-row-reverse"
         >
             <div class="z-10 basis-1/3 flex-col items-center gap-5 text-end md:static md:mr-32 md:flex">
                 <motion.h2

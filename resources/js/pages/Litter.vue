@@ -36,20 +36,20 @@ const handleLikeToggle = (kittenId: number) => {
 
 <template>
     <Head>
-        <title>{{ litter.name }} - Janssens Family</title>
+        <title>{{ litter.name }} - Chatterie des petits plis</title>
         <meta
             name="description"
-            content="Découvrez la portée {{ litter.name }} de l'élevage Janssens Family, éleveur familial de Scottish et British."
+            content="Découvrez la portée {{ litter.name }} de l'élevage Chatterie des petits plis, éleveur familial de Scottish et British."
         />
-        <meta name="keywords" content="portée, chatons, Scottish, British, élevage familial, Janssens Family" />
-        <meta name="author" content="Janssens Family" />
-        <meta property="og:title" content="{{ litter.name }} - Janssens Family" />
+        <meta name="keywords" content="portée, chatons, Scottish, British, élevage familial, Chatterie des petits plis" />
+        <meta name="author" content="Chatterie des petits plis" />
+        <meta property="og:title" content="{{ litter.name }} - Chatterie des petits plis" />
         <meta
             property="og:description"
-            content="Découvrez la portée {{ litter.name }} de l'élevage Janssens Family, éleveur familial de Scottish et British."
+            content="Découvrez la portée {{ litter.name }} de l'élevage Chatterie des petits plis, éleveur familial de Scottish et British."
         />
         <meta property="og:image" content="/images/portee.jpg" />
-        <meta property="og:url" content="https://www.janssensfamily.be/litter/{{ litter.id }}" />
+        <meta property="og:url" content="https://www.chatteriedespetitsplis.be/litter/{{ litter.id }}" />
         <meta property="og:type" content="website" />
     </Head>
 

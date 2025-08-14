@@ -19,7 +19,7 @@
         "tightenco/ziggy": "^2.4"
     },
     "require-dev": {
-        "fakerphp/faker": "^1.23",
+        "fakerphp/faker": "^1.24",
         "laravel-lang/lang": "^15.21",
         "laravel/pail": "^1.2.2",
         "laravel/pint": "^1.18",

@@ -23,20 +23,20 @@ const handleLikeToggle = (kittenId: number) => {
 
 <template>
     <Head>
-        <title>{{ capitalizeFirstLetter(kitten?.name) }} - Janssens Family</title>
+        <title>{{ capitalizeFirstLetter(kitten?.name) }} - Chatterie des petits plis</title>
         <meta
             name="description"
-            content="Découvrez {{ capitalizeFirstLetter(kitten?.name) }}, un de nos adorables chatons disponibles à l'adoption chez Janssens Family, élevage familial de Scottish et British."
+            content="Découvrez {{ capitalizeFirstLetter(kitten?.name) }}, un de nos adorables chatons disponibles à l'adoption chez Chatterie des petits plis, élevage familial de Scottish et British."
         />
-        <meta name="keywords" content="chaton, adoption, Scottish, British, élevage familial, Janssens Family, {{ kitten?.name }}" />
-        <meta name="author" content="Janssens Family" />
-        <meta property="og:title" content="{{ capitalizeFirstLetter(kitten?.name) }} - Janssens Family" />
+        <meta name="keywords" content="chaton, adoption, Scottish, British, élevage familial, Chatterie des petits plis, {{ kitten?.name }}" />
+        <meta name="author" content="Chatterie des petits plis" />
+        <meta property="og:title" content="{{ capitalizeFirstLetter(kitten?.name) }} - Chatterie des petits plis" />
         <meta
             property="og:description"
-            content="Découvrez {{ capitalizeFirstLetter(kitten?.name) }}, un de nos adorables chatons disponibles à l'adoption chez Janssens Family, élevage familial de Scottish et British."
+            content="Découvrez {{ capitalizeFirstLetter(kitten?.name) }}, un de nos adorables chatons disponibles à l'adoption chez Chatterie des petits plis, élevage familial de Scottish et British."
         />
         <meta property="og:image" content="/images/kittens/{{ kitten?.id }}.jpg" />
-        <meta property="og:url" content="https://www.janssensfamily.be/kitten/{{ kitten?.id }}" />
+        <meta property="og:url" content="https://www.hatteriedespetitsplis.be/kitten/{{ kitten?.id }}" />
         <meta property="og:type" content="website" />
     </Head>
 
@@ -45,6 +45,7 @@ const handleLikeToggle = (kittenId: number) => {
         <div class="mx-auto w-full max-w-4xl items-start gap-5 px-4 lg:mt-20 lg:flex lg:justify-center lg:py-6">
             <!-- Carrousel principal -->
             <DoubleCarrousel :cat="kitten" />
+
             <!-- Infos chaton -->
             <CatsInformations :kitten="kitten" :index="0" :isLiked="isLiked" @toggle-like="handleLikeToggle" />
         </div>

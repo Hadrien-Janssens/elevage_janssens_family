@@ -18,21 +18,51 @@ defineProps({
 });
 
 const form = useForm({
-    name: '',
-    description: '',
-    gender: '',
-    race: '',
-    body_color: '',
-    litter_id: '',
-    price: '',
+    name: 'test',
+    description: 'test',
+    gender: 'Femelle',
+    race: 'test',
+    body_color: 'test',
+    litter_id: '2',
+    price: '200',
     is_booked: false,
     is_adopted: false,
     photos: [],
+    videos: [],
+    orders_photo: [],
 });
 
-const photoFiles = ref<File[]>([]);
+const photoFiles = ref<object[]>([]);
 const photoPreviews = ref<{ id?: number; src: string }[]>([]);
 const existingImages = ref<{ id?: number; src: string }[]>([]);
+
+const videoFiles = ref<File[]>([]);
+const videoPreviews = ref<{ src: string }[]>([]);
+async function handleVideoUpload(event: Event) {
+    const files = (event.target as HTMLInputElement).files;
+    if (!files) return;
+
+    startProcessing(files.length);
+    videoFiles.value = [];
+
+    for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        if (!file.type.startsWith('video/')) continue; // ignore si ce n'est pas une vidéo
+
+        const preview = URL.createObjectURL(file);
+        videoPreviews.value.push({ src: preview });
+        videoFiles.value.push(file);
+
+        updateProgress();
+    }
+
+    completeProcessing();
+}
+
+function removeVideo(index: number) {
+    videoFiles.value.splice(index, 1);
+    videoPreviews.value.splice(index, 1);
+}
 
 const { addPhoto } = useImageHandler(existingImages, photoPreviews);
 const { progress, totalItems, currentItem, isProcessing, isComplete, startProcessing, updateProgress, completeProcessing } = useProgress();
@@ -47,7 +77,9 @@ async function handlePhotoUpload(event: Event) {
 
     for (let i = 0; i < files.length; i++) {
         const processedFile = await addPhoto(files[i]);
-        if (processedFile) photoFiles.value.push(processedFile);
+        if (processedFile) {
+            photoFiles.value.push({ file: processedFile, order: i });
+        }
 
         updateProgress();
     }
@@ -61,8 +93,12 @@ function removePhoto(index: number) {
 }
 
 function submit() {
-    form.photos = photoFiles.value;
+    // form.photos = photoFiles.value;
+    form.photos = photoFiles.value.map((p) => p.file);
+    form.orders_photo = photoFiles.value.map((p) => p.order);
+    form.videos = videoFiles.value;
     form.post(route('admin.kitten.store'), {
+        forceFormData: true,
         onSuccess: () => {
             photoFiles.value = [];
             photoPreviews.value = [];
@@ -163,6 +199,30 @@ function submit() {
                     :is-processing="isProcessing"
                     :is-complete="isComplete"
                 />
+
+                <!-- TODO: -->
+                <div class="space-y-2">
+                    <Label for="videos">Vidéos</Label>
+                    <Input type="file" id="videos" accept="video/*" multiple @change="handleVideoUpload" />
+                    <p v-if="form.errors.videos" class="mt-1 text-sm text-red-600">{{ form.errors.videos }}</p>
+                </div>
+                <ProgressBar
+                    :current="currentItem"
+                    :total="totalItems"
+                    :progress="progress"
+                    :is-processing="isProcessing"
+                    :is-complete="isComplete"
+                />
+
+                <div v-if="videoPreviews.length" class="mt-4 space-y-4">
+                    <div v-for="(vid, index) in videoPreviews" :key="index" class="relative">
+                        <video :src="vid.src" class="w-full rounded-lg shadow" controls></video>
+                        <Button type="button" variant="destructive" size="sm" class="absolute top-2 right-2" @click="removeVideo(index)">
+                            Supprimer
+                        </Button>
+                    </div>
+                </div>
+                <!-- TODO: -->
 
                 <div v-if="photoPreviews.length" class="mt-4">
                     <Carousel class="mx-auto w-full max-w-xl">

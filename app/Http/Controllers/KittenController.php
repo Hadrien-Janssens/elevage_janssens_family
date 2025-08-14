@@ -56,8 +56,13 @@ class KittenController extends Controller
             'is_booked' => 'boolean',
             'is_adopted' => 'boolean',
             'photos' => 'nullable|array',
-            'photos.*' => 'nullable|image|max:10240', // max 10 MB par photo
+            'orders_photo' => 'nullable|array',
+            'orders_photo.*' => 'nullable|numeric',
+            'photos.*' => 'nullable|image|max:10240',
+            'videos' => 'nullable|array',
+            'videos.*' => 'nullable|mimetypes:image/jpeg,image/png,image/jpg,video/mp4,video/quicktime|max:51200',
         ]);
+
         $kitten = Kitten::create([
             'name' => $validated['name'],
             'description' => $validated['description'],
@@ -71,31 +76,45 @@ class KittenController extends Controller
         ]);
 
         if ($request->hasFile('photos')) {
-            foreach ($request->file('photos') as $photo) {
+            // foreach ($request->file('photos') as $file) {
+            for ($i = 0; $i < count($request->file('photos')); $i++) {
+                $file = $request->file('photos')[$i];
+
                 $maxSizeKb = 1000; // seuil ~1 MB
                 $filename = uniqid() . '.jpg'; // on force en jpg après compression
 
-                if ($photo->getSize() / 1024 > $maxSizeKb) {
+                if ($file->getSize() / 1024 > $maxSizeKb) {
                     // Compressons l'image
                     $manager = new ImageManager(new Driver());
-                    $image = $manager->read($photo);
+                    $image = $manager->read($file);
                     $image->scale(height: 300);
 
                     $encoder = new JpegEncoder(95);
                     $encoded = $image->encode($encoder);
-
                     Storage::disk('public')->put('kittens/' . $filename, $encoded->__toString());
                 } else {
                     // Pas besoin de compresser, on garde l’extension d’origine
-                    $filename = uniqid() . '.' . $photo->getClientOriginalExtension();
-                    $photo->storeAs('kittens', $filename, 'public');
+                    $filename = uniqid() . '.jpg';
+                    $file->storeAs('kittens', $filename, 'public');
                 }
 
                 $kitten->images()->create([
-                    'image_path' =>   $filename
+                    'image_path' =>   $filename,
+                    'order' => $request->input('orders_photo')[$i],
                 ]);
             }
         }
+        if ($request->hasFile('videos')) {
+            foreach ($request->file('videos') as $file) {
+                $filename = uniqid() . '.' . 'mp4';
+                $file->storeAs('kittens', $filename, 'public');
+
+                $kitten->images()->create([
+                    'image_path' => $filename
+                ]);
+            }
+        }
+
 
         return redirect()->route('admin.kitten.index')
             ->with('success', 'Le chaton a été créé avec succès.');
