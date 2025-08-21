@@ -64,7 +64,9 @@ Route::get('/chatons', function () {
 Route::get('/chatons/{kitten}', function (Kitten $kitten) {
 
     return Inertia::render('Kitten')->with([
-        'kitten' => $kitten->load(['litter', 'litter.mother.images', 'litter.father.images',  'images']),
+        'kitten' => $kitten->load(['litter', 'litter.mother.images', 'litter.father.images',  'images' => function ($query) {
+            $query->orderBy('order');
+        }]),
     ]);
 })->name('kitten.show');
 

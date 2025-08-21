@@ -29,9 +29,7 @@ const form = useForm({
     is_adopted: false,
     photos: [],
     videos: [],
-    orders_photo: [],
 });
-
 const photoFiles = ref<object[]>([]);
 const photoPreviews = ref<{ id?: number; src: string }[]>([]);
 const existingImages = ref<{ id?: number; src: string }[]>([]);

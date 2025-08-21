@@ -14,13 +14,6 @@ import { onMounted, ref } from 'vue';
 import draggable from 'vuedraggable';
 import { Images } from '../../../types/index';
 
-// ton tableau de données
-const myArray = ref([
-    { id: 1, name: 'Alice' },
-    { id: 2, name: 'Bob' },
-    { id: 3, name: 'Charlie' },
-]);
-
 // état du drag
 const drag = ref(false);
 
@@ -43,6 +36,9 @@ const form = useForm({
     photos: props.images?.map((image: Images) => image.image_path) || [],
     deleted_images: [] as number[],
     new_photos: [] as File[],
+    orders_photo: [],
+    newPhotoOrder: [],
+    existingPhotoOrder: [],
 });
 
 const existingImages = ref<Images[]>(props.images || []);
@@ -56,6 +52,7 @@ onMounted(() => {
         id: img.id,
         src: '/' + img.image_path,
     }));
+    console.log(photoPreviews.value);
 });
 
 const { addPhoto } = useImageHandler(existingImages, photoPreviews);
@@ -95,10 +92,27 @@ function removePhoto(index: number) {
 
     photoPreviews.value.splice(index, 1);
 }
-
+// je peux envoie deux tableau, un avec juste [{id : 78, order : 0},{id : 40, order : 4},] => anciennes photos et pour celle dans le backend je peux faire un update des ordres
+// un autre [{1,2,3,5}] et ici dans le back je peux sauvegarder l'ordre dans la meme boucle que dans la creation d'image dans la table image
 function submit() {
+    // ordre des photos existantes
+    const existingPhotoOrder = photoPreviews.value
+        .map((el, index) => {
+            return { id: el.id, order: index };
+        })
+        .filter((el) => el.id !== undefined);
+
+    // ordre des nouvelles Photos
+    const newPhotoOrder = photoPreviews.value
+        .map((el, index) => {
+            return { id: el.id, order: index };
+        })
+        .filter((el) => el.id === undefined);
+
     form.deleted_images = deletedImageIds.value;
     form.new_photos = newPhotoFiles.value;
+    form.existingPhotoOrder = existingPhotoOrder;
+    form.newPhotoOrder = newPhotoOrder;
 
     form.post(route('admin.kitten.update', { kitten: props.kitten?.id }), {
         onSuccess: () => {
@@ -227,9 +241,11 @@ function submit() {
                 <!-- TODO: il faut gérer l'ordre -->
                 <div v-if="photoPreviews.length" class="mt-4">
                     <!-- draggable pour les images -->
-                    <draggable v-model="photoPreviews" group="photos" item-key="id" class="flex gap-4" @start="drag = true" @end="drag = false">
+                    <draggable v-model="photoPreviews" item-key="id" class="flex gap-4" @start="drag = true" @end="drag = false">
                         <template #item="{ element, index }">
                             <div class="relative">
+                                <p>{{ index }}</p>
+
                                 <img
                                     :src="element.src.startsWith('data:') ? element.src : '/storage/kittens/' + element.src"
                                     class="h-64 w-48 rounded-lg object-cover shadow"

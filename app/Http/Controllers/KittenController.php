@@ -135,7 +135,7 @@ class KittenController extends Controller
                 ->with('error', 'Le chaton n\'existe pas.');
         }
         $litters = Litter::with(['mother', 'father'])->get();
-        $images = $kitten->images()->get();
+        $images = $kitten->images()->orderBy('order')->get();
 
 
         return Inertia::render('admin/kitten/Edit')->with([
@@ -170,8 +170,9 @@ class KittenController extends Controller
             'deleted_images.*' => 'integer|exists:images_kittens,id',
             'new_photos' => 'nullable|array',
             'new_photos.*' => 'image|max:10240',
+            'newPhotoOrder' => 'nullable|array',
+            'existingPhotoOrder' => 'nullable|array',
         ]);
-
         // Suppression des images
         if (!empty($validated['deleted_images'])) {
             foreach ($validated['deleted_images'] as $imageId) {
@@ -197,8 +198,13 @@ class KittenController extends Controller
         ]);
 
         // Ajout des nouvelles images
+        // TODO:peut etre rajouter la conditions : si ordernewphoton'est pas empty
         if ($request->hasFile('new_photos')) {
-            foreach ($request->file('new_photos') as $photo) {
+
+            for ($i = 0; $i < count($request->file('new_photos')); $i++) {
+                $photo = $request->file('new_photos')[$i];
+
+                // foreach ($request->file('new_photos') as $photo) {
                 $filename = uniqid() . '.jpg';
 
                 if ($photo->getSize() / 1024 > 1000) {
@@ -212,7 +218,16 @@ class KittenController extends Controller
                 }
 
                 $kitten->images()->create([
-                    'image_path' => $filename
+                    'image_path' => $filename,
+                    'order' => $request->input('newPhotoOrder')[$i]['order']
+                ]);
+            }
+        }
+        if (!empty($request->input('existingPhotoOrder'))) {
+            foreach ($request->input('existingPhotoOrder') as $v) {
+                $image =  ImagesKitten::findOrfail($v['id']);
+                $image->update([
+                    'order' => $v['order']
                 ]);
             }
         }
