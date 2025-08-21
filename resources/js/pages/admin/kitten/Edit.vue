@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import ProgressBar from '@/components/ProgressBar.vue';
 import { Button } from '@/components/ui/button';
-import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
 import Input from '@/components/ui/input/Input.vue';
 import Label from '@/components/ui/label/Label.vue';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -12,7 +11,18 @@ import { useProgress } from '@/composables/useProgress';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { useForm } from '@inertiajs/vue3';
 import { onMounted, ref } from 'vue';
+import draggable from 'vuedraggable';
 import { Images } from '../../../types/index';
+
+// ton tableau de données
+const myArray = ref([
+    { id: 1, name: 'Alice' },
+    { id: 2, name: 'Bob' },
+    { id: 3, name: 'Charlie' },
+]);
+
+// état du drag
+const drag = ref(false);
 
 const props = defineProps({
     kitten: Object,
@@ -194,7 +204,12 @@ function submit() {
                 <p v-if="form.errors.new_photos" class="mt-1 text-sm text-red-600">{{ form.errors.new_photos }}</p>
                 <p v-if="form.errors.deleted_images" class="mt-1 text-sm text-red-600">{{ form.errors.deleted_images }}</p>
 
-                <div v-if="photoPreviews.length" class="mt-4">
+                <!-- <div v-if="photoPreviews.length" class="mt-4">
+                    <draggable v-model="myArray" group="people" @start="drag = true" @end="drag = false" item-key="id">
+                        <template #item="{ element }">
+                            <div>{{ element.name }}</div>
+                        </template>
+                    </draggable>
                     <Carousel class="mx-auto w-full max-w-xl">
                         <CarouselContent class="w-3/4">
                             <CarouselItem v-for="(item, index) in photoPreviews" :key="index" class="relative">
@@ -208,6 +223,23 @@ function submit() {
                             </CarouselItem>
                         </CarouselContent>
                     </Carousel>
+                </div> -->
+                <!-- TODO: il faut gérer l'ordre -->
+                <div v-if="photoPreviews.length" class="mt-4">
+                    <!-- draggable pour les images -->
+                    <draggable v-model="photoPreviews" group="photos" item-key="id" class="flex gap-4" @start="drag = true" @end="drag = false">
+                        <template #item="{ element, index }">
+                            <div class="relative">
+                                <img
+                                    :src="element.src.startsWith('data:') ? element.src : '/storage/kittens/' + element.src"
+                                    class="h-64 w-48 rounded-lg object-cover shadow"
+                                />
+                                <Button type="button" size="sm" class="absolute top-2 right-2 rounded-full font-black" @click="removePhoto(index)">
+                                    supprimer
+                                </Button>
+                            </div>
+                        </template>
+                    </draggable>
                 </div>
                 <Button type="submit" class="w-full" :disabled="isProcessing">Mettre à jour</Button>
             </form>

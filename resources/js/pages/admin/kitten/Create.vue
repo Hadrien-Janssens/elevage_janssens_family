@@ -200,7 +200,6 @@ function submit() {
                     :is-complete="isComplete"
                 />
 
-                <!-- TODO: -->
                 <div class="space-y-2">
                     <Label for="videos">Vidéos</Label>
                     <Input type="file" id="videos" accept="video/*" multiple @change="handleVideoUpload" />
@@ -222,7 +221,6 @@ function submit() {
                         </Button>
                     </div>
                 </div>
-                <!-- TODO: -->
 
                 <div v-if="photoPreviews.length" class="mt-4">
                     <Carousel class="mx-auto w-full max-w-xl">
