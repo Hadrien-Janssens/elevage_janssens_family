@@ -52,7 +52,6 @@ onMounted(() => {
         id: img.id,
         src: '/' + img.image_path,
     }));
-    console.log(photoPreviews.value);
 });
 
 const { addPhoto } = useImageHandler(existingImages, photoPreviews);
@@ -92,8 +91,7 @@ function removePhoto(index: number) {
 
     photoPreviews.value.splice(index, 1);
 }
-// je peux envoie deux tableau, un avec juste [{id : 78, order : 0},{id : 40, order : 4},] => anciennes photos et pour celle dans le backend je peux faire un update des ordres
-// un autre [{1,2,3,5}] et ici dans le back je peux sauvegarder l'ordre dans la meme boucle que dans la creation d'image dans la table image
+
 function submit() {
     // ordre des photos existantes
     const existingPhotoOrder = photoPreviews.value
@@ -111,6 +109,7 @@ function submit() {
 
     form.deleted_images = deletedImageIds.value;
     form.new_photos = newPhotoFiles.value;
+
     form.existingPhotoOrder = existingPhotoOrder;
     form.newPhotoOrder = newPhotoOrder;
 

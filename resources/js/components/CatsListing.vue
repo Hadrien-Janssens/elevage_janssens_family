@@ -100,7 +100,7 @@ const desktopItemAnimation = {
 
     <div v-else>
         <motion.p class="poetsone mt-10 px-4 text-center text-xl text-[#B5A9A4]">
-            Naissances prévues pour début juillet 2025
+            <!-- Naissances prévues pour début juillet 2025
             <br />
             Nous avons hâte de vous présenter nos futurs chatons.
             <br />
@@ -111,7 +111,12 @@ const desktopItemAnimation = {
             <br />
             nous vous invitons à consulter régulièrement notre site web
             <br />
-            ou à nous suivre sur les réseaux sociaux
+            ou à nous suivre sur les réseaux sociaux -->
+            Nous n'avons plus de chaton disponible à l'adoption pour le moment.
+            <br />
+            Les prochaines naissances sont attendues pour 2026.
+            <br />
+            N'hésitez pas à nous suivre sur les réseaux sociaux pour ne rien manquer.
             <div class="mt-2 flex justify-center gap-4">
                 <span class="flex items-center gap-2">
                     <a
@@ -135,11 +140,24 @@ const desktopItemAnimation = {
                         <Instagram class="h-6 w-6" />
                     </a>
                 </span>
+                <span class="flex items-center gap-2">
+                    <a
+                        href="https://www.tiktok.com/@chatteriedespetitsplis"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="flex items-center gap-2 text-[#51687F]"
+                        aria-label="Tiktok"
+                    >
+                        <img src="/img/tiktok.png" alt="" width="22px" />
+                    </a>
+                </span>
             </div>
 
-            pour être informé(e) des naissances et des disponibilités.
-            <br />
-            N'hésitez pas à nous contacter pour plus d'informations.
+            <!-- pour être informé(e) des naissances et des disponibilités.
+            <br /> -->
+            <!-- N'hésitez pas à nous contacter pour plus d'informations. -->
+            Vous pouvez nous contactez pour plus d'information, nous nous ferons un plaisir de vous répondre.
+            <br />A bientôt !
             <br />
         </motion.p>
         <Link href="/#contact"> <Button class="mx-auto mt-4 text-black" :label="'Contactez-nous'" /></Link>

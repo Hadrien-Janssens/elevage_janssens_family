@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import ProgressBar from '@/components/ProgressBar.vue';
 import { Button } from '@/components/ui/button';
-import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
 import Input from '@/components/ui/input/Input.vue';
 import Label from '@/components/ui/label/Label.vue';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -10,8 +9,12 @@ import { Textarea } from '@/components/ui/textarea';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { useForm } from '@inertiajs/vue3';
 import { ref } from 'vue';
+import draggable from 'vuedraggable';
 import { useImageHandler } from '../../../composables/useImageHandler';
 import { useProgress } from '../../../composables/useProgress';
+
+// état du drag
+const drag = ref(false);
 
 defineProps({
     litters: Object,
@@ -29,11 +32,11 @@ const form = useForm({
     is_adopted: false,
     photos: [],
     videos: [],
+    orders_photo: [],
 });
 const photoFiles = ref<object[]>([]);
-const photoPreviews = ref<{ id?: number; src: string }[]>([]);
+const photoPreviews = ref<{ id?: number; src: string; order: number }[]>([]);
 const existingImages = ref<{ id?: number; src: string }[]>([]);
-
 const videoFiles = ref<File[]>([]);
 const videoPreviews = ref<{ src: string }[]>([]);
 async function handleVideoUpload(event: Event) {
@@ -75,8 +78,14 @@ async function handlePhotoUpload(event: Event) {
 
     for (let i = 0; i < files.length; i++) {
         const processedFile = await addPhoto(files[i]);
+        // const preview = await generatePreview(processedFile);
+        // photoPreviews.value.push({ src: preview });
+
+        //ajouter un ordre au preview
+        photoPreviews.value[i].order = i;
+
         if (processedFile) {
-            photoFiles.value.push({ file: processedFile, order: i });
+            photoFiles.value.push(processedFile);
         }
 
         updateProgress();
@@ -91,9 +100,11 @@ function removePhoto(index: number) {
 }
 
 function submit() {
-    // form.photos = photoFiles.value;
-    form.photos = photoFiles.value.map((p) => p.file);
-    form.orders_photo = photoFiles.value.map((p) => p.order);
+    form.photos = photoFiles.value;
+    console.log(photoPreviews.value);
+    return;
+    // form.orders_photo = photoFiles.value.map((p) => p.order);
+    // form.orders_photo = photoPreviews.map((el,index) => )
     form.videos = videoFiles.value;
     form.post(route('admin.kitten.store'), {
         forceFormData: true,
@@ -221,7 +232,7 @@ function submit() {
                 </div>
 
                 <div v-if="photoPreviews.length" class="mt-4">
-                    <Carousel class="mx-auto w-full max-w-xl">
+                    <!-- <Carousel class="mx-auto w-full max-w-xl">
                         <CarouselContent class="w-3/4">
                             <CarouselItem v-for="(src, index) in photoPreviews" :key="index" class="relative">
                                 <img :src="src.src" class="h-64 w-full rounded-lg object-cover shadow" />
@@ -230,7 +241,22 @@ function submit() {
                                 </Button>
                             </CarouselItem>
                         </CarouselContent>
-                    </Carousel>
+                    </Carousel> -->
+                    <draggable v-model="photoPreviews" item-key="id" class="flex gap-4" @start="drag = true" @end="drag = false">
+                        <template #item="{ element, index }">
+                            <div class="relative">
+                                <p>{{ index }}</p>
+
+                                <img
+                                    :src="element.src.startsWith('data:') ? element.src : '/storage/kittens/' + element.src"
+                                    class="h-64 w-48 rounded-lg object-cover shadow"
+                                />
+                                <Button type="button" size="sm" class="absolute top-2 right-2 rounded-full font-black" @click="removePhoto(index)">
+                                    supprimer
+                                </Button>
+                            </div>
+                        </template>
+                    </draggable>
                 </div>
 
                 <Button type="submit" :disabled="isProcessing" class="w-full">Enregistrer</Button>

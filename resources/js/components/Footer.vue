@@ -54,6 +54,17 @@ import { Cookie, Facebook, IdCard, Instagram, Mail, MapPinHouse, Scale } from 'l
                             <Instagram class="h-6 w-6" />
                         </a>
                     </p>
+                    <span class="flex items-center gap-2">
+                        <a
+                            href="https://www.tiktok.com/@chatteriedespetitsplis"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="flex items-center gap-2 text-[#51687F]"
+                            aria-label="Tiktok"
+                        >
+                            <img src="/img/tiktok.png" alt="" width="22px" />
+                        </a>
+                    </span>
                     <p class="flex items-center gap-2">
                         <a
                             href="mailto:chatteriedespetitsplis@gmail.com"

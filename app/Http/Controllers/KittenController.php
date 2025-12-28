@@ -84,24 +84,25 @@ class KittenController extends Controller
                 $maxSizeKb = 1000; // seuil ~1 MB
                 $filename = uniqid() . '.jpg'; // on force en jpg après compression
 
-                if ($file->getSize() / 1024 > $maxSizeKb) {
-                    // Compressons l'image
-                    $manager = new ImageManager(new Driver());
-                    $image = $manager->read($file);
-                    $image->scale(height: 300);
+                // if ($file->getSize() / 1024 > $maxSizeKb) {
+                //     // Compressons l'image
+                //     $manager = new ImageManager(new Driver());
+                //     $image = $manager->read($file);
+                //     $image->scale(height: 300);
 
-                    $encoder = new JpegEncoder(95);
-                    $encoded = $image->encode($encoder);
-                    Storage::disk('public')->put('kittens/' . $filename, $encoded->__toString());
-                } else {
-                    // Pas besoin de compresser, on garde l’extension d’origine
-                    $filename = uniqid() . '.jpg';
-                    $file->storeAs('kittens', $filename, 'public');
-                }
+                //     $encoder = new JpegEncoder(95);
+                //     $encoded = $image->encode($encoder);
+                //     Storage::disk('public')->put('kittens/' . $filename, $encoded->__toString());
+                // } else {
+                // Pas besoin de compresser, on garde l’extension d’origine
+                $filename = uniqid() . '.jpg';
+                $file->storeAs('kittens', $filename, 'public');
+                // }
 
                 $kitten->images()->create([
                     'image_path' =>   $filename,
-                    'order' => $request->input('orders_photo')[$i],
+                    // 'order' => $request->input('orders_photo')[$i],
+                    'order' => $i,
                 ]);
             }
         }
@@ -207,15 +208,15 @@ class KittenController extends Controller
                 // foreach ($request->file('new_photos') as $photo) {
                 $filename = uniqid() . '.jpg';
 
-                if ($photo->getSize() / 1024 > 1000) {
-                    $manager = new ImageManager(new Driver());
-                    $image = $manager->read($photo);
-                    $image->scale(height: 300);
-                    $encoded = $image->encode(new JpegEncoder(95));
-                    Storage::disk('public')->put('kittens/' . $filename, $encoded);
-                } else {
-                    $photo->storeAs('kittens', $filename, 'public');
-                }
+                // if ($photo->getSize() / 1024 > 1000) {
+                //     $manager = new ImageManager(new Driver());
+                //     $image = $manager->read($photo);
+                //     $image->scale(height: 300);
+                //     $encoded = $image->encode(new JpegEncoder(95));
+                //     Storage::disk('public')->put('kittens/' . $filename, $encoded);
+                // } else {
+                $photo->storeAs('kittens', $filename, 'public');
+                // }
 
                 $kitten->images()->create([
                     'image_path' => $filename,
