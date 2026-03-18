@@ -4,10 +4,34 @@ services:
     container_name: laravel_app_prod
     restart: unless-stopped
     environment:
-      - APP_ENV=production
+      - APP_NAME=${APP_NAME}
+      - APP_ENV=${APP_ENV}
       - APP_KEY=${APP_KEY}
+      - APP_DEBUG=${APP_DEBUG}
+      - APP_URL=${APP_URL}
+      - APP_LOCALE=${APP_LOCALE}
+      - APP_MAINTENANCE_DRIVER=${APP_MAINTENANCE_DRIVER}
+      - BCRYPT_ROUNDS=${BCRYPT_ROUNDS}
+      - LOG_LEVEL=${LOG_LEVEL}
+      
+      # Admin Setup
+      - ADMIN_EMAIL=${ADMIN_EMAIL}
+      - ADMIN_NAME=${ADMIN_NAME}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      
+      # Database (SQLite)
       - DB_CONNECTION=sqlite
       - DB_DATABASE=/app/database/database.sqlite
+      
+      # Mail Configuration
+      - MAIL_MAILER=${MAIL_MAILER}
+      - MAIL_HOST=${MAIL_HOST}
+      - MAIL_PORT=${MAIL_PORT}
+      - MAIL_USERNAME=${MAIL_USERNAME}
+      - MAIL_PASSWORD=${MAIL_PASSWORD}
+      - MAIL_ENCRYPTION=${MAIL_ENCRYPTION}
+      - MAIL_FROM_ADDRESS=${MAIL_FROM_ADDRESS}
+      - MAIL_FROM_NAME=${MAIL_FROM_NAME}
     volumes:
       # Important pour ne pas perdre tes données SQLite à chaque mise à jour
       - ./database:/app/database 
