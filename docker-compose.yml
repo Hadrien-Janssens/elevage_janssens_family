@@ -1,0 +1,20 @@
+services:
+  laravel-app:
+    build: .
+    container_name: laravel_app_prod
+    restart: unless-stopped
+    environment:
+      - APP_ENV=production
+      - APP_KEY=${APP_KEY}
+      - DB_CONNECTION=sqlite
+      - DB_DATABASE=/app/database/database.sqlite
+    volumes:
+      # Important pour ne pas perdre tes données SQLite à chaque mise à jour
+      - ./database:/app/database 
+      - ./storage:/app/storage
+    networks:
+      - npm_network # Le nom du réseau utilisé par ton Nginx Proxy Manager
+
+networks:
+  npm_network:
+    external: true
