@@ -112,10 +112,14 @@ const desktopItemAnimation = {
             nous vous invitons à consulter régulièrement notre site web
             <br />
             ou à nous suivre sur les réseaux sociaux -->
-            Nous n'avons plus de chaton disponible à l'adoption pour le moment.
+            <!-- Nous n'avons plus de chaton disponible à l'adoption pour le moment. -->
             <br />
-            Les prochaines naissances sont attendues pour 2026.
+            <!-- Les prochaines naissances sont attendues pour 2026. -->
             <br />
+             Nous sommes heureux de vous annoncer que des naissances sont prévues pour fin juin 2026.
+            <br>
+            Nous avons hâte de vous présenter nos futurs chatons.
+            <br>
             N'hésitez pas à nous suivre sur les réseaux sociaux pour ne rien manquer.
             <div class="mt-2 flex justify-center gap-4">
                 <span class="flex items-center gap-2">
