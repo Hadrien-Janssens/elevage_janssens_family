@@ -33,6 +33,7 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
 
 
     Route::resource('contents', 'App\Http\Controllers\ContentController')->names('contents');
+    Route::resource('faq', 'App\Http\Controllers\faqController')->names('faq');
 });
 
 
@@ -63,7 +64,9 @@ Route::get('/chatons', function () {
 Route::get('/chatons/{kitten}', function (Kitten $kitten) {
 
     return Inertia::render('Kitten')->with([
-        'kitten' => $kitten->load(['litter', 'litter.mother.images', 'litter.father.images',  'images']),
+        'kitten' => $kitten->load(['litter', 'litter.mother.images', 'litter.father.images',  'images' => function ($query) {
+            $query->orderBy('order');
+        }]),
     ]);
 })->name('kitten.show');
 
@@ -89,8 +92,10 @@ Route::get('/chats', function () {
 
 Route::get('/conditions-adoption', function () {
     $contents = \App\Models\Content::all();
+    $faqs = \App\Models\Faq::orderBy('order')->get();
     return Inertia::render('Booking')->with([
         'contents' => $contents,
+        'faqs' => $faqs,
     ]);
 })->name('booking');
 

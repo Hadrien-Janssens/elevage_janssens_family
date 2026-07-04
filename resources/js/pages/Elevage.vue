@@ -13,11 +13,11 @@ const props = defineProps<{
         <title>Elevage</title>
         <meta name="description" content="Elevage de Scottish Fold et British Shorthair" />
         <meta name="keywords" content="élevage, Scottish Fold, British Shorthair, chats, chatons" />
-        <meta name="author" content="Janssens Family" />
+        <meta name="author" content="Chatterie des petits plis" />
         <meta property="og:title" content="Elevage" />
         <meta property="og:description" content="Elevage de Scottish Fold et British Shorthair" />
         <meta property="og:image" content="/images/elevage.jpg" />
-        <meta property="og:url" content="https://elevage-janssens-family.hadrien-janssens.com/a-propos" />
+        <meta property="og:url" content="https://chatteriedespetitsplis/a-propos" />
     </Head>
     <Menu title="Elevage" />
     <Layout>

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { Link } from '@inertiajs/vue3';
-import { Cookie, Facebook, IdCard, Instagram, Mail, MapPinHouse, Scale } from 'lucide-vue-next';
+import { Cookie, Facebook, IdCard, Instagram, Mail, Scale } from 'lucide-vue-next';
 </script>
 
 <template>
@@ -9,16 +9,15 @@ import { Cookie, Facebook, IdCard, Instagram, Mail, MapPinHouse, Scale } from 'l
             <div class="flex items-start justify-between gap-2">
                 <div>
                     <p class="flex items-center gap-2"><IdCard class="h-4 w-4" />N° agrément DF02500047</p>
-                    <p>
+                    <!-- <p>
                         <a
                             href="https://www.google.be/maps/place/Morlanwelz/@50.4554121,4.2455833,17.48z/data=!4m6!3m5!1s0x47c2374a6a886c43:0xa7b7428a43576cd7!8m2!3d50.4550853!4d4.2426074!16zL20vMDE3cWN3?entry=ttu&g_ep=EgoyMDI1MDUwNy4wIKXMDSoASAFQAw%3D%3D"
                             target="_blank"
                             rel="noopener noreferrer"
                             class="flex items-center gap-2 underline"
                         >
-                            <MapPinHouse class="h-4 w-4" /><strong>Morlanwelz </strong>
-                        </a>
-                    </p>
+                            <MapPinHouse class="h-4 w-4" /><strong>Morlanwelz </strong> </a>
+                    </p> -->
 
                     <p class="flex items-center gap-2">
                         <Link :href="route('mentions')" rel="noopener noreferrer" class="flex items-center gap-2 underline">
@@ -45,7 +44,7 @@ import { Cookie, Facebook, IdCard, Instagram, Mail, MapPinHouse, Scale } from 'l
                     </p>
                     <p class="flex items-center gap-2">
                         <a
-                            href="https://www.instagram.com/elevagejanssensfamily/"
+                            href="https://www.instagram.com/chatteriedespetitsplis/"
                             target="_blank"
                             rel="noopener noreferrer"
                             class="flex items-center gap-2"
@@ -54,6 +53,17 @@ import { Cookie, Facebook, IdCard, Instagram, Mail, MapPinHouse, Scale } from 'l
                             <Instagram class="h-6 w-6" />
                         </a>
                     </p>
+                    <span class="flex items-center gap-2">
+                        <a
+                            href="https://www.tiktok.com/@chatteriedespetitsplis"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="flex items-center gap-2 text-[#51687F]"
+                            aria-label="Tiktok"
+                        >
+                            <img src="/img/tiktok.png" alt="" width="22px" />
+                        </a>
+                    </span>
                     <p class="flex items-center gap-2">
                         <a
                             href="mailto:chatteriedespetitsplis@gmail.com"

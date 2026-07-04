@@ -17,17 +17,17 @@ defineProps<{
         <title>Nos chatons</title>
         <meta
             name="description"
-            content="Découvrez nos chatons disponibles à l'adoption chez Janssens Family, élevage familial de Scottish et British."
+            content="Découvrez nos chatons disponibles à l'adoption chez Chatterie des petits plis, élevage familial de Scottish et British."
         />
-        <meta name="keywords" content="chatons, adoption, Scottish, British, élevage familial, Janssens Family" />
-        <meta name="author" content="Janssens Family" />
-        <meta property="og:title" content="Nos chatons - Janssens Family" />
+        <meta name="keywords" content="chatons, adoption, Scottish, British, élevage familial, Chatterie des petits plis" />
+        <meta name="author" content="Chatterie des petits plis" />
+        <meta property="og:title" content="Nos chatons - Chatterie des petits plis" />
         <meta
             property="og:description"
-            content="Découvrez nos chatons disponibles à l'adoption chez Janssens Family, élevage familial de Scottish et British."
+            content="Découvrez nos chatons disponibles à l'adoption chez Chatterie des petits plis, élevage familial de Scottish et British."
         />
         <meta property="og:image" content="/images/chatons.jpg" />
-        <meta property="og:url" content="https://www.janssensfamily.be/kittens" />
+        <meta property="og:url" content="https://www.chatteriedespetitsplis.be/kittens" />
         <meta property="og:type" content="website" />
     </Head>
 

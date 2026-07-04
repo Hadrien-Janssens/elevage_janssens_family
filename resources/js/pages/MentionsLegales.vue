@@ -7,12 +7,12 @@ import Layout from './Layout.vue';
 
 <template>
     <Head>
-        <title>Mentions Légales - Janssens Family</title>
+        <title>Mentions Légales - Chatterie des petits plis</title>
         <meta
             name="description"
-            content="Consultez les mentions légales du site de l'élevage Janssens Family, éleveur familial de Scottish et British."
+            content="Consultez les mentions légales du site de l'élevage Chatterie des petits plis, éleveur familial de Scottish et British."
         />
-        <meta name="keywords" content="mentions légales, élevage familial, Scottish, British, Janssens Family" />
+        <meta name="keywords" content="mentions légales, élevage familial, Scottish, British, Chatterie des petits plis" />
         <meta name="author" content="la chatterie des petits plis" />
         <meta property="og:title" content="Mentions Légales - la chatterie des petits plis" />
         <meta
@@ -20,7 +20,7 @@ import Layout from './Layout.vue';
             content="Consultez les mentions légales du site de la chatterie des petits plis, éleveur familial de Scottish et British."
         />
         <meta property="og:image" content="/images/mentions-legales.jpg" />
-        <meta property="og:url" content="https://www.janssensfamily.be/mentions-legales" />
+        <meta property="og:url" content="https://www.chatteriedespetitskplis.be/mentions-legales" />
         <meta property="og:type" content="website" />
     </Head>
 
@@ -60,7 +60,7 @@ import Layout from './Layout.vue';
                 <h2 class="mt-6 mb-2 flex items-start gap-2 text-xl font-semibold"><Scale /> Responsabilité</h2>
                 <p>
                     Les informations présentes sur ce site sont données à titre indicatif. Elles peuvent être modifiées à tout moment, sans préavis.
-                    L’élevage Janssens Family ne peut être tenu responsable d’éventuelles erreurs ou omissions.
+                    La chatterie des petits plis ne peut être tenu responsable d’éventuelles erreurs ou omissions.
                 </p>
 
                 <h2 class="mt-6 mb-2 flex items-start gap-2 text-xl font-semibold"><LockOpen /> Données personnelles</h2>

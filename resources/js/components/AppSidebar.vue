@@ -29,6 +29,11 @@ const mainNavItems: NavItem[] = [
         href: '/admin/contents',
         icon: Cat,
     },
+    {
+        title: 'FAQ',
+        href: '/admin/faq',
+        icon: Cat,
+    },
 
     {
         title: 'Site web',

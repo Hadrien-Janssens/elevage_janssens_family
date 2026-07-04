@@ -1,8 +1,11 @@
 <script lang="ts" setup>
 import { isKitten } from '@/lib/utils';
+import { Link } from '@inertiajs/vue3';
+import { Facebook, Instagram } from 'lucide-vue-next';
 import { motion } from 'motion-v';
 import { reactive } from 'vue';
 import { Cat, Kitten } from '../types/index';
+import Button from './Button.vue';
 import CatCard from './CatCard.vue';
 import CatsInformations from './CatsInformations.vue';
 import DoubleCarrousel from './DoubleCarrousel.vue';
@@ -95,15 +98,74 @@ const desktopItemAnimation = {
         </motion.article>
     </motion.section>
 
-    <motion.p
-        v-else
-        class="poetsone px-4 text-center text-xl text-[#B5A9A4]"
-        :initial="{ opacity: 0 }"
-        :in-view="{ opacity: 1, transition: { delay: 0.5 } }"
-        :viewport="{ once: true }"
-    >
-        Aucun chaton disponible à l'adoption pour le moment.
-    </motion.p>
+    <div v-else>
+        <motion.p class="poetsone mt-10 px-4 text-center text-xl text-[#B5A9A4]">
+            <!-- Naissances prévues pour début juillet 2025
+            <br />
+            Nous avons hâte de vous présenter nos futurs chatons.
+            <br />
+            Restez connectés pour plus d'informations sur les portées à venir.
+            <br />
+            <br />
+            Si vous êtes intéressé(e) par l'adoption d'un chaton,
+            <br />
+            nous vous invitons à consulter régulièrement notre site web
+            <br />
+            ou à nous suivre sur les réseaux sociaux -->
+            <!-- Nous n'avons plus de chaton disponible à l'adoption pour le moment. -->
+            <br />
+            <!-- Les prochaines naissances sont attendues pour 2026. -->
+            <br />
+             Nous sommes heureux de vous annoncer que des naissances sont prévues pour fin juin 2026.
+            <br>
+            Nous avons hâte de vous présenter nos futurs chatons.
+            <br>
+            N'hésitez pas à nous suivre sur les réseaux sociaux pour ne rien manquer.
+            <div class="mt-2 flex justify-center gap-4">
+                <span class="flex items-center gap-2">
+                    <a
+                        href="https://www.facebook.com/profile.php?id=61563373375978&locale=fr_FR"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="flex items-center gap-2 text-[#51687F]"
+                        aria-label="Facebook"
+                    >
+                        <Facebook class="h-6 w-6" />
+                    </a>
+                </span>
+                <span class="flex items-center gap-2">
+                    <a
+                        href="https://www.instagram.com/chatteriedespetitsplis/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="flex items-center gap-2 text-[#51687F]"
+                        aria-label="Instagram"
+                    >
+                        <Instagram class="h-6 w-6" />
+                    </a>
+                </span>
+                <span class="flex items-center gap-2">
+                    <a
+                        href="https://www.tiktok.com/@chatteriedespetitsplis"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="flex items-center gap-2 text-[#51687F]"
+                        aria-label="Tiktok"
+                    >
+                        <img src="/img/tiktok.png" alt="" width="22px" />
+                    </a>
+                </span>
+            </div>
+
+            <!-- pour être informé(e) des naissances et des disponibilités.
+            <br /> -->
+            <!-- N'hésitez pas à nous contacter pour plus d'informations. -->
+            Vous pouvez nous contactez pour plus d'information, nous nous ferons un plaisir de vous répondre.
+            <br />A bientôt !
+            <br />
+        </motion.p>
+        <Link href="/#contact"> <Button class="mx-auto mt-4 text-black" :label="'Contactez-nous'" /></Link>
+    </div>
 
     <!-- Version desktop -->
     <motion.article

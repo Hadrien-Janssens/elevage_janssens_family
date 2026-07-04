@@ -6,9 +6,10 @@ import { Cat, Kitten, Litter } from '@/types';
 import { watchOnce } from '@vueuse/core';
 import { ref } from 'vue';
 
-defineProps<{
+const props = defineProps<{
     cat: Cat | Kitten | Litter;
 }>();
+console.log(props.cat);
 
 const emblaMainApi = ref<CarouselApi>();
 const emblaThumbnailApi = ref<CarouselApi>();
@@ -32,6 +33,14 @@ watchOnce(emblaMainApi, (emblaMainApi) => {
     emblaMainApi.on('select', onSelect);
     emblaMainApi.on('reInit', onSelect);
 });
+
+function is_video(image: string): boolean {
+    if (image.split('.').pop()?.toLowerCase() === 'mp4') {
+        return true;
+    }
+
+    return false;
+}
 </script>
 
 <template>
@@ -66,21 +75,48 @@ watchOnce(emblaMainApi, (emblaMainApi) => {
                                     class="h-full w-full object-cover object-center"
                                 />
                                 <div v-else class="h-full w-full">
-                                    <img
-                                        loading="lazy"
-                                        v-if="isKitten(cat)"
-                                        :src="'/storage/kittens/' + image.image_path"
-                                        :alt="'Photo du chaton ' + cat?.name"
-                                        class="h-full w-full object-cover object-center"
-                                    />
+                                    <div v-if="!is_video(image.image_path)" class="h-full w-full">
+                                        <img
+                                            loading="lazy"
+                                            v-if="isKitten(cat)"
+                                            :src="'/storage/kittens/' + image.image_path"
+                                            :alt="'Photo du chaton ' + cat?.name"
+                                            class="h-full w-full object-cover object-center"
+                                        />
 
-                                    <img
-                                        loading="lazy"
-                                        v-else
-                                        :src="'/storage/cats/' + image.image_path"
-                                        :alt="'Photo du chaton ' + cat?.name"
-                                        class="h-full w-full object-cover object-center"
-                                    />
+                                        <img
+                                            loading="lazy"
+                                            v-else
+                                            :src="'/storage/cats/' + image.image_path"
+                                            :alt="'Photo du chaton ' + cat?.name"
+                                            class="h-full w-full object-cover object-center"
+                                        />
+                                    </div>
+                                    <div v-else class="h-full w-full">
+                                        <video
+                                            controls
+                                            autoplay
+                                            muted
+                                            loading="lazy"
+                                            v-if="isKitten(cat)"
+                                            :src="'/storage/kittens/' + image.image_path"
+                                            :alt="'Photo du chaton ' + cat?.name"
+                                            class="block h-full w-full object-cover object-center"
+                                            style="aspect-ratio: 16/9"
+                                        />
+
+                                        <video
+                                            controls
+                                            autoplay
+                                            muted
+                                            loading="lazy"
+                                            v-else
+                                            :src="'/storage/cats/' + image.image_path"
+                                            :alt="'Photo du chaton ' + cat?.name"
+                                            class="block h-full w-full object-cover object-center"
+                                            style="aspect-ratio: 16/9"
+                                        />
+                                    </div>
                                 </div>
                             </Card>
                         </div>
@@ -102,6 +138,7 @@ watchOnce(emblaMainApi, (emblaMainApi) => {
                         <div class="overflow-hidden p-0" :class="index === selectedIndex ? 'ring-primary rounded-xl ring-2' : 'opacity-80'">
                             <Card class="overflow-hidden border-0 p-0">
                                 <CardContent class="aspect-square min-h-[80px] p-0">
+                                    <div></div>
                                     <img
                                         loading="lazy"
                                         v-if="isLitter(cat)"
@@ -110,21 +147,42 @@ watchOnce(emblaMainApi, (emblaMainApi) => {
                                         class="h-full w-full rounded-md object-cover object-center"
                                     />
                                     <div v-else class="h-full w-full">
-                                        <img
-                                            loading="lazy"
-                                            v-if="isKitten(cat)"
-                                            :src="'/storage/kittens/' + image.image_path"
-                                            :alt="'Miniature ' + (index + 1)"
-                                            class="h-full w-full rounded-md object-cover object-center"
-                                        />
+                                        <div v-if="!is_video(image.image_path)" class="h-full w-full">
+                                            <img
+                                                loading="lazy"
+                                                v-if="isKitten(cat)"
+                                                :src="'/storage/kittens/' + image.image_path"
+                                                :alt="'Miniature ' + (index + 1)"
+                                                class="h-full w-full rounded-md object-cover object-center"
+                                            />
 
-                                        <img
-                                            loading="lazy"
-                                            v-else
-                                            :src="'/storage/cats/' + image.image_path"
-                                            :alt="'Miniature ' + (index + 1)"
-                                            class="h-full w-full rounded-md object-cover object-center"
-                                        />
+                                            <img
+                                                loading="lazy"
+                                                v-else
+                                                :src="'/storage/cats/' + image.image_path"
+                                                :alt="'Miniature ' + (index + 1)"
+                                                class="h-full w-full rounded-md object-cover object-center"
+                                            />
+                                        </div>
+                                        <div v-else class="h-full w-full">
+                                            <video
+                                                muted
+                                                loading="lazy"
+                                                v-if="isKitten(cat)"
+                                                :src="'/storage/kittens/' + image.image_path"
+                                                :alt="'Miniature ' + (index + 1)"
+                                                class="h-full w-full rounded-md object-cover object-center"
+                                            />
+
+                                            <video
+                                                muted
+                                                loading="lazy"
+                                                v-else
+                                                :src="'/storage/cats/' + image.image_path"
+                                                :alt="'Miniature ' + (index + 1)"
+                                                class="h-full w-full rounded-md object-cover object-center"
+                                            />
+                                        </div>
                                     </div>
                                 </CardContent>
                             </Card>

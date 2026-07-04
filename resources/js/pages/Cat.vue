@@ -14,20 +14,20 @@ defineProps<{
 
 <template>
     <Head>
-        <title>{{ capitalizeFirstLetter(cat?.name) }} - Janssens Family</title>
+        <title>{{ capitalizeFirstLetter(cat?.name) }} - Chatterie des petits plis</title>
         <meta
             name="description"
-            content="Découvrez {{ capitalizeFirstLetter(cat?.name) }}, un de nos magnifiques chats chez Janssens Family, élevage familial de Scottish et British."
+            content="Découvrez {{ capitalizeFirstLetter(cat?.name) }}, un de nos magnifiques chats chez Chatterie des petits plis, élevage familial de Scottish et British."
         />
-        <meta name="keywords" content="chat, Scottish, British, élevage familial, Janssens Family, {{ cat?.name }}" />
-        <meta name="author" content="Janssens Family" />
-        <meta property="og:title" content="{{ capitalizeFirstLetter(cat?.name) }} - Janssens Family" />
+        <meta name="keywords" content="chat, Scottish, British, élevage familial, Chatterie des petits plis, {{ cat?.name }}" />
+        <meta name="author" content="Chatterie des petits plis" />
+        <meta property="og:title" content="{{ capitalizeFirstLetter(cat?.name) }} - Chatterie des petits plis" />
         <meta
             property="og:description"
-            content="Découvrez {{ capitalizeFirstLetter(cat?.name) }}, un de nos magnifiques chats chez Janssens Family, élevage familial de Scottish et British."
+            content="Découvrez {{ capitalizeFirstLetter(cat?.name) }}, un de nos magnifiques chats chez Chatterie des petits plis, élevage familial de Scottish et British."
         />
         <meta property="og:image" content="/images/cats/{{ cat?.id }}.jpg" />
-        <meta property="og:url" content="https://www.janssensfamily.be/cat/{{ cat?.id }}" />
+        <meta property="og:url" content="https://www.hatteriedespetitsplis.be/cat/{{ cat?.id }}" />
         <meta property="og:type" content="website" />
     </Head>
 

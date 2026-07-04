@@ -34,6 +34,6 @@ class Kitten extends Model
 
     public function images()
     {
-        return $this->hasMany(ImagesKitten::class);
+        return $this->hasMany(ImagesKitten::class)->orderBy('order');
     }
 }

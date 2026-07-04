@@ -55,9 +55,14 @@ class KittenController extends Controller
             'price' => 'required|numeric|min:0',
             'is_booked' => 'boolean',
             'is_adopted' => 'boolean',
-            'photos' => 'nullable|array',
-            'photos.*' => 'nullable|image|max:10240', // max 10 MB par photo
+            'new_photos' => 'nullable|array',
+            'new_photos.*' => 'nullable|image|max:10240',
+            'new_videos' => 'nullable|array',
+            'new_videos.*' => 'nullable|mimetypes:video/mp4,video/quicktime|max:51200',
+            'media_order' => 'nullable|array',
+            'media_order.*' => 'string',
         ]);
+
         $kitten = Kitten::create([
             'name' => $validated['name'],
             'description' => $validated['description'],
@@ -70,30 +75,49 @@ class KittenController extends Controller
             'is_adopted' => $validated['is_adopted'] ?? false,
         ]);
 
-        if ($request->hasFile('photos')) {
-            foreach ($request->file('photos') as $photo) {
-                $maxSizeKb = 1000; // seuil ~1 MB
-                $filename = uniqid() . '.jpg'; // on force en jpg après compression
+        $newMediaModels = [
+            'new_photo' => [],
+            'new_video' => []
+        ];
 
-                if ($photo->getSize() / 1024 > $maxSizeKb) {
-                    // Compressons l'image
-                    $manager = new ImageManager(new Driver());
-                    $image = $manager->read($photo);
-                    $image->scale(height: 300);
-
-                    $encoder = new JpegEncoder(95);
-                    $encoded = $image->encode($encoder);
-
-                    Storage::disk('public')->put('kittens/' . $filename, $encoded->__toString());
-                } else {
-                    // Pas besoin de compresser, on garde l’extension d’origine
-                    $filename = uniqid() . '.' . $photo->getClientOriginalExtension();
-                    $photo->storeAs('kittens', $filename, 'public');
-                }
-
-                $kitten->images()->create([
-                    'image_path' =>   $filename
+        if ($request->hasFile('new_photos')) {
+            for ($i = 0; $i < count($request->file('new_photos')); $i++) {
+                $file = $request->file('new_photos')[$i];
+                $filename = uniqid() . '.jpg';
+                $file->storeAs('kittens', $filename, 'public');
+                
+                $newMediaModels['new_photo'][] = $kitten->images()->create([
+                    'image_path' => $filename,
+                    'is_video' => false,
+                    'order' => 0,
                 ]);
+            }
+        }
+
+        if ($request->hasFile('new_videos')) {
+            for ($i = 0; $i < count($request->file('new_videos')); $i++) {
+                $file = $request->file('new_videos')[$i];
+                $filename = uniqid() . '.mp4';
+                $file->storeAs('kittens', $filename, 'public');
+                
+                $newMediaModels['new_video'][] = $kitten->images()->create([
+                    'image_path' => $filename,
+                    'is_video' => true,
+                    'order' => 0,
+                ]);
+            }
+        }
+
+        if (!empty($validated['media_order'])) {
+            foreach ($validated['media_order'] as $index => $item) {
+                $parts = explode(':', $item);
+                if (count($parts) === 2) {
+                    $type = $parts[0];
+                    $idOrIndex = $parts[1];
+                    if (isset($newMediaModels[$type][$idOrIndex])) {
+                        $newMediaModels[$type][$idOrIndex]->update(['order' => $index]);
+                    }
+                }
             }
         }
 
@@ -115,7 +139,7 @@ class KittenController extends Controller
                 ->with('error', 'Le chaton n\'existe pas.');
         }
         $litters = Litter::with(['mother', 'father'])->get();
-        $images = $kitten->images()->get();
+        $images = $kitten->images()->orderBy('order')->get();
 
 
         return Inertia::render('admin/kitten/Edit')->with([
@@ -146,18 +170,22 @@ class KittenController extends Controller
             'price' => 'required|numeric|min:0',
             'is_booked' => 'boolean',
             'is_adopted' => 'boolean',
-            'deleted_images' => 'nullable|array',
-            'deleted_images.*' => 'integer|exists:images_kittens,id',
+            'deleted_media' => 'nullable|array',
+            'deleted_media.*' => 'integer|exists:images_kittens,id',
             'new_photos' => 'nullable|array',
             'new_photos.*' => 'image|max:10240',
+            'new_videos' => 'nullable|array',
+            'new_videos.*' => 'nullable|mimetypes:video/mp4,video/quicktime|max:51200',
+            'media_order' => 'nullable|array',
+            'media_order.*' => 'string',
         ]);
-
+        
         // Suppression des images
-        if (!empty($validated['deleted_images'])) {
-            foreach ($validated['deleted_images'] as $imageId) {
+        if (!empty($validated['deleted_media'])) {
+            foreach ($validated['deleted_media'] as $imageId) {
                 $image = ImagesKitten::find($imageId);
                 if ($image) {
-                    Storage::disk('public')->delete('kitten/' . $image->image_path);
+                    Storage::disk('public')->delete('kittens/' . $image->image_path);
                     $image->delete();
                 }
             }
@@ -176,24 +204,54 @@ class KittenController extends Controller
             'is_adopted' => $validated['is_adopted'] ?? false,
         ]);
 
-        // Ajout des nouvelles images
+        $newMediaModels = [
+            'new_photo' => [],
+            'new_video' => []
+        ];
+
         if ($request->hasFile('new_photos')) {
-            foreach ($request->file('new_photos') as $photo) {
+            for ($i = 0; $i < count($request->file('new_photos')); $i++) {
+                $file = $request->file('new_photos')[$i];
                 $filename = uniqid() . '.jpg';
-
-                if ($photo->getSize() / 1024 > 1000) {
-                    $manager = new ImageManager(new Driver());
-                    $image = $manager->read($photo);
-                    $image->scale(height: 300);
-                    $encoded = $image->encode(new JpegEncoder(95));
-                    Storage::disk('public')->put('kittens/' . $filename, $encoded);
-                } else {
-                    $photo->storeAs('kittens', $filename, 'public');
-                }
-
-                $kitten->images()->create([
-                    'image_path' => $filename
+                $file->storeAs('kittens', $filename, 'public');
+                
+                $newMediaModels['new_photo'][] = $kitten->images()->create([
+                    'image_path' => $filename,
+                    'is_video' => false,
+                    'order' => 0,
                 ]);
+            }
+        }
+
+        if ($request->hasFile('new_videos')) {
+            for ($i = 0; $i < count($request->file('new_videos')); $i++) {
+                $file = $request->file('new_videos')[$i];
+                $filename = uniqid() . '.mp4';
+                $file->storeAs('kittens', $filename, 'public');
+                
+                $newMediaModels['new_video'][] = $kitten->images()->create([
+                    'image_path' => $filename,
+                    'is_video' => true,
+                    'order' => 0,
+                ]);
+            }
+        }
+
+        if (!empty($validated['media_order'])) {
+            foreach ($validated['media_order'] as $index => $item) {
+                $parts = explode(':', $item);
+                if (count($parts) === 2) {
+                    $type = $parts[0];
+                    $idOrIndex = $parts[1];
+                    if ($type === 'existing') {
+                        $image = ImagesKitten::find($idOrIndex);
+                        if ($image) {
+                            $image->update(['order' => $index]);
+                        }
+                    } elseif (isset($newMediaModels[$type][$idOrIndex])) {
+                        $newMediaModels[$type][$idOrIndex]->update(['order' => $index]);
+                    }
+                }
             }
         }
 

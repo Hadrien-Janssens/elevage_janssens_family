@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import ProgressBar from '@/components/ProgressBar.vue';
 import { Button } from '@/components/ui/button';
-import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
 import Input from '@/components/ui/input/Input.vue';
 import Label from '@/components/ui/label/Label.vue';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -12,7 +11,10 @@ import { useProgress } from '@/composables/useProgress';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { useForm } from '@inertiajs/vue3';
 import { onMounted, ref } from 'vue';
+import draggable from 'vuedraggable';
 import { Images } from '../../../types/index';
+
+const drag = ref(false);
 
 const props = defineProps({
     kitten: Object,
@@ -30,70 +32,111 @@ const form = useForm({
     price: props.kitten?.price || '',
     is_booked: props.kitten?.is_booked || false,
     is_adopted: props.kitten?.is_adopted || false,
-    photos: props.images?.map((image: Images) => image.image_path) || [],
-    deleted_images: [] as number[],
     new_photos: [] as File[],
+    new_videos: [] as File[],
+    media_order: [] as string[],
+    deleted_media: [] as number[],
 });
 
-const existingImages = ref<Images[]>(props.images || []);
-const newPhotoFiles = ref<File[]>([]);
-const deletedImageIds = ref<number[]>([]);
-const photoPreviews = ref<{ id?: number; src: string }[]>([]);
+interface MediaItem {
+    id?: number;
+    src: string;
+    file?: File;
+    type: 'existing' | 'new_photo' | 'new_video';
+    is_video: boolean;
+}
 
-// Initialisation des prévisualisations
+const mediaItems = ref<MediaItem[]>([]);
+const existingImages = ref<any[]>([]);
+
 onMounted(() => {
-    photoPreviews.value = existingImages.value.map((img) => ({
-        id: img.id,
-        src: '/' + img.image_path,
-    }));
+    if (props.images) {
+        mediaItems.value = props.images.map((img: Images) => ({
+            id: img.id,
+            src: img.image_path,
+            type: 'existing',
+            is_video: img.is_video,
+        }));
+    }
 });
 
-const { addPhoto } = useImageHandler(existingImages, photoPreviews);
+const { addPhoto } = useImageHandler(existingImages, mediaItems as any);
 const { progress, totalItems, currentItem, isProcessing, isComplete, startProcessing, updateProgress, completeProcessing } = useProgress();
 
-// Gestion des uploads
 async function handlePhotoUpload(event: Event) {
     const files = (event.target as HTMLInputElement).files;
     if (!files) return;
 
     startProcessing(files.length);
-    newPhotoFiles.value = [];
 
     for (let i = 0; i < files.length; i++) {
         const processedFile = await addPhoto(files[i]);
-        if (processedFile) newPhotoFiles.value.push(processedFile);
+        if (processedFile) {
+            const lastItem = mediaItems.value[mediaItems.value.length - 1];
+            lastItem.type = 'new_photo';
+            lastItem.file = processedFile;
+            lastItem.is_video = false;
+        }
         updateProgress();
     }
 
     completeProcessing();
+    (event.target as HTMLInputElement).value = ''; // Reset input
 }
 
-function removePhoto(index: number) {
-    const item = photoPreviews.value[index];
+async function handleVideoUpload(event: Event) {
+    const files = (event.target as HTMLInputElement).files;
+    if (!files) return;
 
-    if (item.id) {
-        // Suppression d'une image existante
-        deletedImageIds.value.push(item.id);
-        existingImages.value = existingImages.value.filter((img) => img.id !== item.id);
-    } else {
-        // Suppression d'une nouvelle image
-        const fileIndex = newPhotoFiles.value.findIndex((_, i) => i === index - existingImages.value.length);
-        if (fileIndex !== -1) {
-            newPhotoFiles.value.splice(fileIndex, 1);
-        }
+    startProcessing(files.length);
+
+    for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        if (!file.type.startsWith('video/')) continue;
+
+        const preview = URL.createObjectURL(file);
+        mediaItems.value.push({
+            src: preview,
+            file: file,
+            type: 'new_video',
+            is_video: true,
+        });
+
+        updateProgress();
     }
 
-    photoPreviews.value.splice(index, 1);
+    completeProcessing();
+    (event.target as HTMLInputElement).value = ''; // Reset input
+}
+
+function removeMedia(index: number) {
+    const item = mediaItems.value[index];
+    if (item.type === 'existing' && item.id) {
+        form.deleted_media.push(item.id);
+    }
+    mediaItems.value.splice(index, 1);
 }
 
 function submit() {
-    form.deleted_images = deletedImageIds.value;
-    form.new_photos = newPhotoFiles.value;
+    form.new_photos = mediaItems.value.filter(m => m.type === 'new_photo').map(m => m.file as File);
+    form.new_videos = mediaItems.value.filter(m => m.type === 'new_video').map(m => m.file as File);
+    
+    let photoIndex = 0;
+    let videoIndex = 0;
+    
+    form.media_order = mediaItems.value.map(item => {
+        if (item.type === 'new_photo') {
+            return `new_photo:${photoIndex++}`;
+        } else if (item.type === 'new_video') {
+            return `new_video:${videoIndex++}`;
+        }
+        return `existing:${item.id}`;
+    });
 
     form.post(route('admin.kitten.update', { kitten: props.kitten?.id }), {
+        forceFormData: true,
         onSuccess: () => {
-            newPhotoFiles.value = [];
-            deletedImageIds.value = [];
+            form.deleted_media = [];
         },
     });
 }
@@ -181,7 +224,13 @@ function submit() {
                 <div class="space-y-2">
                     <Label for="photos">Ajouter des photos</Label>
                     <Input type="file" id="photos" accept="image/*" multiple @change="handlePhotoUpload" />
-                    <p v-if="form.errors.photos" class="mt-1 text-sm text-red-600">{{ form.errors.photos }}</p>
+                    <p v-if="form.errors.new_photos" class="mt-1 text-sm text-red-600">{{ form.errors.new_photos }}</p>
+                </div>
+                
+                <div class="space-y-2">
+                    <Label for="videos">Ajouter des vidéos</Label>
+                    <Input type="file" id="videos" accept="video/*" multiple @change="handleVideoUpload" />
+                    <p v-if="form.errors.new_videos" class="mt-1 text-sm text-red-600">{{ form.errors.new_videos }}</p>
                 </div>
 
                 <ProgressBar
@@ -191,23 +240,27 @@ function submit() {
                     :is-processing="isProcessing"
                     :is-complete="isComplete"
                 />
-                <p v-if="form.errors.new_photos" class="mt-1 text-sm text-red-600">{{ form.errors.new_photos }}</p>
-                <p v-if="form.errors.deleted_images" class="mt-1 text-sm text-red-600">{{ form.errors.deleted_images }}</p>
 
-                <div v-if="photoPreviews.length" class="mt-4">
-                    <Carousel class="mx-auto w-full max-w-xl">
-                        <CarouselContent class="w-3/4">
-                            <CarouselItem v-for="(item, index) in photoPreviews" :key="index" class="relative">
-                                <img
-                                    :src="item.src.startsWith('data:') ? item.src : '/storage/kittens/' + item.src"
-                                    class="h-64 w-full rounded-lg object-cover shadow"
-                                />
-                                <Button type="button" size="sm" class="absolute top-2 right-2 rounded-full font-black" @click="removePhoto(index)">
-                                    supprimer
+                <p v-if="form.errors.deleted_media" class="mt-1 text-sm text-red-600">{{ form.errors.deleted_media }}</p>
+
+                <div v-if="mediaItems.length" class="mt-4">
+                    <p class="mb-2 text-sm text-gray-500">Glissez-déposez pour réorganiser l'ordre d'affichage des médias.</p>
+                    <draggable v-model="mediaItems" item-key="src" class="flex flex-wrap gap-4" @start="drag = true" @end="drag = false">
+                        <template #item="{ element, index }">
+                            <div class="relative w-48 h-64 border rounded-lg overflow-hidden bg-gray-100 shadow flex items-center justify-center">
+                                <div class="absolute top-2 left-2 bg-black/50 text-white text-xs px-2 py-1 rounded-full z-10">
+                                    {{ index + 1 }}
+                                </div>
+
+                                <video v-if="element.is_video" :src="element.src.startsWith('data:') || element.src.startsWith('blob:') ? element.src : '/storage/kittens/' + element.src" class="h-full w-full object-cover" controls></video>
+                                <img v-else :src="element.src.startsWith('data:') || element.src.startsWith('blob:') ? element.src : '/storage/kittens/' + element.src" class="h-full w-full object-cover" />
+                                
+                                <Button type="button" variant="destructive" size="sm" class="absolute top-2 right-2 z-10" @click="removeMedia(index)">
+                                    X
                                 </Button>
-                            </CarouselItem>
-                        </CarouselContent>
-                    </Carousel>
+                            </div>
+                        </template>
+                    </draggable>
                 </div>
                 <Button type="submit" class="w-full" :disabled="isProcessing">Mettre à jour</Button>
             </form>
